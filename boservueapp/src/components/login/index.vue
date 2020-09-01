@@ -20,17 +20,17 @@
             </div>
         </div>
         <div class="footer login-footer">
-            <footer></footer>
+            <footer-html></footer-html>
         </div>
     </div>
 </template>
 
 <script>
-    import footer from '../../components/common/footer';
+    import footerHtml from '../common/footerHtml';
     export default {
         name: "index",
         components:{
-            footer
+            footerHtml
         },
         data(){
             return {
