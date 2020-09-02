@@ -1,7 +1,11 @@
 <template>
     <div class="footer-html">
-        <div class="footer-html-child" v-for="(item,index) in items" :key="index">
-            <div class="footer-html-img"></div>
+        <div class="footer-html-child" v-for="(item,index) in items" :key="index" @click="handleClick(index)" :class="isactive == index ? 'active':''">
+            <div class="footer-html-img">
+                <div class="footer-html-flag" v-if="index == 0 && num !== 0">
+                    <span>{{num}}</span>
+                </div>
+            </div>
             <div class="footer-html-title">
                 {{item.name}}
             </div>
@@ -17,22 +21,50 @@
                 items:[
                     {
                         name:'微信',
-                        path:'',
+                        path:'/',
                     },
                     {
                         name:'通讯录',
-                        path:'',
+                        path:'/addrbook',
                     },
                     {
                         name:'发现',
-                        path:'',
+                        path:'/found',
                     },
                     {
                         name:'我',
-                        path:'',
+                        path:'/myself',
                     }
-                ]
+                ],
+                isactive:0,
+                num:0,
             }
+        },
+        methods:{
+            handleClick(i){
+                this.isactive = i;
+                localStorage.setItem('isactive',this.isactive);//被点击的底部图标
+                this.$router.push({path: this.items[i].path, query: {}})
+            },
+            wechatNumCount(){
+                if (localStorage.getItem('isactive') == null){
+                    this.isactive = 0;
+                } else{
+                    this.isactive = parseInt(localStorage.getItem('isactive'));
+                }
+                // if (localStorage.getItem('wechatnum')== null || parseInt(localStorage.getItem('wechatnum')) == 0){
+                //     this.num = 0;
+                // } else {
+                //     this.num = parseInt(localStorage.getItem('wechatnum')) > 99 ? '99+': parseInt(localStorage.getItem('wechatnum'));
+                // }
+                this.num = this.$store.state.wechatNum;
+            }
+        },
+        created(){
+
+        },
+        mounted(){
+            this.wechatNumCount()
         }
     }
 </script>
@@ -55,12 +87,35 @@
             border-radius: 50%;
             /*background: rgb(0,200,0);*/
             background: #666;
+            position: relative;
+            .footer-html-flag{
+                width: 0.5rem;
+                height: 0.5rem;
+                border-radius: 50%;
+                background: red;
+                position: absolute;
+                top: -5%;
+                right: -5%;
+                color:#fff;
+                font-size: 0.2rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
         }
         .footer-html-title{
             text-align: center;
             /*color:rgb(0,200,0);*/
             color: #666;
             font-size:0.4rem;
+        }
+    }
+    .footer-html-child.active{
+        .footer-html-img{
+            background: rgb(0,200,0);
+        }
+        .footer-html-title{
+            color:rgb(0,200,0);
         }
     }
 }

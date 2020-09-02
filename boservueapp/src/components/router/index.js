@@ -9,7 +9,7 @@ export default new Router({
         {
             path:'/',
             redirect:'/index',
-            component: resolve => require(['../../components/login'],resolve),
+            component: resolve => require(['../../components/login/index.vue'],resolve),
             meta:{
                 title:'首页'
             },
@@ -22,6 +22,39 @@ export default new Router({
                     }
                 },
             ],
-        }
+        },
+        {
+            path: '/wechat',
+            component: resolve => require(['../../components/common/wechat.vue'], resolve),
+            meta: {
+                title: '聊天主界面'
+            }
+        },
+        {
+            path: '/addrbook',
+            component: resolve => require(['../../components/addrbook/index.vue'], resolve),
+            meta: {
+                title: '通讯录'
+            }
+        },
+        {
+            path: '/found',
+            component: resolve => require(['../../components/found/index.vue'], resolve),
+            meta: {
+                title: '发现'
+            }
+        },
+        {
+            path: '/myself',
+            component: resolve => require(['../../components/myself/index.vue'], resolve),
+            meta: {
+                title: '自己'
+            }
+        },
     ],
 })
+
+const originalPush = Router.prototype.push
+Router.prototype.push = function push(location) {
+    return originalPush.call(this, location).catch(err => err)
+}
