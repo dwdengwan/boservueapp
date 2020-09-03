@@ -3,7 +3,7 @@
         <div class="header login-header">
             <header-html ref="wechatHeader"></header-html>
         </div>
-        <div class="content login-content">
+        <div class="content login-content" @scroll="handleScroll($event)">
             <div class="login-child vip"
                  v-for="(content,index) in vipData"
                  :key="content.id"
@@ -322,7 +322,21 @@
                 this.$store.state.wechatNum = num;
                 this.$refs.wechatHeader.wechatNum()
                 this.$refs.wechatFooter.wechatNumCount()
-            }
+            },
+            handleScroll(){
+                //解决滚动条事件与触屏事件的冲突
+                // e.stopPropagation()
+                // e.preventDefault()
+                let locked = false;
+                window.addEventListener('touchmove', function(){
+                    locked || (locked = true, window.addEventListener('touchend', stopTouchendPropagation, true));
+                }, true);
+                function stopTouchendPropagation(e){
+                    e.stopPropagation();
+                    window.removeEventListener('touchend', stopTouchendPropagation, true);
+                    locked = false;
+                }
+            },
         },
         mounted(){
             this.calcNum()
@@ -353,8 +367,8 @@
                     justify-content: center;
                     align-items: center;
                     .login-child-img{
-                        width: 1.5rem;
-                        height: 1.5rem;
+                        width: 1.2rem;
+                        height: 1.2rem;
                         border-radius: 10px;
                         background: green;
                         position: relative;
@@ -364,8 +378,8 @@
                             border-radius: 50%;
                             background: red;
                             position: absolute;
-                            top: -5%;
-                            right: -5%;
+                            top: -10%;
+                            right: -10%;
                             color:#fff;
                             font-size: 0.2rem;
                             display: flex;

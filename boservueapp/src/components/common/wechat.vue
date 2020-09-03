@@ -3,13 +3,31 @@
         <div class="wechat-header">
             <div class="wechat-header-back" @click="handleClick">
                 <span>&lt;</span>
+                <span class="wechat-header-name">豆豆</span>
             </div>
             <div class="wechat-header-dd">
                 <span>...</span>
             </div>
         </div>
-        <div class="wechat-content"></div>
-        <div class="wechat-footer"></div>
+        <div class="wechat-content">
+            <div class="wechat-child" v-for="item in wechatData" :key="item.id" ref="wechatchild">
+                <div class="wechat-child-time">
+                    {{item.time}}
+                </div>
+                <div class="wechat-child-right">
+                    <div class="wechat-child-content">{{item.mySay}}</div>
+                    <div class="wechat-child-img"></div>
+                </div>
+                <div class="wechat-child-left">
+                    <div class="wechat-child-img"></div>
+                    <div class="wechat-child-content">{{item.youSay}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="wechat-footer">
+            <input type="text" v-model="sendValue">
+            <button @touchend="handleSend(sendValue)">send</button>
+        </div>
     </div>
 </template>
 
@@ -18,13 +36,49 @@
         name: "wechat",
         data(){
             return{
-
+                wechatData:[],//内容区的数据
+                sendValue:'',//发送的内容
+                onClickNum:0,//点击发送的次数
             }
         },
         methods:{
             handleClick(){
                 this.$router.push({path:'/',query:{}})
-            }
+            },
+            handleSend(text){
+                if (text == '') return
+                let obj = {
+                    id:'1000'+this.onClickNum,
+                    time:"",
+                    youSay:'',
+                    mySay:'',
+                }
+                obj.mySay = text;
+                obj.youSay = this.handleAnswer(text);
+                obj.time = this.$common.getTimeStr();
+                let heightArr = this.$refs.wechatchild;
+                console.log(heightArr)
+                let height = 0;
+                if (heightArr !== undefined){
+                    heightArr.forEach((item)=>{
+                        height += item.clientHeight*2
+                    })
+                }
+                console.log(height)
+                this.wechatData.push(obj);
+                this.onClickNum ++;
+                this.$set(this,'wechatData',this.wechatData);
+                this.sendValue = '';
+                // console.log(this.$refs['wechatchild'],this.$refs);
+                // console.log(this.$refs.wechatchild[this.onClickNum].clientHeight);
+            },
+            handleAnswer(text){
+                if (text.indexOf('你好') > -1){
+                    return '谢谢你的问候，你也好呀。'
+                }else if(text !== ''){
+                    return text
+                }
+            },
         },
     }
 </script>
@@ -42,6 +96,107 @@
         align-items: center;
         font-size: 0.6rem;
         padding: 0 2%;
+        .wechat-header-back{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 15%;
+            .wechat-header-name{
+                font-size: 0.4rem;
+                color:#666;
+                /*margin-right:2%;*/
+            }
+        }
+    }
+    .wechat-content{
+        width: 100%;
+        height: 84%;
+        padding: 0 2%;
+        background: #efefef;
+        overflow-y: auto;
+        .wechat-child{
+            font-size: 0.4rem;
+            .wechat-child-time{
+                color:#999;
+                text-align: center;
+                font-size: 0.35rem;
+            }
+            .wechat-child-img{
+                width: 1.2rem;
+                height: 1.2rem;
+                border-radius: 10px;
+                background: green;
+            }
+            .wechat-child-content{
+                max-width: 70%;
+                background: #fff;
+                padding: 3%;
+                margin-left: 3%;
+                margin-right: 3%;
+                border-radius: 10px;
+                position: relative;
+                word-wrap:break-word;
+            }
+            .wechat-child-content:before {
+                /*加尖三角形*/
+                content:"";
+                position: absolute;
+                top: 45%;
+                width: 0;
+                height: 0;
+                border-top: 0.15rem solid transparent;
+                border-bottom: 0.15rem solid transparent;
+            }
+            .wechat-child-left{
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                padding: 2% 0;
+                .wechat-child-img{
+                    background: #fff;
+                }
+                .wechat-child-content:before {
+                    right: 100%;
+                    border-right: 0.3rem solid #fff;
+                }
+            }
+            .wechat-child-right{
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                padding: 2% 0;
+                .wechat-child-content{
+                    background: green;
+                    color:#fff;
+                }
+                .wechat-child-content:before {
+                    left: 100%;
+                    border-left: 0.3rem solid green;
+                }
+            }
+        }
+    }
+    .wechat-footer{
+        width: 100%;
+        height: 10%;
+        background: #eee;
+        padding: 0 2%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        input{
+            height: 60%;
+            width: 60%;
+            border-radius: 0.1rem;
+            font-size: 0.4rem;
+        }
+        button{
+            width: 20%;
+            height: 60%;
+            background: green;
+            color:#fff;
+            border-radius: 0.1rem;
+        }
     }
 }
 </style>

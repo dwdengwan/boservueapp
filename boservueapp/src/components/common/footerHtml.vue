@@ -80,7 +80,9 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: space-around;
         width: 25%;
+        height: 100%;
         .footer-html-img{
             width: 1rem;
             height: 1rem;
