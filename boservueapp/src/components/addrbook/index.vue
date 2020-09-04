@@ -4,12 +4,23 @@
             <header-html></header-html>
         </div>
         <div class="content addrbook-content">
-            <div class="addrbook-child" v-for="(item,index) in addrbookData" :key="item.id">
-                <div class="addrbook-kongge" v-if="index > 2">{{item.orderCode}}</div>
-                <div class="addrbook-auther">
+            <div class="addrbook-child" v-for="item in addrbookData" :key="item.orderCode">
+                <div class="addrbook-kongge" v-if="item.orderCode !== ''">{{item.orderCode}}</div>
+                <div class="addrbook-auther" v-for="(bitem,bindex) in item.orderArr" :key="bindex" @click="handleGoBack(bitem.id)">
                     <span class="addrbook-child-img" :style="{background:$common.randomColor()}"></span>
-                    <span class="addrbook-name">{{item.name}}</span>
+                    <span class="addrbook-name">{{bitem.name}}</span>
                 </div>
+            </div>
+            <div class="addrbook-fixed">
+                <ul>
+                    <li
+                        @click="handleClick(index)"
+                        v-for="(item,index) in items"
+                        :key="index"
+                        :class="activeIndex == index?'active':''">
+                        {{item}}
+                    </li>
+                </ul>
             </div>
         </div>
         <div class="footer addrbook-footer">
@@ -28,51 +39,62 @@
         },
         data(){
             return {
-                addrbookData:[
-                    {
-                        id:"10001",
-                        name:'A豆豆',
-                        orderCode:'A',
-                    },
-                    {
-                        id:"10002",
-                        name:'A豆豆',
-                        orderCode:'A',
-                    },
-                    {
-                        id:"10003",
-                        name:'A豆豆',
-                        orderCode:'A',
-                    },
-                    {
-                        id:"10004",
-                        name:'A豆豆',
-                        orderCode:'A',
-                    },
-                    {
-                        id:"10005",
-                        name:'A豆豆',
-                        orderCode:'A',
-                    },
-                    {
-                        id:"10006",
-                        name:'A豆豆',
-                        orderCode:'A',
-                    },
-                    {
-                        id:"10007",
-                        name:'A豆豆',
-                        orderCode:'A',
-                    },
-                ],
+                addrbookData:[],
+                items:[],
+                activeIndex:-1,
             }
         },
         methods:{
-
+            handleClick(i){
+                this.activeIndex = i;
+            },
+            handleGoBack(id){
+                console.log(id)
+                this.$router.push({path:'/wechat',query:{id,type:'1'}})
+            }
         },
         mounted(){
 
-        }
+        },
+        created(){
+            for(let i=0;i<26;i++){
+                let bigStr = String.fromCharCode(65+i)
+                this.items.push(bigStr);//输出A-Z 26个大写字母
+                let bookobj = {
+                    orderCode:bigStr,
+                    orderArr:[],
+                }
+                let obj = {
+                    id:'',
+                    name: '',
+                }
+                for (let j=0;j<3;j++){
+                    obj.id = (i + 1) + '' + j;
+                    obj.name = bigStr + '豆豆' + j;
+                    bookobj.orderArr.push(obj)
+                    // console.log(obj,bookobj)
+                }
+                this.addrbookData.push(bookobj)
+            }
+            this.addrbookData.unshift({
+                orderCode:'',
+                orderArr:[
+                    {
+                        id:'01',
+                        name:'中国电信客服'
+                    },
+                    {
+                        id:'02',
+                        name:'中国移动客服'
+                    },
+                    {
+                        id:'03',
+                        name:'中国联调客服'
+                    },
+                ]
+            });
+            // console.log(this.addrbookData)
+        },
     }
 </script>
 
@@ -84,6 +106,24 @@
         .addrbook-content{
             width: 100%;
             height: 84%;
+            position: relative;
+            .addrbook-fixed{
+                /*position: absolute;*/
+                position: fixed;
+                margin-top: 5%;
+                top: 5%;
+                right: 0;
+                padding: 2%;
+                font-size: 0.45rem;
+                ul{
+                    text-align: center;
+                    li.active{
+                        background: green;
+                        color:#fff;
+                        border-radius: 5px;
+                    }
+                }
+            }
             .addrbook-child{
                 width: 100%;
                 .addrbook-kongge{

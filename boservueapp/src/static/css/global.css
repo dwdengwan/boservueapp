@@ -1,6 +1,13 @@
 html,body,#app,.all{
     width: 100%;
     height: 100%;
+    --main-bg-color:red;
+    font-size: 0.4rem;
+}
+.display{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
 .header{
     width: 100%;
@@ -15,4 +22,7 @@ html,body,#app,.all{
     height: 84%;
     background: #fff;
     overflow-y: auto;
+}
+ul{
+    list-style-type: none;
 }

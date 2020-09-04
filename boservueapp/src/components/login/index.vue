@@ -6,6 +6,7 @@
         <div class="content login-content" @scroll="handleScroll($event)">
             <div class="login-child vip"
                  v-for="(content,index) in vipData"
+                 :class="activeVipIndex == index?'vipactive':''"
                  :key="content.id"
                  @touchstart='handleTouchStart(content,index,$event,1)'
                  @touchmove="handleTouchMove(content,index,$event,1)"
@@ -28,7 +29,7 @@
                 </div>
             </div>
             <div class="login-child"
-                 :class="activeIndex == index?'vip':''"
+                 :class="activeIndex == index?'vipactive':''"
                  v-for="(content,index) in contentData"
                  :key="content.id"
                  @touchstart='handleTouchStart(content,index,$event,1)'
@@ -182,6 +183,7 @@
                 timeOutEvent:0,
                 isHandTouch:false,
                 activeIndex:-1,
+                activeVipIndex:-1,
                 fixedData:[
                     {
                         name:'标为已读',
@@ -219,11 +221,12 @@
                     //此处为点击事件----在此处添加跳转详情页
                     if (num == 1){
                         //原始页面
-                        this.$router.push({path:'/wechat',query:{}})
+                        this.$router.push({path:'/wechat',query:{type:'0'}})
                     } else {
                         //弹出层页面
                         this.isHandTouch = false;
                         this.activeIndex = -1;
+                        this.activeVipIndex = -1;
                     }
                 } else {
                     //长按事件
@@ -232,6 +235,7 @@
                         this.nowColIndex = i;
                         this.nowColData = item;//当前长按行的数据。
                         if (this.nowColData.isVip == '1'){
+                            this.activeVipIndex = i;
                             if (this.vipData[this.nowColIndex].number !== 0){
                                 this.fixedData[0].name = '标为已读';
                             }else{
@@ -252,6 +256,7 @@
                     } else{
                         this.isHandTouch = false;
                         this.activeIndex = -1;
+                        this.activeVipIndex = -1;
                     }
                 }
                 return false;
@@ -425,6 +430,9 @@
             }
             .login-child.vip{
                 background: #f0f0f0;
+            }
+            .login-child.vipactive{
+                background: #e0e0e0;
             }
         }
         .login-fixed{
