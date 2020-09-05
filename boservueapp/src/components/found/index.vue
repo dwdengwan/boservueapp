@@ -4,7 +4,21 @@
             <header-html></header-html>
         </div>
         <div class="content found-content">
-
+            <div class="found-child" v-for="(found,index) in foundData" :key="found.id">
+                <div class="found-child-content">
+                    <div class="found-child-left">
+                        <div class="found-child-img" :style="{'background':$common.randomColor()}"></div>
+                        <div class="found-child-name">
+                            {{found.name}}
+                        </div>
+                    </div>
+                    <div class="found-child-right">
+                        <div class="found-child-img" v-if="index < 2" :style="{'background':$common.randomColor()}" ></div>
+                        <div class="found-child-back">&gt;</div>
+                    </div>
+                </div>
+                <div class="found-kongge" v-if="found.iskongge == '1'"></div>
+            </div>
         </div>
         <div class="footer found-footer">
             <footer-html></footer-html>
@@ -22,58 +36,59 @@
         },
         data(){
             return {
-                contentData:[
+                foundData:[
                     {
-                        name:"豆豆",
-                        time:"周五",
-                        content:"豆豆说要有自己的主见，要成熟。自己决定做的事，就一定要做到最好。要么就不做"
+                        name:"朋友圈",
+                        id:'10001',
+                        iskongge:'1',
                     },
                     {
-                        name:"平平",
-                        time:"周四",
-                        content:"平平说要有自己的主见，要成熟。"
+                        name:"视频号",
+                        id:'10002',
+                        iskongge:'1',
                     },
                     {
-                        name:"安安",
-                        time:"周三",
-                        content:"平平说要有自己的主见，要成熟。"
+                        name:"扫一扫",
+                        id:'10003',
+                        iskongge:'0',
                     },
                     {
-                        name:"快快",
-                        time:"周二",
-                        content:"快快说要有自己的主见，要成熟。"
+                        name:"摇一摇",
+                        id:'10004',
+                        iskongge:'1',
                     },
                     {
-                        name:"乐乐",
-                        time:"周一",
-                        content:"乐乐说要有自己的主见，要成熟。"
+                        name:"看一看",
+                        id:'10005',
+                        iskongge:'0',
+                    },{
+                        name:"搜一搜",
+                        id:'10006',
+                        iskongge:'1',
                     },
                     {
-                        name:"贝贝",
-                        time:"周日",
-                        content:"贝贝说要有自己的主见，要成熟。"
+                        name:"附近的人",
+                        id:'10007',
+                        iskongge:'1',
                     },
                     {
-                        name:"晶晶",
-                        time:"周六",
-                        content:"晶晶说要有自己的主见，要成熟。"
+                        name:"购物",
+                        id:'10008',
+                        iskongge:'0',
                     },
                     {
-                        name:"欢欢",
-                        time:"周五",
-                        content:"欢欢说要有自己的主见，要成熟。"
+                        name:"游戏",
+                        id:'10009',
+                        iskongge:'1',
                     },
                     {
-                        name:"莹莹",
-                        time:"周四",
-                        content:"莹莹说要有自己的主见，要成熟。"
+                        name:"小程序",
+                        id:'10010',
+                        iskongge:'1',
                     },
-                    {
-                        name:"妮妮",
-                        time:"周三",
-                        content:"妮妮说要有自己的主见，要成熟。"
-                    },
-                ]
+
+
+                ],
             }
         },
         methods:{
@@ -90,7 +105,52 @@
         width: 100%;
         background: #eee;
         .found-content{
-            width: 100%;
+            .found-child{
+                .found-child-content{
+                    padding: 2%;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    width: 96%;
+                    border-bottom: 1px solid #eee;
+                    .found-child-left{
+                        width: 50%;
+                        display: flex;
+                        justify-content: flex-start;
+                        align-items: center;
+                        .found-child-img{
+                            width: 1.2rem;
+                            height: 1.2rem;
+                            border-radius: 10px;
+                            background: green;
+                        }
+                        .found-child-name{
+                            margin-left: 5%;
+                            margin-right: 5%;
+                        }
+                    }
+                    .found-child-right{
+                        font-size: 0.5rem;
+                        width: 50%;
+                        display: flex;
+                        justify-content: flex-end;
+                        align-items: center;
+                        .found-child-img{
+                            width: 0.8rem;
+                            height: 0.8rem;
+                            border-radius: 6px;
+                            background: green;
+                            margin-left: 5%;
+                            margin-right: 5%;
+                        }
+                    }
+                }
+                .found-kongge{
+                    width: 100%;
+                    height: 0.4rem;
+                    background: #eee;
+                }
+            }
         }
     }
 </style>

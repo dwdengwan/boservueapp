@@ -61,7 +61,7 @@
              @touchstart="handleTouchStart('','',$event,2)"
              @touchmove="handleTouchMove('','',$event,2)"
              @touchend="handleTouchEnd('','',$event,2)">
-             <div class="login-fixed-content">
+             <div class="login-fixed-content"  ref="fixed">
                  <div class="login-fixed-child" v-for="(item,index) in fixedData" :key="item.value" @touchstart="handFixedClick(index,$event)">
                      <span>{{item.name}}</span>
                  </div>
@@ -231,6 +231,11 @@
                 } else {
                     //长按事件
                     if (num == 1){
+                        let cY = e.changedTouches[0].screenY;
+                        let cX = e.changedTouches[0].screenX;
+                        let cFixed = this.$refs.fixed.style.top;
+                        cFixed = '50%';
+                        console.log(cY,cX,cFixed)
                         this.isHandTouch = true;
                         this.nowColIndex = i;
                         this.nowColData = item;//当前长按行的数据。
@@ -444,11 +449,13 @@
             left: 0;
             z-index: 999;
             display: none;
-            /*display: flex;*/
-            justify-content: center;
-            align-items: center;
+            /*justify-content: center;*/
+            /*align-items: center;*/
             .login-fixed-content{
-                width: 25%;
+                width: 30%;
+                position: absolute;
+                top: 40%;
+                left: 40%;
                 box-shadow: 1px 1px 2px 1px #eee;
                 .login-fixed-child{
                     width: 100%;

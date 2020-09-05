@@ -1,7 +1,7 @@
 html,body,#app,.all{
     width: 100%;
     height: 100%;
-    --main-bg-color:red;
+    --main-bg-color:green;
     font-size: 0.4rem;
 }
 .display{
@@ -22,6 +22,10 @@ html,body,#app,.all{
     height: 84%;
     background: #fff;
     overflow-y: auto;
+}
+/*隐藏滚动条*/
+.content::-webkit-scrollbar {
+    display: none;
 }
 ul{
     list-style-type: none;
