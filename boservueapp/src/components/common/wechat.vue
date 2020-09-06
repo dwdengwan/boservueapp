@@ -207,9 +207,6 @@
          height: 10%;
          background: #eee;
          padding: 0 2%;
-         /*display: flex;*/
-         /*justify-content: space-around;*/
-         /*align-items: center;*/
          input{
              height: 60%;
              width: 60%;
@@ -219,7 +216,6 @@
          button{
              width: 20%;
              height: 60%;
-             /*background: green;*/
              background: var(--main-bg-color);
              color:#fff;
              border-radius: 0.1rem;
