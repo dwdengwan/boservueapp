@@ -1,4 +1,7 @@
 <template>
+    <!--@touchstart="handleTouchStart"-->
+    <!--@touchmove="handleTouchMove"-->
+    <!--@touchend="handleTouchEnd"-->
     <div class="all found">
         <div class="header found-header">
             <header-html></header-html>
@@ -92,7 +95,19 @@
             }
         },
         methods:{
+            handleTouchStart(){
 
+            },
+            handleTouchMove(){
+                let params = {
+                    that:this,
+                    nowNum:2,
+                }
+                this.$store.commit('moveLeftRight',params)
+            },
+            handleTouchEnd(){
+                this.$store.state.countNum = 0;
+            },
         },
         mounted(){
 

@@ -9,7 +9,9 @@
                 <span>...</span>
             </div>
         </div>
-        <div class="wechat-content" @click="handleContentClick" :class="isactive?'active':''">
+        <div class="wechat-content"
+             @click="handleContentClick"
+             :class="isactive?'active':''">
             <div class="wechat-child" v-for="item in wechatData" :key="item.id" ref="wechatchild">
                 <div class="wechat-child-time">
                     {{item.time}}
@@ -93,7 +95,6 @@
                 this.timer = setInterval(()=>{
                     this.isactive = false;
                 },3000)
-
             }
         },
         created(){
@@ -200,7 +201,8 @@
      }
      .wechat-content.active{
          background: green;
-         opacity: 0.5;
+         opacity: 1;
+         transition: opacity 2s;
      }
      .wechat-footer{
          width: 100%;

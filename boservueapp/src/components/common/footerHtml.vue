@@ -1,6 +1,6 @@
 <template>
     <div class="footer-html">
-        <div class="footer-html-child" v-for="(item,index) in items" :key="index" @click="handleClick(index)" :class="isactive == index ? 'active':''">
+        <div class="footer-html-child" v-for="(item,index) in items" :key="index" @click="handleClick(index)" :class="isactive == index  ? 'active':''">
             <div class="footer-html-img">
                 <div class="footer-html-flag" v-if="index == 0 && num !== 0">
                     <span>{{num}}</span>
@@ -61,7 +61,10 @@
             }
         },
         created(){
-
+            if (this.$route.query.goBackTo !== undefined){
+                let num = parseInt(this.$route.query.goBackTo);
+                this.handleClick(num)
+            }
         },
         mounted(){
             this.wechatNumCount()

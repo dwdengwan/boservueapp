@@ -1,4 +1,7 @@
 <template>
+    <!--@touchstart="handleTouchStart"-->
+    <!--@touchmove="handleTouchMove"-->
+    <!--@touchend="handleTouchEnd"-->
     <div class="all myself">
         <div class="header myself-header">
             <header-html></header-html>
@@ -16,12 +19,14 @@
                     </div>
                 </div>
                 <div class="myself-first-right">
-                    <div class="myself-first-erweima"></div>
+                    <div class="myself-first-erweima" @click="handleClick($event)"></div>
                     <div class="myself-first-back">&gt;</div>
                 </div>
             </div>
             <div class="myself-kongge"></div>
-            <div class="myself-child" v-for="myself in myselfData" :key="myself.id">
+            <div class="myself-child"
+                 v-for="myself in myselfData"
+                 :key="myself.id">
                 <div class="myself-child-content">
                     <div class="myself-child-left">
                         <div class="myself-child-img" :style="{'background':$common.randomColor()}"></div>
@@ -35,6 +40,9 @@
                 </div>
                 <div class="myself-kongge" v-if="myself.iskongge == '1'"></div>
             </div>
+        </div>
+        <div class="myself-fixed" :class="!active?'active':''" @click="handleClickFixed">
+            <div class="myself-fixed-child"></div>
         </div>
         <div class="footer myself-footer">
             <footer-html></footer-html>
@@ -84,10 +92,30 @@
                         iskongge:'1',
                     }
                 ],
+                active:false,
             }
         },
         methods:{
+            handleTouchStart(){
 
+            },
+            handleTouchMove(){
+                let params = {
+                    that:this,
+                    nowNum:3,
+                }
+                this.$store.commit('moveLeftRight',params)
+            },
+            handleTouchEnd(){
+                this.$store.state.countNum = 0;
+            },
+            handleClick(e){
+                e.stopPropagation()
+                this.active = true;
+            },
+            handleClickFixed(){
+                this.active = false;
+            }
         },
         mounted(){
 
@@ -99,6 +127,7 @@
     .myself{
         width: 100%;
         background: #eee;
+        position: relative;
         .myself-content{
             background: #eee;
             width: 100%;
@@ -205,6 +234,25 @@
                     background: #eee;
                 }
             }
+        }
+        .myself-fixed{
+            position: absolute;
+            top: 6%;
+            left: 0;
+            width: 100%;
+            height: 84%;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .myself-fixed-child{
+                width: 40%;
+                height: 40%;
+                background: #fff;
+            }
+        }
+        .myself-fixed.active{
+            display: none;
         }
     }
 </style>
