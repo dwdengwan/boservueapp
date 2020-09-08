@@ -126,10 +126,10 @@
             }
         },
         mounted(){
-
+            this.oldScrollLocation()
+            this.$refs.addrbookcontent.scrollTop = this.scrollHeight;
         },
         created(){
-            this.oldScrollLocation()
             for(let i=0;i<26;i++){
                 let bigStr = String.fromCharCode(65+i)
                 this.items.push(bigStr);//输出A-Z 26个大写字母

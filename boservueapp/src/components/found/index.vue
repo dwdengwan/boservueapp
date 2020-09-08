@@ -7,7 +7,10 @@
             <header-html></header-html>
         </div>
         <div class="content found-content">
-            <div class="found-child" v-for="(found,index) in foundData" :key="found.id">
+            <div class="found-child"
+                 v-for="(found,index) in foundData"
+                 :key="found.id"
+                 @click="handleClickBack(found.path)">
                 <div class="found-child-content">
                     <div class="found-child-left">
                         <div class="found-child-img" :style="{'background':$common.randomColor()}"></div>
@@ -44,50 +47,60 @@
                         name:"朋友圈",
                         id:'10001',
                         iskongge:'1',
+                        path:'/found/friend',
                     },
                     {
                         name:"视频号",
                         id:'10002',
                         iskongge:'1',
+                        path:'/found',
                     },
                     {
                         name:"扫一扫",
                         id:'10003',
                         iskongge:'0',
+                        path:'/found',
                     },
                     {
                         name:"摇一摇",
                         id:'10004',
                         iskongge:'1',
+                        path:'/found',
                     },
                     {
                         name:"看一看",
                         id:'10005',
                         iskongge:'0',
+                        path:'/found',
                     },{
                         name:"搜一搜",
                         id:'10006',
                         iskongge:'1',
+                        path:'/found',
                     },
                     {
                         name:"附近的人",
                         id:'10007',
                         iskongge:'1',
+                        path:'/found',
                     },
                     {
                         name:"购物",
                         id:'10008',
                         iskongge:'0',
+                        path:'/found',
                     },
                     {
                         name:"游戏",
                         id:'10009',
                         iskongge:'1',
+                        path:'/found',
                     },
                     {
                         name:"小程序",
                         id:'10010',
                         iskongge:'1',
+                        path:'/found',
                     },
 
 
@@ -108,6 +121,10 @@
             handleTouchEnd(){
                 this.$store.state.countNum = 0;
             },
+            handleClickBack(path){
+                let query = {}
+                this.$router.push({path,query})
+            }
         },
         mounted(){
 
