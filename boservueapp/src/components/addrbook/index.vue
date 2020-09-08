@@ -23,7 +23,7 @@
                         @click="handleClick(index,$event)"
                         v-for="(item,index) in items"
                         :key="index"
-                        :class="activeIndex == index?'active':''">
+                        :class="{ active: activeIndex == index, scroll:ascroll == index }">
                         {{item}}
                     </li>
                 </ul>
@@ -47,36 +47,38 @@
             return {
                 addrbookData:[],
                 items:[],
-                activeIndex:-1,
+                activeIndex:-1,//点击位置的下标
                 timer:null,
                 scrollHeight:0,//当前滚动条的高度
-                height:0,//点击元素至内容区的总高度
+                ascroll:0,
             }
         },
         methods:{
             handleClick(i,e){
                 e.stopPropagation();
-                if (localStorage.getItem('aScrollHeight')!==null){
-                    this.scrollHeight = parseInt(localStorage.getItem('aScrollHeight'));
-                }
+                let height = 0;
+                // let zmj = 0;//进过的位置下标
+                let heightArr = [];
                 this.activeIndex = i;
                 clearInterval(this.timer)
                 for (let z=0;z<i+1;z++){
-                    this.height += this.$refs.addrbookchild[z].offsetHeight
+                    height += this.$refs.addrbookchild[z].offsetHeight;
+                    heightArr.push(height)
                 }
+                localStorage.setItem('heightArr',heightArr)
+                this.oldScrollLocation()
                 this.timer = setInterval(()=>{
-                    if (this.scrollHeight < this.height){
+                    if (this.scrollHeight < height){
                         this.scrollHeight ++;
                     } else{
                         this.scrollHeight --;
                     }
                     this.$refs.addrbookcontent.scrollTop = this.scrollHeight;
-                    localStorage.setItem('aScrollHeight',this.scrollHeight)
-                    if (this.scrollHeight == this.height){
+                    if (this.scrollHeight == height){
                         clearInterval(this.timer)
+                        this.ascroll = -1;
                     }
-                },10)
-                console.log(this.height)
+                },2)
             },
             handleGoBack(id,e){
                 e.stopPropagation();
@@ -99,19 +101,35 @@
                 clearInterval(this.timer)
             },
             handleScroll(){
+                //滚动条滚动经过的位置 指示器变化
                 let height = 0;
-                // let height0 = this.$refs.addrbookchild[0].offsetHeight;
+                let scrollHeight = this.$refs.addrbookcontent.scrollTop;
+                localStorage.setItem('ascrollHeight',scrollHeight)
+                let scrollHeightArr = [];
                 let len = this.$refs.addrbookchild.length;
                 for (let z=0;z<len;z++){
-                    height += this.$refs.addrbookchild[z].offsetHeight
+                    height += this.$refs.addrbookchild[z].offsetHeight;
+                    scrollHeightArr.push(height)
                 }
-                console.log(this.$refs.addrbookcontent.scrollTop,height);
+                for (let m=0;m<scrollHeightArr.length;m++){
+                    if (scrollHeight>scrollHeightArr[m-1]&&scrollHeight<scrollHeightArr[m]&&m!==0){
+                        this.ascroll = m-1;
+                    }
+                }
             },
+            oldScrollLocation(){
+                if (localStorage.getItem('ascrollHeight')==null){
+                    this.scrollHeight = 0;
+                } else {
+                    this.scrollHeight = parseInt(localStorage.getItem('ascrollHeight'))
+                }
+            }
         },
         mounted(){
 
         },
         created(){
+            this.oldScrollLocation()
             for(let i=0;i<26;i++){
                 let bigStr = String.fromCharCode(65+i)
                 this.items.push(bigStr);//输出A-Z 26个大写字母
@@ -170,6 +188,11 @@
                 font-size: 0.45rem;
                 ul{
                     text-align: center;
+                    li.scroll{
+                        background: rgba(22, 200, 67, 0.5);
+                        color:#fff;
+                        border-radius: 5px;
+                    }
                     li.active{
                         background: green;
                         color:#fff;
