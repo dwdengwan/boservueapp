@@ -9,20 +9,28 @@
                     <div class="friend-child-img" :style="{'background':$common.randomColor()}"></div>
                 </div>
                 <div class="friend-child-right">
-                    <div class="friend-child-top">
+                    <div class="friend-child-top" ref="childTop">
                         <span class="friend-child-name">{{friend.name}}</span>
                     </div>
-                    <div class="friend-child-middle">
+                    <div class="friend-child-middle" ref="childMiddle">
                         <span class="friend-child-content">{{friend.content}}</span>
                     </div>
                     <div class="friend-child-bottom">
                         <span class="friend-child-time">{{friend.time}}</span>
-                        <span class="friend-child-option" ref="childoption" @touchend="handleTouchendOption(index,$event)">
+                        <span class="friend-child-option" ref="childoption" @touchend="handleTouchendOption(index)">
                             <ul>
                                 <li></li>
                                 <li></li>
                             </ul>
                         </span>
+                        <div class="friend-child-fixed" ref="childfixed">
+                            <span class="friend-fixed-supper">
+                                <span class="fixed-supper"></span><span>点赞</span>
+                            </span>
+                                    <span class="friend-fixed-content">
+                                <span class="fixed-content"></span><span>评论</span>
+                            </span>
+                        </div>
                     </div>
                     <div class="friend-child-supper" v-if="friend.supper !== ''">
                         <span class="friend-supper-flag"></span>
@@ -46,14 +54,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="friend-child-fixed" ref="childfixed">
-                    <span class="friend-fixed-supper">
-                        <span class="fixed-supper"></span><span>点赞</span>
-                    </span>
-                    <span class="friend-fixed-content">
-                        <span class="fixed-content"></span><span>评论</span>
-                    </span>
                 </div>
             </div>
         </div>
@@ -246,25 +246,9 @@
             }
         },
         methods:{
-            handleTouchendOption(i,e){
-                let child = document.getElementsByClassName('friend-child')[i];
+            handleTouchendOption(i){
                 let childFixed = document.getElementsByClassName('friend-child-fixed')[i];
-                let childOption = document.getElementsByClassName('friend-child-option')[i];
-                let cOptionX = childOption.style.left;
-                let cOptionY = childOption.style.top;
-                //点击位置 出现弹框的位置
-                let sX = child.clientWidth;
-                let sY = child.clientHeight;
-                let cY = e.changedTouches[0].screenY;
-                let cX = e.changedTouches[0].screenX;
-                let bX = (cX/sX).toFixed(2)*100;
-                let bY = (cY/sY).toFixed(2)*100;
-                console.log(bX,bY,cOptionX,cOptionY)
-                childFixed.style.top = (bY) + '%';
-                childFixed.style.left = '55%';
                 childFixed.style.display = 'flex';
-                // this.$refs.childfixed[i].top = '10%';
-                // console.log(this.$refs.childoption[i],this.$refs.childfixed[i].top,e.changedTouches[0],bX,bY)
             }
         },
         mounted(){
@@ -287,7 +271,6 @@
                 display: flex;
                 justify-content: space-between;
                 border-bottom: 1px solid #eee;
-                position: relative;
                 .friend-child-left{
                     display: flex;
                     flex-direction: column;
@@ -317,6 +300,7 @@
                         display: flex;
                         align-items: center;
                         justify-content: space-between;
+                        position: relative;
                         .friend-child-option{
                             width: 10%;
                             height: 0.3rem;
@@ -363,6 +347,8 @@
                     .friend-child-comments{
                         background: #eee;
                         padding: 2%;
+                        margin-top: 1%;
+                        margin-bottom: 1%;
                         .friend-child-item{
                             font-size: 0.35rem;
                             .friend-item-name{
@@ -374,9 +360,9 @@
                 }
                 .friend-child-fixed{
                     position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 30%;
+                    bottom: 0;
+                    left: 45%;
+                    width: 40%;
                     height: 0.5rem;
                     background: rgba(0,0,0,0.8);
                     /*display: flex;*/
