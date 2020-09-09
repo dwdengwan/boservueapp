@@ -4,7 +4,7 @@
             <go-back-header></go-back-header>
         </div>
         <div class="content friend-content">
-            <div class="friend-child" v-for="friend in friendData" :key="friend.id">
+            <div class="friend-child" v-for="(friend,index) in friendData" :key="friend.id">
                 <div class="friend-child-left">
                     <div class="friend-child-img" :style="{'background':$common.randomColor()}"></div>
                 </div>
@@ -17,14 +17,18 @@
                     </div>
                     <div class="friend-child-bottom">
                         <span class="friend-child-time">{{friend.time}}</span>
-                        <span class="friend-child-option">
+                        <span class="friend-child-option" ref="childoption" @touchend="handleTouchendOption(index,$event)">
                             <ul>
                                 <li></li>
                                 <li></li>
                             </ul>
                         </span>
                     </div>
-                    <div class="friend-child-comments">
+                    <div class="friend-child-supper" v-if="friend.supper !== ''">
+                        <span class="friend-supper-flag"></span>
+                        <span class="friend-supper-name">{{friend.supper}}</span>
+                    </div>
+                    <div class="friend-child-comments" v-if="friend.list.length !== 0">
                         <div class="friend-child-list" v-for="(item,index) in friend.list" :key="index" >
                             <div class="friend-child-zmj" v-for="(bitem,bindex) in item" :key="bindex">
                                 <div class="friend-child-item" v-if="bitem.other == ''">
@@ -42,6 +46,14 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="friend-child-fixed" ref="childfixed">
+                    <span class="friend-fixed-supper">
+                        <span class="fixed-supper"></span><span>点赞</span>
+                    </span>
+                    <span class="friend-fixed-content">
+                        <span class="fixed-content"></span><span>评论</span>
+                    </span>
                 </div>
             </div>
         </div>
@@ -63,6 +75,7 @@
                         name:'豆豆',
                         content:"今天天气真好，适合郊外放风筝。风筝放起来，来来来来，我就是一个菠菜，菜菜菜菜。。。。",
                         time:'15分钟前',
+                        supper:'贝贝、晶晶、欢欢、莹莹、妮妮、快快、乐乐、健健、康康',
                         list:[
                             [
                                 {
@@ -95,70 +108,23 @@
                         name:'豆豆',
                         content:"今天天气真好，适合郊外放风筝。",
                         time:'15分钟前',
-                        list:[
-                            [
-                                {
-                                    name:'贝贝',
-                                    other:'',
-                                    content:'go go go 一起一起。。',
-                                },
-                                {
-                                    name:'豆豆',
-                                    other:'贝贝',
-                                    content:'go go go 一起一起。。',
-                                }
-                            ],
-                            [
-                                {
-                                    name:'晶晶',
-                                    other:'',
-                                    content:'go go go 一起一起。。',
-                                },
-                                {
-                                    name:'豆豆',
-                                    other:'晶晶',
-                                    content:'go go go 一起一起。。',
-                                }
-                            ],
-                        ],
+                        supper:'贝贝、晶晶',
+                        list:[],
                     },
                     {
                         id:"10003",
                         name:'豆豆',
                         content:"今天天气真好，适合郊外放风筝。",
                         time:'15分钟前',
-                        list:[
-                            [
-                                {
-                                    name:'贝贝',
-                                    other:'',
-                                    content:'go go go 一起一起。。',
-                                },
-                                {
-                                    name:'豆豆',
-                                    other:'贝贝',
-                                    content:'go go go 一起一起。。',
-                                }
-                            ],
-                            [
-                                {
-                                    name:'晶晶',
-                                    other:'',
-                                    content:'go go go 一起一起。。',
-                                },
-                                {
-                                    name:'豆豆',
-                                    other:'晶晶',
-                                    content:'go go go 一起一起。。',
-                                }
-                            ],
-                        ],
+                        supper:'',
+                        list:[],
                     },
                     {
                         id:"10004",
                         name:'豆豆',
                         content:"今天天气真好，适合郊外放风筝。",
                         time:'15分钟前',
+                        supper:'',
                         list:[
                             [
                                 {
@@ -191,38 +157,15 @@
                         name:'豆豆',
                         content:"今天天气真好，适合郊外放风筝。",
                         time:'15分钟前',
-                        list:[
-                            [
-                                {
-                                    name:'贝贝',
-                                    other:'',
-                                    content:'go go go 一起一起。。',
-                                },
-                                {
-                                    name:'豆豆',
-                                    other:'贝贝',
-                                    content:'go go go 一起一起。。',
-                                }
-                            ],
-                            [
-                                {
-                                    name:'晶晶',
-                                    other:'',
-                                    content:'go go go 一起一起。。',
-                                },
-                                {
-                                    name:'豆豆',
-                                    other:'晶晶',
-                                    content:'go go go 一起一起。。',
-                                }
-                            ],
-                        ],
+                        supper:'贝贝、晶晶',
+                        list:[],
                     },
                     {
                         id:"10006",
                         name:'豆豆',
                         content:"今天天气真好，适合郊外放风筝。",
                         time:'15分钟前',
+                        supper:'贝贝、晶晶',
                         list:[
                             [
                                 {
@@ -255,70 +198,23 @@
                         name:'豆豆',
                         content:"今天天气真好，适合郊外放风筝。",
                         time:'15分钟前',
-                        list:[
-                            [
-                                {
-                                    name:'贝贝',
-                                    other:'',
-                                    content:'go go go 一起一起。。',
-                                },
-                                {
-                                    name:'豆豆',
-                                    other:'贝贝',
-                                    content:'go go go 一起一起。。',
-                                }
-                            ],
-                            [
-                                {
-                                    name:'晶晶',
-                                    other:'',
-                                    content:'go go go 一起一起。。',
-                                },
-                                {
-                                    name:'豆豆',
-                                    other:'晶晶',
-                                    content:'go go go 一起一起。。',
-                                }
-                            ],
-                        ],
+                        supper:'贝贝、晶晶',
+                        list:[],
                     },
                     {
                         id:"10008",
                         name:'豆豆',
                         content:"今天天气真好，适合郊外放风筝。",
                         time:'15分钟前',
-                        list:[
-                            [
-                                {
-                                    name:'贝贝',
-                                    other:'',
-                                    content:'go go go 一起一起。。',
-                                },
-                                {
-                                    name:'豆豆',
-                                    other:'贝贝',
-                                    content:'go go go 一起一起。。',
-                                }
-                            ],
-                            [
-                                {
-                                    name:'晶晶',
-                                    other:'',
-                                    content:'go go go 一起一起。。',
-                                },
-                                {
-                                    name:'豆豆',
-                                    other:'晶晶',
-                                    content:'go go go 一起一起。。',
-                                }
-                            ],
-                        ],
+                        supper:'',
+                        list:[],
                     },
                     {
                         id:"10009",
                         name:'豆豆',
                         content:"今天天气真好，适合郊外放风筝。",
                         time:'15分钟前',
+                        supper:'',
                         list:[
                             [
                                 {
@@ -350,7 +246,26 @@
             }
         },
         methods:{
-
+            handleTouchendOption(i,e){
+                let child = document.getElementsByClassName('friend-child')[i];
+                let childFixed = document.getElementsByClassName('friend-child-fixed')[i];
+                let childOption = document.getElementsByClassName('friend-child-option')[i];
+                let cOptionX = childOption.style.left;
+                let cOptionY = childOption.style.top;
+                //点击位置 出现弹框的位置
+                let sX = child.clientWidth;
+                let sY = child.clientHeight;
+                let cY = e.changedTouches[0].screenY;
+                let cX = e.changedTouches[0].screenX;
+                let bX = (cX/sX).toFixed(2)*100;
+                let bY = (cY/sY).toFixed(2)*100;
+                console.log(bX,bY,cOptionX,cOptionY)
+                childFixed.style.top = (bY) + '%';
+                childFixed.style.left = '55%';
+                childFixed.style.display = 'flex';
+                // this.$refs.childfixed[i].top = '10%';
+                // console.log(this.$refs.childoption[i],this.$refs.childfixed[i].top,e.changedTouches[0],bX,bY)
+            }
         },
         mounted(){
 
@@ -372,6 +287,7 @@
                 display: flex;
                 justify-content: space-between;
                 border-bottom: 1px solid #eee;
+                position: relative;
                 .friend-child-left{
                     display: flex;
                     flex-direction: column;
@@ -424,6 +340,26 @@
                             }
                         }
                     }
+                    .friend-child-supper{
+                        padding: 1%;
+                        background: #eee;
+                        margin-top: 1%;
+                        margin-bottom: 1%;
+                        .friend-supper-flag{
+                            width: 0.3rem;
+                            height: 0.3rem;
+                            border-radius: 50%;
+                            background: pink;
+                            display: inline-block;
+                        }
+                        .friend-supper-name{
+                            margin-right: 1%;
+                            margin-left: 1%;
+                            font-weight: bold;
+                            color: #576999;
+                            font-size: 0.35rem;
+                        }
+                    }
                     .friend-child-comments{
                         background: #eee;
                         padding: 2%;
@@ -434,6 +370,36 @@
                                 font-weight: bold;
                             }
                         }
+                    }
+                }
+                .friend-child-fixed{
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 30%;
+                    height: 0.5rem;
+                    background: rgba(0,0,0,0.8);
+                    /*display: flex;*/
+                    justify-content: space-around;
+                    align-items: center;
+                    color:#fff;
+                    font-size: 0.35rem;
+                    border-radius: 5px;
+                    display: none;
+                    .friend-fixed-supper,.friend-fixed-content{
+                        width: 40%;
+                    }
+                    .fixed-supper,.fixed-content{
+                        width: 0.3rem;
+                        height: 0.3rem;
+                        background: pink;
+                        border-radius: 50%;
+                        display: inline-block;
+                        margin-left: 5%;
+                        margin-right: 5%;
+                    }
+                    .fixed-content{
+                        background: #00c800;
                     }
                 }
             }
