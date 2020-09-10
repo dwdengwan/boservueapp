@@ -23,7 +23,7 @@
                                 <li></li>
                             </ul>
                         </span>
-                        <div class="friend-child-fixed" ref="childfixed">
+                        <div class="friend-child-fixed" ref="childfixed" v-show="showFixed[index] == true">
                             <span class="friend-fixed-supper">
                                 <span class="fixed-supper"></span><span>点赞</span>
                             </span>
@@ -243,16 +243,35 @@
                         ],
                     },
                 ],
+                showFixed:[],
             }
         },
         methods:{
             handleTouchendOption(i){
-                let childFixed = document.getElementsByClassName('friend-child-fixed')[i];
-                childFixed.style.display = 'flex';
+                // let childFixed = document.getElementsByClassName('friend-child-fixed')[i];
+                // childFixed.style.display = 'flex';
+                // console.log(i)
+                for (let j=0;j<this.showFixed.length;j++){
+                    console.log(i,j,i==j)
+                    if (i==j){
+                        this.showFixed[i] = true;
+                        console.log(this.showFixed,j)
+                    } else {
+                        this.showFixed[i] = false;
+                        console.log(this.showFixed,j)
+                    }
+                }
+                this.$set(this,'showFixed',this.showFixed);
+                console.log(this.showFixed,i)
             }
         },
         mounted(){
 
+        },
+        created(){
+            this.friendData.forEach(()=>{
+                this.showFixed.push(false);
+            })
         }
     }
 </script>
@@ -371,7 +390,6 @@
                     color:#fff;
                     font-size: 0.35rem;
                     border-radius: 5px;
-                    display: none;
                     .friend-fixed-supper,.friend-fixed-content{
                         width: 40%;
                     }
