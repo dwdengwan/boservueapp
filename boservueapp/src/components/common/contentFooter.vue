@@ -45,14 +45,12 @@
                     this.onClickNum ++;
                     this.$emit('on-updata',this.childData)
                 } else if (this.typeNum == 2){
-                    let obj = {
-                        name:'dw',
-                        other:'',
-                        content:'',
-                    };
+                    let obj = {};
                     if (this.contentFooterObj.contentPostion.i == -1){
                         //评论区
                         obj.content = text;
+                        obj.name = 'dw';
+                        obj.other = '';
                     } else {
                         //回复区
                         let postion = this.contentFooterObj.contentPostion;

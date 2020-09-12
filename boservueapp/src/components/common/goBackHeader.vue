@@ -1,8 +1,10 @@
 <template>
     <!--带有返回功能的头部-->
-    <div class="friend-back" @click="handleClickBack">
-        <span class="friend-goback">&lt;</span>
-        <span class="friend-name">朋友圈</span>
+    <div class="friend-back">
+        <span style="width: 20%;display: inline-block;" @click="handleClickBack">
+            <span class="friend-goback">&lt;</span>
+            <span class="friend-name">朋友圈</span>
+        </span>
     </div>
 </template>
 

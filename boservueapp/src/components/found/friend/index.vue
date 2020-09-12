@@ -6,7 +6,8 @@
         <div
             class="content friend-content"
             :class="showContent?'showContent':''"
-            ref="friendContent">
+            ref="friendContent"
+            @scroll="handleScroll">
             <div
                 class="friend-child"
                 v-for="(friend,index) in friendData"
@@ -16,7 +17,8 @@
                     <div class="friend-child-img" :style="{'background':$common.randomColor()}"></div>
                 </div>
                 <div class="friend-child-right">
-                    <div class="friend-child-top" ref="childTop" :class="(activeIndex == index && showContent)?'active':''">
+                    <!--:class="(activeIndex == index && showContent)?'active':''"-->
+                    <div class="friend-child-top" ref="childTop">
                         <span class="friend-child-name">{{friend.name}}</span>
                     </div>
                     <div class="friend-child-middle" ref="childMiddle">
@@ -47,19 +49,44 @@
                         <span class="friend-supper-name">{{friend.supper}}</span>
                     </div>
                     <div class="friend-child-comments" v-if="friend.list.length !== 0">
-                        <div class="friend-child-list" v-for="(bitem,bindex) in friend.list" :key="bindex" >
-                            <div class="friend-child-zmj" v-for="(citem,cindex) in bitem" :key="cindex" @touchend="handleTouchendItem(index,bindex,cindex,$event)">
-                                <div class="friend-child-item" v-if="citem.other == ''" :class="(index==contentPostion.i&&bindex==contentPostion.j&&cindex==contentPostion.k)?'active':''">
+                        <div 
+                            class="friend-child-list"
+                            v-for="(bitem,bindex) in friend.list"
+                            :key="bindex" >
+                            <div
+                                class="friend-child-zmj"
+                                v-for="(citem,cindex) in bitem"
+                                :key="cindex"
+                                @touchend="handleTouchendItem(index,bindex,cindex,$event)">
+                                <div
+                                    class="friend-child-item"
+                                    v-if="citem.other == ''"
+                                    :class="(index==contentPostion.i&&bindex==contentPostion.j&&cindex==contentPostion.k)?'active':''">
                                     <span class="friend-item-name">{{citem.name}}</span>
                                     <span>:</span>
                                     <span>{{citem.content}}</span>
+                                    <div
+                                        class="friend-item-delete"
+                                        v-if="citem.name == 'dw' && index == contentPostion.i && bindex == contentPostion.j && cindex == contentPostion.k"
+                                        @touchend="handleTouchendDelete(index,bindex,cindex,$event)">
+                                        <span>删除该评论</span>
+                                    </div>
                                 </div>
-                                <div class="friend-child-item" v-else-if="citem.other !== ''" :class="(index==contentPostion.i&&bindex==contentPostion.j&&cindex==contentPostion.k)?'active':''">
+                                <div
+                                    class="friend-child-item"
+                                    v-else-if="citem.other !== ''"
+                                    :class="(index == contentPostion.i && bindex == contentPostion.j && cindex == contentPostion.k)?'active':''">
                                     <span class="friend-item-name">{{citem.name}}</span>
                                     <span>回复</span>
                                     <span class="friend-item-name">{{citem.other}}</span>
                                     <span>:</span>
                                     <span>{{citem.content}}</span>
+                                    <div
+                                        class="friend-item-delete"
+                                        v-if="citem.name == 'dw' && index == contentPostion.i && bindex == contentPostion.j && cindex == contentPostion.k"
+                                        @touchend="handleTouchendDelete(index,bindex,cindex,$event)">
+                                        <span>删除该回复</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -281,6 +308,8 @@
                     j:-1,
                     k:-1,
                 },
+                timer:null,
+                scrollHeight: 0,
             }
         },
         methods:{
@@ -288,6 +317,11 @@
                 this.showContent = false;
                 this.childFixedFn(this.activeIndex,0);
                 this.updataStatus()
+            },
+            handleScroll(){//滚动条事件
+                // this.showContent = false;
+                let content = document.getElementsByClassName('friend-content')[0];
+                this.scrollHeight = content.scrollTop;
             },
             handleTouchendSupper(i,e){//点赞
                 e.stopPropagation()
@@ -308,22 +342,38 @@
                 this.childFixedFn(i,0);
             },
             handleTouchendContent(i,e){//评论
+                let that = this;
+                // let content = document.getElementsByClassName('friend-content')[0];
+                // let contentHeight = content.clientHeight;
                 e.stopPropagation();
-                let child = this.$refs.friendChild;
-                let height = i==0 ? 0 : child[0].clientHeight;
-                console.log(child[0].clientHeight)
+                clearInterval(that.timer)
+                let child = that.$refs.friendChild;
+                let height = 0;
                 if (i!==0){
-                    for (let z=0;z<=i-1;z++){
-                        console.log(child[i].clientHeight,height)
-                        height += child[i].clientHeight;
+                    for (let z=0;z< i;z++){
+                        height += child[z].clientHeight;
                     }
                 }
-                this.$refs.friendContent.scrollTop = height;
-                this.showContent = true;
-                this.childFixedFn(i,0);
+                // let bool = height - this.scrollHeight < contentHeight;//总高度 - 滚动条的高度 与 页面的高度
+                that.timer = setInterval(()=>{
+                    if (this.scrollHeight > height){
+                        this.scrollHeight --;
+                    } else{
+                        this.scrollHeight ++;
+                    }
+                    that.$refs.friendContent.scrollTop = this.scrollHeight;
+                    // || bool
+                    if (this.scrollHeight == height || i==0 ){
+                        clearInterval(that.timer);
+                        this.contentFooterObj.contentPostion.i = -1;
+                        that.showContent = true;
+                    }
+                },20)
+                that.childFixedFn(i,0);
             },
             handleTouchendOption(i,e){//弹出点赞和评论的悬浮框
                 e.stopPropagation()
+                this.updataStatus()
                 this.activeIndex = i;
                 let child = document.getElementsByClassName('friend-child-fixed');
                 for (let z=0;z<child.length;z++){
@@ -355,14 +405,20 @@
             handleTouchendItem(i,j,k,e){
               e.stopPropagation()
               let name = this.friendData[i].list[j][k].name;
-              if (name == 'dw'){return}
               this.contentPostion.i = i;
               this.contentPostion.j = j;
               this.contentPostion.k = k;
+              if (name == 'dw'){
+                  return
+              }
               this.childFixedFn(this.activeIndex,0);
               this.activeIndex = -1;
               this.contentFooterObj.contentPostion = this.contentPostion;
               this.showContent = true;
+            },
+            handleTouchendDelete(i,j,k,e){
+                e.stopPropagation()
+                this.friendData[i].list[j].splice(k,1);
             },
             updataStatus(){//重置状态
                 this.contentPostion = {
@@ -482,6 +538,13 @@
                             .friend-item-name{
                                 color:#576999;
                                 font-weight: bold;
+                            }
+                            .friend-item-delete{
+                                color:green;
+                                span{
+                                    font-size: 0.2rem;
+                                    border-bottom: 1px solid green;
+                                }
                             }
                         }
                         .friend-child-item.active{
