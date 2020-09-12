@@ -1,15 +1,22 @@
 <template>
-    <div class="all friend">
+    <div class="all friend" @touchend="handelFriendTouchend">
         <div class="header">
             <go-back-header></go-back-header>
         </div>
-        <div class="content friend-content">
-            <div class="friend-child" v-for="(friend,index) in friendData" :key="friend.id">
+        <div
+            class="content friend-content"
+            :class="showContent?'showContent':''"
+            ref="friendContent">
+            <div
+                class="friend-child"
+                v-for="(friend,index) in friendData"
+                :key="friend.id"
+                ref="friendChild">
                 <div class="friend-child-left">
                     <div class="friend-child-img" :style="{'background':$common.randomColor()}"></div>
                 </div>
                 <div class="friend-child-right">
-                    <div class="friend-child-top" ref="childTop">
+                    <div class="friend-child-top" ref="childTop" :class="(activeIndex == index && showContent)?'active':''">
                         <span class="friend-child-name">{{friend.name}}</span>
                     </div>
                     <div class="friend-child-middle" ref="childMiddle">
@@ -17,17 +24,20 @@
                     </div>
                     <div class="friend-child-bottom">
                         <span class="friend-child-time">{{friend.time}}</span>
-                        <span class="friend-child-option" ref="childoption" @touchend="handleTouchendOption(index)">
+                        <span class="friend-child-option" ref="childoption" @touchend="handleTouchendOption(index,$event)">
                             <ul>
                                 <li></li>
                                 <li></li>
                             </ul>
                         </span>
-                        <div class="friend-child-fixed" ref="childfixed" v-show="showFixed[index] == true">
-                            <span class="friend-fixed-supper">
-                                <span class="fixed-supper"></span><span>点赞</span>
+                        <!--v-show="showFixed[index] == true"-->
+                        <div class="friend-child-fixed" ref="childfixed">
+                            <span class="friend-fixed-supper" @touchend="handleTouchendSupper(index,$event)">
+                                <span class="fixed-supper"></span>
+                                <span v-show="!friend.supperFlag">点赞</span>
+                                <span v-show="friend.supperFlag">取消点赞</span>
                             </span>
-                                    <span class="friend-fixed-content">
+                            <span class="friend-fixed-content" @touchend="handleTouchendContent(index,$event)">
                                 <span class="fixed-content"></span><span>评论</span>
                             </span>
                         </div>
@@ -37,19 +47,19 @@
                         <span class="friend-supper-name">{{friend.supper}}</span>
                     </div>
                     <div class="friend-child-comments" v-if="friend.list.length !== 0">
-                        <div class="friend-child-list" v-for="(item,index) in friend.list" :key="index" >
-                            <div class="friend-child-zmj" v-for="(bitem,bindex) in item" :key="bindex">
-                                <div class="friend-child-item" v-if="bitem.other == ''">
-                                    <span class="friend-item-name">{{bitem.name}}</span>
+                        <div class="friend-child-list" v-for="(bitem,bindex) in friend.list" :key="bindex" >
+                            <div class="friend-child-zmj" v-for="(citem,cindex) in bitem" :key="cindex" @touchend="handleTouchendItem(index,bindex,cindex,$event)">
+                                <div class="friend-child-item" v-if="citem.other == ''" :class="(index==contentPostion.i&&bindex==contentPostion.j&&cindex==contentPostion.k)?'active':''">
+                                    <span class="friend-item-name">{{citem.name}}</span>
                                     <span>:</span>
-                                    <span>{{bitem.content}}</span>
+                                    <span>{{citem.content}}</span>
                                 </div>
-                                <div class="friend-child-item" v-else-if="bitem.other !== ''">
-                                    <span class="friend-item-name">{{bitem.name}}</span>
+                                <div class="friend-child-item" v-else-if="citem.other !== ''" :class="(index==contentPostion.i&&bindex==contentPostion.j&&cindex==contentPostion.k)?'active':''">
+                                    <span class="friend-item-name">{{citem.name}}</span>
                                     <span>回复</span>
-                                    <span class="friend-item-name">{{bitem.other}}</span>
+                                    <span class="friend-item-name">{{citem.other}}</span>
                                     <span>:</span>
-                                    <span>{{bitem.content}}</span>
+                                    <span>{{citem.content}}</span>
                                 </div>
                             </div>
                         </div>
@@ -57,15 +67,19 @@
                 </div>
             </div>
         </div>
+        <div class="friend-footer" v-show="showContent" @touchend="handelFooterTouchend($event)">
+            <content-footer :contentFooterObj="contentFooterObj" @on-updata-friendData="updata"></content-footer>
+        </div>
     </div>
 </template>
 
 <script>
-    import goBackHeader from '@/components/common/goBackHeader.vue'
+    import goBackHeader from '@/components/common/goBackHeader.vue';
+    import contentFooter from '@/components/common/contentFooter.vue';
     export default {
         name: "friend",
         components:{
-            goBackHeader,
+            goBackHeader,contentFooter
         },
         data(){
             return {
@@ -76,6 +90,7 @@
                         content:"今天天气真好，适合郊外放风筝。风筝放起来，来来来来，我就是一个菠菜，菜菜菜菜。。。。",
                         time:'15分钟前',
                         supper:'贝贝、晶晶、欢欢、莹莹、妮妮、快快、乐乐、健健、康康',
+                        supperFlag:0,//0未点赞 1点赞
                         list:[
                             [
                                 {
@@ -109,6 +124,7 @@
                         content:"今天天气真好，适合郊外放风筝。",
                         time:'15分钟前',
                         supper:'贝贝、晶晶',
+                        supperFlag:0,//0未点赞 1点赞
                         list:[],
                     },
                     {
@@ -117,6 +133,7 @@
                         content:"今天天气真好，适合郊外放风筝。",
                         time:'15分钟前',
                         supper:'',
+                        supperFlag:0,//0未点赞 1点赞
                         list:[],
                     },
                     {
@@ -125,6 +142,7 @@
                         content:"今天天气真好，适合郊外放风筝。",
                         time:'15分钟前',
                         supper:'',
+                        supperFlag:0,//0未点赞 1点赞
                         list:[
                             [
                                 {
@@ -158,6 +176,7 @@
                         content:"今天天气真好，适合郊外放风筝。",
                         time:'15分钟前',
                         supper:'贝贝、晶晶',
+                        supperFlag:0,//0未点赞 1点赞
                         list:[],
                     },
                     {
@@ -166,6 +185,7 @@
                         content:"今天天气真好，适合郊外放风筝。",
                         time:'15分钟前',
                         supper:'贝贝、晶晶',
+                        supperFlag:0,//0未点赞 1点赞
                         list:[
                             [
                                 {
@@ -199,6 +219,7 @@
                         content:"今天天气真好，适合郊外放风筝。",
                         time:'15分钟前',
                         supper:'贝贝、晶晶',
+                        supperFlag:0,//0未点赞 1点赞
                         list:[],
                     },
                     {
@@ -207,6 +228,7 @@
                         content:"今天天气真好，适合郊外放风筝。",
                         time:'15分钟前',
                         supper:'',
+                        supperFlag:0,//0未点赞 1点赞
                         list:[],
                     },
                     {
@@ -215,6 +237,7 @@
                         content:"今天天气真好，适合郊外放风筝。",
                         time:'15分钟前',
                         supper:'',
+                        supperFlag:0,//0未点赞 1点赞
                         list:[
                             [
                                 {
@@ -243,35 +266,118 @@
                         ],
                     },
                 ],
-                showFixed:[],
+                activeIndex:-1,//点击操作项的下标
+                showContent:false,
+                contentFooterObj:{
+                    num:2,
+                    contentPostion:{
+                        i:-1,
+                        j:-1,
+                        k:-1,
+                    }
+                },
+                contentPostion:{//评论回复的位置 friendData i 下标 j friendData.list j 下标 friendData.list[j] k 下标
+                    i:-1,
+                    j:-1,
+                    k:-1,
+                },
             }
         },
         methods:{
-            handleTouchendOption(i){
-                // let childFixed = document.getElementsByClassName('friend-child-fixed')[i];
-                // childFixed.style.display = 'flex';
-                // console.log(i)
-                for (let j=0;j<this.showFixed.length;j++){
-                    console.log(i,j,i==j)
-                    if (i==j){
-                        this.showFixed[i] = true;
-                        console.log(this.showFixed,j)
+            handelFriendTouchend(){//点击其他地方 悬浮框消失
+                this.showContent = false;
+                this.childFixedFn(this.activeIndex,0);
+                this.updataStatus()
+            },
+            handleTouchendSupper(i,e){//点赞
+                e.stopPropagation()
+                if (!this.friendData[i].supperFlag){
+                    if (this.friendData[i].supper !== ''){
+                        this.friendData[i].supper += '、dw';
                     } else {
-                        this.showFixed[i] = false;
-                        console.log(this.showFixed,j)
+                        this.friendData[i].supper += 'dw';
+                    }
+                    this.friendData[i].supperFlag = 1;
+                } else{
+                    let supper = this.friendData[i].supper.split('、');
+                    let supperStr = supper.splice(0,supper.length-1,1).join('、')
+                    this.friendData[i].supper = supperStr;
+                    this.friendData[i].supperFlag = 0;
+                }
+                this.$set(this,'friendData',this.friendData);
+                this.childFixedFn(i,0);
+            },
+            handleTouchendContent(i,e){//评论
+                e.stopPropagation();
+                let child = this.$refs.friendChild;
+                let height = i==0 ? 0 : child[0].clientHeight;
+                console.log(child[0].clientHeight)
+                if (i!==0){
+                    for (let z=0;z<=i-1;z++){
+                        console.log(child[i].clientHeight,height)
+                        height += child[i].clientHeight;
                     }
                 }
-                this.$set(this,'showFixed',this.showFixed);
-                console.log(this.showFixed,i)
-            }
+                this.$refs.friendContent.scrollTop = height;
+                this.showContent = true;
+                this.childFixedFn(i,0);
+            },
+            handleTouchendOption(i,e){//弹出点赞和评论的悬浮框
+                e.stopPropagation()
+                this.activeIndex = i;
+                let child = document.getElementsByClassName('friend-child-fixed');
+                for (let z=0;z<child.length;z++){
+                    if (i!==z){
+                        child[z].style.display = 'none';
+                    }
+                }
+                this.showContent = false;
+                this.childFixedFn(i,1);
+            },
+            childFixedFn(i,num){
+                if (i == -1)return
+                let str = num == 0?'none':'flex';
+                let childFixed = document.getElementsByClassName('friend-child-fixed')[i];
+                childFixed.style.display = str;
+            },
+            handelFooterTouchend(e){
+                e.stopPropagation()
+            },
+            updata(val){
+              if (this.contentPostion.k == -1){
+                  this.friendData[this.activeIndex].list.push([val])
+              } else {
+                  this.friendData[this.contentPostion.i].list[this.contentPostion.j].push(val)
+              }
+              this.$set(this,'friendData',this.friendData);
+              this.updataStatus()
+            },
+            handleTouchendItem(i,j,k,e){
+              e.stopPropagation()
+              let name = this.friendData[i].list[j][k].name;
+              if (name == 'dw'){return}
+              this.contentPostion.i = i;
+              this.contentPostion.j = j;
+              this.contentPostion.k = k;
+              this.childFixedFn(this.activeIndex,0);
+              this.activeIndex = -1;
+              this.contentFooterObj.contentPostion = this.contentPostion;
+              this.showContent = true;
+            },
+            updataStatus(){//重置状态
+                this.contentPostion = {
+                    i:-1,
+                    j:-1,
+                    k:-1,
+                };
+                this.activeIndex = -1;
+            },
         },
         mounted(){
 
         },
         created(){
-            this.friendData.forEach(()=>{
-                this.showFixed.push(false);
-            })
+
         }
     }
 </script>
@@ -308,6 +414,9 @@
                     .friend-child-top{
                         font-weight: bold;
                         color: #576999;
+                    }
+                    .friend-child-top.active{
+                        background: #ddd;
                     }
                     .friend-child-middle{
                         color:#666;
@@ -375,13 +484,16 @@
                                 font-weight: bold;
                             }
                         }
+                        .friend-child-item.active{
+                            background: #ddd;
+                        }
                     }
                 }
                 .friend-child-fixed{
                     position: absolute;
                     bottom: 0;
-                    left: 45%;
-                    width: 40%;
+                    left: 25%;
+                    width: 60%;
                     height: 0.5rem;
                     background: rgba(0,0,0,0.8);
                     /*display: flex;*/
@@ -390,12 +502,14 @@
                     color:#fff;
                     font-size: 0.35rem;
                     border-radius: 5px;
+                    display: none;
                     .friend-fixed-supper,.friend-fixed-content{
                         width: 40%;
                     }
                     .fixed-supper,.fixed-content{
                         width: 0.3rem;
                         height: 0.3rem;
+                        text-align: left;
                         background: pink;
                         border-radius: 50%;
                         display: inline-block;
@@ -407,6 +521,14 @@
                     }
                 }
             }
+        }
+        .friend-content.showContent{
+            height: 84%;
+        }
+        .friend-footer{
+            width: 100%;
+            background: #eee;
+            height: 10%;
         }
     }
 </style>

@@ -27,15 +27,18 @@
             </div>
         </div>
         <div class="wechat-footer display">
-            <input type="text" v-model="sendValue">
-            <button @touchend="handleSend(sendValue)">send</button>
+            <content-footer @on-updata="upData" :contentFooterObj="contentFooterObj"></content-footer>
         </div>
     </div>
 </template>
 
 <script>
+    import contentFooter from './contentFooter.vue';
     export default {
         name: "wechat",
+        components:{
+            contentFooter,
+        },
         data(){
             return{
                 wechatData:[],//内容区的数据
@@ -43,6 +46,9 @@
                 onClickNum:0,//点击发送的次数
                 isactive:false,
                 timer:null,
+                contentFooterObj:{
+                    num:1,
+                }
             }
         },
         methods:{
@@ -55,46 +61,15 @@
                     this.$router.push({path:'/addrbook',query:{}})
                 }
             },
-            handleSend(text){
-                if (text == '') return
-                let obj = {
-                    id:'1000'+this.onClickNum,
-                    time:"",
-                    youSay:'',
-                    mySay:'',
-                }
-                obj.mySay = text;
-                obj.youSay = this.handleAnswer(text);
-                obj.time = this.$common.getTimeStr();
-                let heightArr = this.$refs.wechatchild;
-                console.log(heightArr)
-                let height = 0;
-                if (heightArr !== undefined){
-                    heightArr.forEach((item)=>{
-                        height += item.clientHeight*2
-                    })
-                }
-                console.log(height)
-                this.wechatData.push(obj);
-                this.onClickNum ++;
-                this.$set(this,'wechatData',this.wechatData);
-                this.sendValue = '';
-                // console.log(this.$refs['wechatchild'],this.$refs);
-                // console.log(this.$refs.wechatchild[this.onClickNum].clientHeight);
-            },
-            handleAnswer(text){
-                if (text.indexOf('你好') > -1){
-                    return '谢谢你的问候，你也好呀。'
-                }else if(text !== ''){
-                    return text
-                }
-            },
             handleContentClick(){
                 clearInterval(this.timer)
                 this.isactive = true;
                 this.timer = setInterval(()=>{
                     this.isactive = false;
                 },3000)
+            },
+            upData(val){
+                this.$set(this,'wechatData',val)
             }
         },
         created(){
