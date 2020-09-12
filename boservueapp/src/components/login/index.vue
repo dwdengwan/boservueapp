@@ -366,7 +366,7 @@
             this.calcNum()
         },
         created(){
-
+            localStorage.setItem('isactive',0)
         }
     }
 </script>
