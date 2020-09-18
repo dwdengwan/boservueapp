@@ -58,6 +58,13 @@ export default new Router({
                 title: '自己'
             }
         },
+        {
+            path: '/search',
+            component: resolve => require(['../../components/otherUntil/search.vue'], resolve),
+            meta: {
+                title: '搜索'
+            }
+        },
     ],
 })
 

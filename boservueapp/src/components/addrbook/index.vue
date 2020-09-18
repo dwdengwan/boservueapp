@@ -137,11 +137,11 @@
                     orderCode:bigStr,
                     orderArr:[],
                 }
-                let obj = {
-                    id:'',
-                    name: '',
-                }
                 for (let j=0;j<3;j++){
+                    let obj = {
+                        id:'',
+                        name: '',
+                    }
                     obj.id = (i + 1) + '' + j;
                     obj.name = bigStr + '豆豆' + j;
                     bookobj.orderArr.push(obj)
@@ -166,6 +166,10 @@
                 ]
             });
         },
+        destroyed(){
+            //页面离开时，清除定时器
+            clearInterval(this.timer)
+        },
     }
 </script>
 
@@ -179,7 +183,6 @@
             height: 84%;
             position: relative;
             .addrbook-fixed{
-                /*position: absolute;*/
                 position: fixed;
                 margin-top: 5%;
                 top: 5%;
@@ -188,15 +191,18 @@
                 font-size: 0.45rem;
                 ul{
                     text-align: center;
+                    li{
+
+                        font-size:0.4rem;
+                        border-radius: 5px;
+                    }
                     li.scroll{
                         background: rgba(22, 200, 67, 0.5);
                         color:#fff;
-                        border-radius: 5px;
                     }
                     li.active{
                         background: green;
                         color:#fff;
-                        border-radius: 5px;
                     }
                 }
             }

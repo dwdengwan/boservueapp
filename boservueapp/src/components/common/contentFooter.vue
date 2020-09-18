@@ -74,6 +74,14 @@
                     }
                     this.$emit('on-updata-friendData',obj);
                     this.$parent.showContent = false;
+                } else if (this.typeNum == 3){
+                    //搜索区域
+                    console.log('search')
+                    let obj = {
+                        showResult:true,
+                        other:{}
+                    }
+                    this.$emit('on-updata-search',obj)
                 }
                 this.sendValue = '';
                 // console.log(this.$refs['wechatchild'],this.$refs);

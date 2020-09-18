@@ -1,7 +1,7 @@
 <template>
     <!--带有返回功能的头部-->
     <div class="friend-back">
-        <span style="width: 20%;display: inline-block;" @click="handleClickBack">
+        <span style="width: auto;display: inline-block;" @click="handleClickBack">
             <span class="friend-goback">&lt;</span>
             <span class="friend-name">朋友圈</span>
         </span>
@@ -33,8 +33,7 @@
     align-items: center;
     .friend-goback{}
     .friend-name{
-        margin-left: 2%;
-        margin-right: 2%;
+        margin: 0 0.3rem;
     }
 }
 </style>

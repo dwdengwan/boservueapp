@@ -3,7 +3,7 @@
         <div class="wechat-header">
             <div class="wechat-header-back" @click="handleClick">
                 <span>&lt;</span>
-                <span class="wechat-header-name">豆豆</span>
+                <span class="wechat-header-name">豆豆{{id}}</span>
             </div>
             <div class="wechat-header-dd">
                 <span>...</span>
@@ -48,13 +48,13 @@
                 timer:null,
                 contentFooterObj:{
                     num:1,
-                }
+                },
+                id:0,
             }
         },
         methods:{
             handleClick(){
                 let type = this.$route.query.type;
-                console.log(type)
                 if (type == '0'){
                     this.$router.push({path:'/',query:{}})
                 } else if (type == '1'){
@@ -73,7 +73,8 @@
             }
         },
         created(){
-
+            let id = this.$route.query.id;
+            this.id = id;
         }
     }
 </script>
@@ -96,13 +97,13 @@
          padding: 0 2%;
          .wechat-header-back{
              display: flex;
-             justify-content: space-between;
+             justify-content: flex-start;
              align-items: center;
-             width: 15%;
+             width: 70%;
              .wechat-header-name{
                  font-size: 0.4rem;
                  color:#666;
-                 /*margin-right:2%;*/
+                 margin:0 2%;
              }
          }
      }
@@ -175,7 +176,8 @@
          }
      }
      .wechat-content.active{
-         background: green;
+         /*background: green;*/
+         background: #fff;
          opacity: 1;
          transition: opacity 2s;
      }

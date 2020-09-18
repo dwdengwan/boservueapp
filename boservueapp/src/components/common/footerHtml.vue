@@ -83,26 +83,28 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: space-around;
+        justify-content: center;
         width: 25%;
         height: 100%;
         .footer-html-img{
-            width: 1rem;
-            height: 1rem;
+            width: 0.8rem;
+            height: 0.8rem;
             border-radius: 50%;
             /*background: rgb(0,200,0);*/
             background: #666;
             position: relative;
             .footer-html-flag{
-                width: 0.5rem;
-                height: 0.5rem;
+                width: 0.4rem;
+                height: 0.4rem;
+                line-height: 0.4rem;
+                text-align: center;
                 border-radius: 50%;
                 background: red;
                 position: absolute;
                 top: -5%;
                 right: -5%;
                 color:#fff;
-                font-size: 0.2rem;
+                font-size: 0.3rem;
                 display: flex;
                 justify-content: center;
                 align-items: center;
@@ -110,9 +112,8 @@
         }
         .footer-html-title{
             text-align: center;
-            /*color:rgb(0,200,0);*/
             color: #666;
-            font-size:0.4rem;
+            font-size:0.35rem;
         }
     }
     .footer-html-child.active{

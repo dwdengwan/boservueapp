@@ -228,7 +228,8 @@
                     //此处为点击事件----在此处添加跳转详情页
                     if (num == 1){
                         //原始页面
-                        this.$router.push({path:'/wechat',query:{type:'0'}})
+                        let id = item.id;
+                        this.$router.push({path:'/wechat',query:{type:'0',id}})
                     } else {
                         //弹出层页面
                         this.isHandTouch = false;
@@ -399,13 +400,15 @@
                         .login-child-flag{
                             width: 0.5rem;
                             height: 0.5rem;
+                            line-height: 0.5rem;
+                            text-align: center;
                             border-radius: 50%;
                             background: red;
                             position: absolute;
                             top: -10%;
                             right: -10%;
                             color:#fff;
-                            font-size: 0.2rem;
+                            font-size: 0.3rem;
                             display: flex;
                             justify-content: center;
                             align-items: center;
