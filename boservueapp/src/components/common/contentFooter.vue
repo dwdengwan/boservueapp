@@ -16,6 +16,7 @@
                 onClickNum:0,
                 childData:[],
                 typeNum:-1,
+
             }
         },
         methods:{
@@ -79,7 +80,7 @@
                     console.log('search')
                     let obj = {
                         showResult:true,
-                        other:{}
+                        text,
                     }
                     this.$emit('on-updata-search',obj)
                 }
@@ -103,7 +104,7 @@
 
 <style scoped lang="less">
 .content-footer{
-    width: 100%;
+    width: 96%;
     height: 100%;
     background: #eee;
     padding: 0 2%;

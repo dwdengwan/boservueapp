@@ -82,7 +82,7 @@
             },
             handleGoBack(id,e){
                 e.stopPropagation();
-                this.$router.push({path:'/wechat',query:{id,type:'1'}})
+                // this.$router.push({path:'/wechat',query:{id,type:'1'}})
             },
             handleTouchStart(){
 
@@ -123,6 +123,51 @@
                 } else {
                     this.scrollHeight = parseInt(localStorage.getItem('ascrollHeight'))
                 }
+            },
+            addDataPush(name){//数据的追加
+                for(let i=0;i<26;i++){
+                    let bigStr = String.fromCharCode(65+i);
+                    let j = 3;
+                    if (name !== undefined){
+                        j = name.split('')[0].toUpperCase() == bigStr ? 4:3;
+                    }
+                    this.items.push(bigStr);//输出A-Z 26个大写字母
+                    let bookobj = {
+                        orderCode:bigStr,
+                        orderArr:[],
+                    }
+                    for (let k=0;k<j;k++){
+                        let obj = {
+                            id:'',
+                            name: '',
+                        }
+                        obj.id = (i + 1) + '' + k;
+                        if ( k < 3){
+                            obj.name = bigStr + '豆豆' + k;
+                        } else if (k == 3){
+                            obj.name = name;
+                        }
+                        bookobj.orderArr.push(obj)
+                    }
+                    this.addrbookData.push(bookobj)
+                }
+                this.addrbookData.unshift({
+                    orderCode:'',
+                    orderArr:[
+                        {
+                            id:'01',
+                            name:'中国电信客服'
+                        },
+                        {
+                            id:'02',
+                            name:'中国移动客服'
+                        },
+                        {
+                            id:'03',
+                            name:'中国联调客服'
+                        },
+                    ]
+                });
             }
         },
         mounted(){
@@ -130,41 +175,10 @@
             this.$refs.addrbookcontent.scrollTop = this.scrollHeight;
         },
         created(){
-            for(let i=0;i<26;i++){
-                let bigStr = String.fromCharCode(65+i)
-                this.items.push(bigStr);//输出A-Z 26个大写字母
-                let bookobj = {
-                    orderCode:bigStr,
-                    orderArr:[],
-                }
-                for (let j=0;j<3;j++){
-                    let obj = {
-                        id:'',
-                        name: '',
-                    }
-                    obj.id = (i + 1) + '' + j;
-                    obj.name = bigStr + '豆豆' + j;
-                    bookobj.orderArr.push(obj)
-                }
-                this.addrbookData.push(bookobj)
-            }
-            this.addrbookData.unshift({
-                orderCode:'',
-                orderArr:[
-                    {
-                        id:'01',
-                        name:'中国电信客服'
-                    },
-                    {
-                        id:'02',
-                        name:'中国移动客服'
-                    },
-                    {
-                        id:'03',
-                        name:'中国联调客服'
-                    },
-                ]
-            });
+            console.log(this.$route.query)
+            let name = this.$route.query.name;
+            this.addDataPush(name);
+            console.log(name)
         },
         destroyed(){
             //页面离开时，清除定时器
