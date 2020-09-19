@@ -80,17 +80,20 @@
                 if (leftIndex === '' && index % 3) {
                     this.$set(this.puzzles, index - 1, curIndex);
                     this.$set(this.puzzles, index, '');
+                    this.clickNum ++;
                 } else if (rightIndex === '' && 2 !== index % 3) {
                     this.$set(this.puzzles, index + 1, curIndex);
                     this.$set(this.puzzles, index, '');
+                    this.clickNum ++;
                 } else if (topIndex === '') {
                     this.$set(this.puzzles, index - 3, curIndex);
                     this.$set(this.puzzles, index, '');
+                    this.clickNum ++;
                 } else if (bottomIndex === '') {
                     this.$set(this.puzzles, index + 3, curIndex);
                     this.$set(this.puzzles, index, '');
+                    this.clickNum ++;
                 }
-                this.clickNum ++;
                 this.pass();
             },
             pass() {
