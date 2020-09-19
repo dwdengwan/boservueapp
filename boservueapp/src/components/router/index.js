@@ -48,7 +48,28 @@ export default new Router({
             path: '/found/friend',
             component: resolve => require(['../../components/found/friend/index.vue'], resolve),
             meta: {
-                title: '发现'
+                title: '朋友圈'
+            }
+        },
+        {
+            path: '/found/game',
+            component: resolve => require(['../../components/found/game/index.vue'], resolve),
+            meta: {
+                title: '游戏'
+            }
+        },
+        {
+            path: '/found/game/tetris',
+            component: resolve => require(['../../components/found/game/tetris/index.vue'], resolve),
+            meta: {
+                title: '俄罗斯方块'
+            }
+        },
+        {
+            path: '/found/test',
+            component: resolve => require(['../../components/found/test/index.vue'], resolve),
+            meta: {
+                title: '测试'
             }
         },
         {

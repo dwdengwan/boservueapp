@@ -113,7 +113,7 @@
                     content: '';
                     position: absolute;
                     left: 50%;
-                    top: 50%;
+                    top: 55%;
                     height: 0.6rem;
                     margin-left: -5px;
                     margin-top: -0.4rem;

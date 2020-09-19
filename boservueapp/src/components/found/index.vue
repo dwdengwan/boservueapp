@@ -10,7 +10,7 @@
             <div class="found-child"
                  v-for="(found,index) in foundData"
                  :key="found.id"
-                 @click="handleClickBack(found.path)">
+                 @click="handleClickBack(found)">
                 <div class="found-child-content">
                     <div class="found-child-left">
                         <div class="found-child-img" :style="{'background':$common.randomColor()}"></div>
@@ -20,7 +20,7 @@
                     </div>
                     <div class="found-child-right">
                         <div class="found-child-img" v-if="index < 2" :style="{'background':$common.randomColor()}" ></div>
-                        <div class="found-child-back">&gt;</div>
+                        <div class="found-child-back"></div>
                     </div>
                 </div>
                 <div class="found-kongge" v-if="found.iskongge == '1'"></div>
@@ -72,7 +72,8 @@
                         id:'10005',
                         iskongge:'0',
                         path:'/found',
-                    },{
+                    },
+                    {
                         name:"搜一搜",
                         id:'10006',
                         iskongge:'1',
@@ -94,7 +95,7 @@
                         name:"游戏",
                         id:'10009',
                         iskongge:'1',
-                        path:'/found',
+                        path:'/found/game',
                     },
                     {
                         name:"小程序",
@@ -102,8 +103,12 @@
                         iskongge:'1',
                         path:'/found',
                     },
-
-
+                    {
+                        name:"测试",
+                        id:'10011',
+                        iskongge:'1',
+                        path:'/found/test',
+                    },
                 ],
             }
         },
@@ -121,8 +126,11 @@
             handleTouchEnd(){
                 this.$store.state.countNum = 0;
             },
-            handleClickBack(path){
-                let query = {}
+            handleClickBack(item){
+                let path = item.path;
+                let query = {
+                    name : item.name
+                }
                 this.$router.push({path,query})
             }
         },
@@ -174,6 +182,14 @@
                             background: green;
                             margin-left: 5%;
                             margin-right: 5%;
+                        }
+                        .found-child-back{
+                            width: 0.25rem;
+                            height: 0.25rem;
+                            border-top: 2px solid #666;
+                            border-right: 2px solid #666;
+                            transform: rotate(45deg);
+                            display: inline-block;
                         }
                     }
                 }

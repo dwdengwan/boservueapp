@@ -2,8 +2,8 @@
     <!--带有返回功能的头部-->
     <div class="friend-back">
         <span style="width: auto;display: inline-block;" @click="handleClickBack">
-            <span class="friend-goback">&lt;</span>
-            <span class="friend-name">朋友圈</span>
+            <span class="friend-goback"></span>
+            <span class="friend-name">{{name}}</span>
         </span>
     </div>
 </template>
@@ -12,13 +12,19 @@
     export default {
         name: "goBackHeader",
         data(){
-            return {}
+            return {
+                name:"朋友圈"
+            }
         },
         methods:{
             handleClickBack(){
-                let query = {};
-                this.$router.push({path:'/found',query})
+                // let query = {};
+                this.$router.back(-1);
+                // this.$router.push({path:'/found',query})
             }
+        },
+        created(){
+            this.name = this.$route.query.name;
         }
     }
 </script>
@@ -31,7 +37,14 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    .friend-goback{}
+    .friend-goback{
+        width: 0.25rem;
+        height: 0.25rem;
+        border-bottom: 2px solid #666;
+        border-left: 2px solid #666;
+        transform: rotate(45deg);
+        display: inline-block;
+    }
     .friend-name{
         margin: 0 0.3rem;
     }

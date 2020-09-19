@@ -2,8 +2,8 @@
     <div class="wechat">
         <div class="wechat-header">
             <div class="wechat-header-back" @click="handleClick">
-                <span>&lt;</span>
-                <span class="wechat-header-name">豆豆{{id}}</span>
+                <span class="wechat-header-goback"></span>
+                <span class="wechat-header-name">{{name}}</span>
             </div>
             <div class="wechat-header-dd">
                 <span>...</span>
@@ -49,7 +49,7 @@
                 contentFooterObj:{
                     num:1,
                 },
-                id:0,
+                name:'豆豆',
             }
         },
         methods:{
@@ -73,8 +73,8 @@
             }
         },
         created(){
-            let id = this.$route.query.id;
-            this.id = id;
+            let name = this.$route.query.name;
+            this.name = name;
         }
     }
 </script>
@@ -100,6 +100,14 @@
              justify-content: flex-start;
              align-items: center;
              width: 70%;
+             .wechat-header-goback{
+                 width: 0.25rem;
+                 height: 0.25rem;
+                 border-bottom: 2px solid #666;
+                 border-left: 2px solid #666;
+                 transform: rotate(45deg);
+                 display: inline-block;
+             }
              .wechat-header-name{
                  font-size: 0.4rem;
                  color:#666;

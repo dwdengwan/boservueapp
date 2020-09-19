@@ -228,8 +228,8 @@
                     //此处为点击事件----在此处添加跳转详情页
                     if (num == 1){
                         //原始页面
-                        let id = item.id;
-                        this.$router.push({path:'/wechat',query:{type:'0',id}})
+                        let name = item.name;
+                        this.$router.push({path:'/wechat',query:{type:'0',name}})
                     } else {
                         //弹出层页面
                         this.isHandTouch = false;

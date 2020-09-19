@@ -12,7 +12,7 @@
                 <div class="addrbook-auther"
                      v-for="(bitem,bindex) in item.orderArr"
                      :key="bindex"
-                     @click="handleGoBack(bitem.id,$event)">
+                     @click="handleGoBack(bitem,bindex,$event)">
                     <span class="addrbook-child-img" :style="{background:$common.randomColor()}"></span>
                     <span class="addrbook-name">{{bitem.name}}</span>
                 </div>
@@ -80,9 +80,11 @@
                     }
                 },2)
             },
-            handleGoBack(id,e){
+            handleGoBack(item,i,e){
                 e.stopPropagation();
-                // this.$router.push({path:'/wechat',query:{id,type:'1'}})
+                let name = item.name;
+                console.log(item.name,i)
+                this.$router.push({path:'/wechat',query:{name,type:'1'}})
             },
             handleTouchStart(){
 

@@ -85,6 +85,7 @@
             width: 20%;
             background: #f0f0f0;
             font-size: 0.3rem;
+            z-index: 1126;
             .header-html-fixed-child{
                 width: 80%;
                 padding: 5% 10%;
