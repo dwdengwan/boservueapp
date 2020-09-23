@@ -66,10 +66,24 @@ export default new Router({
             }
         },
         {
+            path: '/found/game/snake',
+            component: resolve => require(['../../components/found/game/snake/index.vue'], resolve),
+            meta: {
+                title: '贪吃蛇'
+            }
+        },
+        {
+            path: '/found/game/buildBlocks',
+            component: resolve => require(['../../components/found/game/buildBlocks/index.vue'], resolve),
+            meta: {
+                title: '积木'
+            }
+        },
+        {
             path: '/found/test',
             component: resolve => require(['../../components/found/test/index.vue'], resolve),
             meta: {
-                title: '测试'
+                title: '华容道'
             }
         },
         {

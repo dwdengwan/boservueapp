@@ -33,12 +33,17 @@
                     {
                         name:"贪吃蛇",
                         id:"10002",
-                        path:""
+                        path:"/found/game/snake"
                     },
                     {
                         name:"华容道",
                         id:"10003",
                         path:"/found/test"
+                    },
+                    {
+                        name:"积木",
+                        id:"10004",
+                        path:"/found/game/buildBlocks"
                     },
                 ]
             }
