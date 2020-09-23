@@ -14,6 +14,10 @@ import  'amfe-flexible' //引入rem
 import echarts from 'echarts' //引入echarts
 Vue.prototype.$echarts = echarts //引入组件
 
+import echartsGL from 'echarts-gl' // 引入echarts
+Vue.prototype.$echartsGL = echartsGL // 引入组件（将echarts注册为全局）
+
+
 Vue.prototype.$common = common;
 Vue.config.productionTip = false
 
