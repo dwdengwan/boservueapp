@@ -45,6 +45,11 @@
                         id:"10004",
                         path:"/found/game/buildBlocks"
                     },
+                    {
+                        name:"k折线图",
+                        id:"10005",
+                        path:"/found/game/kline"
+                    },
                 ]
             }
         },

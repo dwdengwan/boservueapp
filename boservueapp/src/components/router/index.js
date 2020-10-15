@@ -80,6 +80,13 @@ export default new Router({
             }
         },
         {
+            path: '/found/game/buildBlocks',
+            component: resolve => require(['../../components/found/game/kline/index.vue'], resolve),
+            meta: {
+                title: 'k折线图'
+            }
+        },
+        {
             path: '/found/test',
             component: resolve => require(['../../components/found/test/index.vue'], resolve),
             meta: {
