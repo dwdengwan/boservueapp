@@ -59,6 +59,13 @@ export default new Router({
             }
         },
         {
+            path: '/found/shake',
+            component: resolve => require(['../../components/found/shake/index.vue'], resolve),
+            meta: {
+                title: '摇一摇'
+            }
+        },
+        {
             path: '/found/game',
             component: resolve => require(['../../components/found/game/index.vue'], resolve),
             meta: {

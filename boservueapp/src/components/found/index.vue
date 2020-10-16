@@ -65,7 +65,7 @@
                         name:"摇一摇",
                         id:'10004',
                         iskongge:'1',
-                        path:'/found',
+                        path:'/found/shake',
                     },
                     {
                         name:"看一看",
