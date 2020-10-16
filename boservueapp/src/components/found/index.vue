@@ -59,7 +59,7 @@
                         name:"扫一扫",
                         id:'10003',
                         iskongge:'0',
-                        path:'/found',
+                        path:'/found/scan',
                     },
                     {
                         name:"摇一摇",

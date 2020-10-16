@@ -73,8 +73,11 @@
 <script>
     import footerHtml from '../common/footerHtml';
     import headerHtml from '../common/headerHtml';
+    import {toggle} from "../mixins/toggle";
+
     export default {
         name: "index",
+        mixins:[toggle],
         components:{
             footerHtml,headerHtml
         },

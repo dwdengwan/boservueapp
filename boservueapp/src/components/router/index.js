@@ -52,6 +52,13 @@ export default new Router({
             }
         },
         {
+            path: '/found/scan',
+            component: resolve => require(['../../components/found/scan/index.vue'], resolve),
+            meta: {
+                title: '扫一扫'
+            }
+        },
+        {
             path: '/found/game',
             component: resolve => require(['../../components/found/game/index.vue'], resolve),
             meta: {

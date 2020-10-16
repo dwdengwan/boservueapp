@@ -1,7 +1,7 @@
 <template>
     <!--带有评论的页面-->
     <div class="content-footer display">
-        <textarea type="textear" v-model="sendValue" rows='1' max-rows="3"></textarea>
+        <textarea type="textear" v-model="sendValue" rows='1' max-rows="3" v-focus></textarea>
         <button @touchend="handleSend(sendValue)">send</button>
     </div>
 </template>
