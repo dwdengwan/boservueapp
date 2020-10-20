@@ -38,7 +38,7 @@
                     {
                         name:"华容道",
                         id:"10003",
-                        path:"/found/test"
+                        path:"/found/game/huarongdao"
                     },
                     {
                         name:"积木",

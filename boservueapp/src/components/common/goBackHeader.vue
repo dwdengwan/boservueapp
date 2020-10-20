@@ -1,16 +1,21 @@
 <template>
     <!--带有返回功能的头部-->
     <div class="friend-back">
-        <span style="width: auto;display: inline-block;" @click="handleClickBack">
+        <span style="width: auto;display: inline-block;" @touchend="handleClickBack">
             <span class="friend-goback"></span>
             <span class="friend-name">{{name}}</span>
         </span>
+        <confirm-fixed ref="confirmFixed"></confirm-fixed>
     </div>
 </template>
 
 <script>
+    import confirmFixed from './confirmFixed'
     export default {
         name: "goBackHeader",
+        components:{
+            confirmFixed
+        },
         data(){
             return {
                 name:"朋友圈"
@@ -18,9 +23,7 @@
         },
         methods:{
             handleClickBack(){
-                // let query = {};
-                this.$router.back(-1);
-                // this.$router.push({path:'/found',query})
+                this.$refs.confirmFixed.goBack();
             }
         },
         created(){

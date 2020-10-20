@@ -10,7 +10,7 @@
             <div class="found-child"
                  v-for="(found,index) in foundData"
                  :key="found.id"
-                 @click="handleClickBack(found)">
+                 @touchend="handleClickBack(found)">
                 <div class="found-child-content">
                     <div class="found-child-left">
                         <div class="found-child-img" :style="{'background':$common.randomColor()}"></div>

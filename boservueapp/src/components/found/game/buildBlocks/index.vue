@@ -798,7 +798,7 @@
                 //myChart.setOption(option);
 
                 // 监听鼠标点击事件
-                myChart.on('click', params => {
+                myChart.on('touchend', params => {
                     console.log(params)
 
                     // 菜单操作处理

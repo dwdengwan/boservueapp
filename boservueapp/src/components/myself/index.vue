@@ -19,7 +19,7 @@
                     </div>
                 </div>
                 <div class="myself-first-right">
-                    <div class="myself-first-erweima" @click="handleClick($event)"></div>
+                    <div class="myself-first-erweima" @touchend="handleClick($event)"></div>
                     <div class="myself-first-back">&gt;</div>
                 </div>
             </div>
@@ -41,7 +41,7 @@
                 <div class="myself-kongge" v-if="myself.iskongge == '1'"></div>
             </div>
         </div>
-        <div class="myself-fixed" :class="!active?'active':''" @click="handleClickFixed">
+        <div class="myself-fixed" :class="!active?'active':''" @touchend="handleClickFixed">
             <div class="myself-fixed-child"></div>
         </div>
         <div class="footer myself-footer">

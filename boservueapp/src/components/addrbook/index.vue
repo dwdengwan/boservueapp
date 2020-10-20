@@ -6,13 +6,13 @@
         <div class="header addrbook-header">
             <header-html></header-html>
         </div>
-        <div class="content addrbook-content" ref="addrbookcontent" @click="handleClickContent" @scroll="handleScroll">
+        <div class="content addrbook-content" ref="addrbookcontent" @touchend="handleClickContent" @scroll="handleScroll">
             <div class="addrbook-child" v-for="item in addrbookData" :key="item.orderCode" ref="addrbookchild">
                 <div class="addrbook-kongge" v-if="item.orderCode !== ''">{{item.orderCode}}</div>
                 <div class="addrbook-auther"
                      v-for="(bitem,bindex) in item.orderArr"
                      :key="bindex"
-                     @click="handleGoBack(bitem,bindex,$event)">
+                     @touchend="handleGoBack(bitem,bindex,$event)">
                     <span class="addrbook-child-img" :style="{background:$common.randomColor()}"></span>
                     <span class="addrbook-name">{{bitem.name}}</span>
                 </div>
@@ -20,7 +20,7 @@
             <div class="addrbook-fixed">
                 <ul>
                     <li
-                        @click="handleClick(index,$event)"
+                        @touchend="handleClick(index,$event)"
                         v-for="(item,index) in items"
                         :key="index"
                         :class="{ active: activeIndex == index, scroll:ascroll == index }">

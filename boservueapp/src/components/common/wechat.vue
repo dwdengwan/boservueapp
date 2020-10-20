@@ -1,7 +1,7 @@
 <template>
     <div class="wechat">
         <div class="wechat-header">
-            <div class="wechat-header-back" @click="handleClick">
+            <div class="wechat-header-back" @touchend="handleClick">
                 <span class="wechat-header-goback"></span>
                 <span class="wechat-header-name">{{name}}</span>
             </div>
@@ -10,7 +10,7 @@
             </div>
         </div>
         <div class="wechat-content"
-             @click="handleContentClick"
+             @touchend="handleContentClick"
              :class="isactive?'active':''">
             <div class="wechat-child" v-for="item in wechatData" :key="item.id" ref="wechatchild">
                 <div class="wechat-child-time">
@@ -55,6 +55,7 @@
         methods:{
             handleClick(){
                 let type = this.$route.query.type;
+                console.log(type)
                 if (type == '0'){
                     this.$router.push({path:'/',query:{}})
                 } else if (type == '1'){
@@ -75,6 +76,9 @@
         created(){
             let name = this.$route.query.name;
             this.name = name;
+        },
+        destroyed(){
+            sessionStorage.setItem('login','0')
         }
     }
 </script>

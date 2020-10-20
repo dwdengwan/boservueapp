@@ -33,7 +33,7 @@
                     innerHTML: 'Hello Vue!'
                 },
                 on: {
-                    click: this.handleClick
+                    touchend: this.handleClick
                 }
             },)
         },

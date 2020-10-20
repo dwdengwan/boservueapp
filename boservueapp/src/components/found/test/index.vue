@@ -8,7 +8,7 @@
             <div class="box">
                 <transition-group name="cell" tag="div" class="container">
                     <div
-                        @click.prevent="clickBlock(index)"
+                        @touchend.prevent="clickBlock(index)"
                         v-for="(puzzle,index) in puzzles"
                         :key="puzzle"
                         v-text="puzzle"
