@@ -71,11 +71,12 @@ homeRouter.beforeEach((to, from, next) => {
         isWeChat
     } = to.meta;
     let flag = parseInt(sessionStorage.getItem('login'));
+    let type = sessionStorage.getItem('isWeChat');
     if (isWeChat && !flag) {
         next({
             path: '/notfound',
             query:{
-                type:'0',
+                type,
             }
         })
     } else {

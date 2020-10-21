@@ -54,7 +54,8 @@
         },
         methods:{
             handleClick(){
-                let type = this.$route.query.type;
+                // let type = this.$route.query.type;
+                let type = sessionStorage.getItem('isWeChat');
                 console.log(type)
                 if (type == '0'){
                     this.$router.push({path:'/',query:{}})
@@ -74,7 +75,8 @@
             }
         },
         created(){
-            let name = this.$route.query.name;
+            // let name = this.$route.query.name;
+            let name = sessionStorage.getItem('userName');
             this.name = name;
         },
         destroyed(){

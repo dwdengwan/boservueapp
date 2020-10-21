@@ -12,6 +12,7 @@
                 <div class="addrbook-auther"
                      v-for="(bitem,bindex) in item.orderArr"
                      :key="bindex"
+                     @touchstart="handleTouchStart(bitem,bindex,$event)"
                      @touchend="handleGoBack(bitem,bindex,$event)">
                     <span class="addrbook-child-img" :style="{background:$common.randomColor()}"></span>
                     <span class="addrbook-name">{{bitem.name}}</span>
@@ -51,6 +52,8 @@
                 timer:null,
                 scrollHeight:0,//当前滚动条的高度
                 ascroll:0,
+                longClick:0,
+                timeOutEvent:0,
             }
         },
         methods:{
@@ -81,13 +84,21 @@
                 },2)
             },
             handleGoBack(item,i,e){
-                e.stopPropagation();
-                let name = item.name;
-                console.log(item.name,i)
-                this.$router.push({path:'/wechat',query:{name,type:'1'}})
+                clearTimeout(this.timeOutEvent);
+                if(this.timeOutEvent!=0 && this.longClick==0){//点击事件
+                    e.stopPropagation();
+                    let name = item.name;
+                    sessionStorage.setItem('userName',name);
+                    console.log(item.name,i)
+                    this.$router.push({path:'/wechat',query:{name,type:'1'}})
+                }
             },
             handleTouchStart(){
-
+                this.longClick=0;//设置初始为0
+                this.timeOutEvent = setTimeout(()=>{
+                    //此处为长按事件-----在此显示遮罩层及删除按钮
+                    this.longClick=1;//假如长按，则设置为1
+                },300);
             },
             handleTouchMove(){
                 let params = {
@@ -166,7 +177,7 @@
                         },
                         {
                             id:'03',
-                            name:'中国联调客服'
+                            name:'中国联通客服'
                         },
                     ]
                 });
@@ -178,6 +189,7 @@
         },
         created(){
             console.log(this.$route.query)
+            sessionStorage.setItem('isWeChat',1)
             let name = this.$route.query.name;
             this.addDataPush(name);
             console.log(name)

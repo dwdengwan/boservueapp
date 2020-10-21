@@ -211,7 +211,7 @@
                 this.timeOutEvent = setTimeout(()=>{
                     //此处为长按事件-----在此显示遮罩层及删除按钮
                     this.longClick=1;//假如长按，则设置为1
-                },500);
+                },300);
             },
             handleTouchMove(){
                 clearTimeout(this.timeOutEvent);
@@ -232,6 +232,7 @@
                     if (num == 1){
                         //原始页面
                         let name = item.name;
+                        sessionStorage.setItem('userName',name);
                         this.$router.push({path:'/wechat',query:{type:'0',name}})
                     } else {
                         //弹出层页面
@@ -370,7 +371,8 @@
             this.calcNum()
         },
         created(){
-            localStorage.setItem('isactive',0)
+            localStorage.setItem('isactive',0);
+            sessionStorage.setItem('isWeChat',0);
         }
     }
 </script>
