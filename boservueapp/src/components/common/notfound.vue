@@ -3,7 +3,7 @@
         <div class="login-top" v-show="showTop"></div>
         <!--@touchend="handleClick(0)"-->
         <div
-                class="login-middle">
+            class="login-middle">
             <div class="middle-title">
                 <span
                     :class="formData.activeIndex==0 ? 'active':''"
@@ -19,46 +19,47 @@
             </div>
             <div class="log-password">
                 <input
-                        type="text"
-                        placeholder="请输入手机号码"
-                        @focus="phoneFocus(0)"
-                        id="phone"
-                        @blur="phoneBlur(0)"
-                        @input = 'phoneTest(formData.phone)'
-                        v-model="formData.phone">
+                    type="text"
+                    placeholder="请输入手机号码"
+                    @focus="phoneFocus(0)"
+                    id="phone"
+                    @blur="phoneBlur(0)"
+                    @input = 'phoneTest(formData.phone)'
+                    v-model="formData.phone">
+                <!--<div class="phone-input"></div>-->
                 <div
-                        class="log-phone"
-                        v-show="clearPhone"
-                        @touchend="phoneClear">
+                    class="log-phone"
+                    v-show="clearPhone"
+                    @touchend="phoneClear">
 
                 </div>
             </div>
             <div class="log-password">
                 <input
-                        :type="changePass"
-                        placeholder="请输入密码"
-                        @focus="phoneFocus(1)"
-                        id="password"
-                        @blur="phoneBlur(1)"
-                        @input = 'phoneTest(formData.password)'
-                        v-model="formData.password">
+                    :type="changePass"
+                    placeholder="请输入密码"
+                    @focus="phoneFocus(1)"
+                    id="password"
+                    @blur="phoneBlur(1)"
+                    @input = 'phoneTest(formData.password)'
+                    v-model="formData.password">
                 <div
-                        class="log-see"
-                        @touchend="changePassTake(0)">
+                    class="log-see"
+                    @touchend="changePassTake(0)">
                 </div>
             </div>
             <div class="log-password" v-show="formData.activeIndex == 1">
                 <input
-                        :type="changePass2"
-                        placeholder="请再次输入密码"
-                        id="password2"
-                        @focus="phoneFocus(2)"
-                        @blur="phoneBlur(2)"
-                        @input = 'phoneTest(formData.aginPassword)'
-                        v-model="formData.aginPassword">
+                    :type="changePass2"
+                    placeholder="请再次输入密码"
+                    id="password2"
+                    @focus="phoneFocus(2)"
+                    @blur="phoneBlur(2)"
+                    @input = 'phoneTest(formData.aginPassword)'
+                    v-model="formData.aginPassword">
                 <div
-                        class="log-see"
-                        @touchend="changePassTake(1)">
+                    class="log-see"
+                    @touchend="changePassTake(1)">
                 </div>
             </div>
             <div class="log-button">
@@ -212,7 +213,7 @@
         height: 50%;
     }
     .login-top{
-        border-bottom: 1px solid rgba(255,255,255,0.3);
+        border-bottom: 1px dashed rgba(255,255,255,0.3);
         height: calc(50% - 1px);
     }
     .login-middle{
@@ -262,7 +263,7 @@
         }
         .log-password{
             position: relative;
-            div{
+            .log-phone,.log-see{
                 position: absolute;
                 top: 0;
                 right: 12%;
@@ -270,6 +271,15 @@
                 height: 0.5rem;
                 border-radius: 50%;
                 background-color: rgba(0,0,0,0.8);
+            }
+            .phone-input{
+                width: 75%;
+                height: 75%;
+                background-color: rgba(0,0,0,0.3);
+                border: rgba(0,0,0,0.3);
+                padding: 2%;
+                color:#fff;
+                font-size: 0.4rem;
             }
             .log-see{
                 background-color: rgba(0,0,0,0.6);
@@ -279,7 +289,7 @@
     .login-bottom{
         width: 100%;
         height: calc(50% - 1px);
-        border-top: 1px solid rgba(255,255,255,0.3);
+        border-top: 1px dashed rgba(255,255,255,0.3);
         .key-num{
             width: 100%;
             height: 100%;
