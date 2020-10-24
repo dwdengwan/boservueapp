@@ -1,12 +1,18 @@
 <template>
+    <!--@touchstart="handleTouchStart"-->
+    <!--@touchmove="handleTouchMove"-->
+    <!--@touchend="handleTouchEnd"-->
     <div class="all addrbook">
         <div class="header addrbook-header">
             <header-html></header-html>
         </div>
-        <div class="content addrbook-content">
-            <div class="addrbook-child" v-for="item in addrbookData" :key="item.orderCode">
+        <div class="content addrbook-content" ref="addrbookcontent" @click="handleClickContent" @scroll="handleScroll">
+            <div class="addrbook-child" v-for="item in addrbookData" :key="item.orderCode" ref="addrbookchild">
                 <div class="addrbook-kongge" v-if="item.orderCode !== ''">{{item.orderCode}}</div>
-                <div class="addrbook-auther" v-for="(bitem,bindex) in item.orderArr" :key="bindex" @click="handleGoBack(bitem.id)">
+                <div class="addrbook-auther"
+                     v-for="(bitem,bindex) in item.orderArr"
+                     :key="bindex"
+                     @click="handleGoBack(bitem.id,$event)">
                     <span class="addrbook-child-img" :style="{background:$common.randomColor()}"></span>
                     <span class="addrbook-name">{{bitem.name}}</span>
                 </div>
@@ -14,10 +20,10 @@
             <div class="addrbook-fixed">
                 <ul>
                     <li
-                        @click="handleClick(index)"
+                        @click="handleClick(index,$event)"
                         v-for="(item,index) in items"
                         :key="index"
-                        :class="activeIndex == index?'active':''">
+                        :class="{ active: activeIndex == index, scroll:ascroll == index }">
                         {{item}}
                     </li>
                 </ul>
@@ -41,20 +47,87 @@
             return {
                 addrbookData:[],
                 items:[],
-                activeIndex:-1,
+                activeIndex:-1,//点击位置的下标
+                timer:null,
+                scrollHeight:0,//当前滚动条的高度
+                ascroll:0,
             }
         },
         methods:{
-            handleClick(i){
+            handleClick(i,e){
+                e.stopPropagation();
+                let height = 0;
+                // let zmj = 0;//进过的位置下标
+                let heightArr = [];
                 this.activeIndex = i;
+                clearInterval(this.timer)
+                for (let z=0;z<i+1;z++){
+                    height += this.$refs.addrbookchild[z].offsetHeight;
+                    heightArr.push(height)
+                }
+                localStorage.setItem('heightArr',heightArr)
+                this.oldScrollLocation()
+                this.timer = setInterval(()=>{
+                    if (this.scrollHeight < height){
+                        this.scrollHeight ++;
+                    } else{
+                        this.scrollHeight --;
+                    }
+                    this.$refs.addrbookcontent.scrollTop = this.scrollHeight;
+                    if (this.scrollHeight == height){
+                        clearInterval(this.timer)
+                        this.ascroll = -1;
+                    }
+                },2)
             },
-            handleGoBack(id){
-                console.log(id)
+            handleGoBack(id,e){
+                e.stopPropagation();
                 this.$router.push({path:'/wechat',query:{id,type:'1'}})
+            },
+            handleTouchStart(){
+
+            },
+            handleTouchMove(){
+                let params = {
+                    that:this,
+                    nowNum:1,
+                }
+                this.$store.commit('moveLeftRight',params)
+            },
+            handleTouchEnd(){
+                this.$store.state.countNum = 0;
+            },
+            handleClickContent(){
+                clearInterval(this.timer)
+            },
+            handleScroll(){
+                //滚动条滚动经过的位置 指示器变化
+                let height = 0;
+                let scrollHeight = this.$refs.addrbookcontent.scrollTop;
+                localStorage.setItem('ascrollHeight',scrollHeight)
+                let scrollHeightArr = [];
+                let len = this.$refs.addrbookchild.length;
+                for (let z=0;z<len;z++){
+                    height += this.$refs.addrbookchild[z].offsetHeight;
+                    scrollHeightArr.push(height)
+                }
+                for (let m=0;m<scrollHeightArr.length;m++){
+                    if (scrollHeight>scrollHeightArr[m-1]&&scrollHeight<scrollHeightArr[m]&&m!==0){
+                        this.ascroll = m-1;
+                    }
+                }
+            },
+            oldScrollLocation(){
+                if (localStorage.getItem('ascrollHeight')==null){
+                    this.scrollHeight = 0;
+                } else {
+                    this.scrollHeight = parseInt(localStorage.getItem('ascrollHeight'))
+                }
             }
         },
         mounted(){
-
+            this.oldScrollLocation()
+            this.$refs.addrbookcontent.scrollTop = this.scrollHeight;
         },
         created(){
             for(let i=0;i<26;i++){
@@ -72,7 +145,6 @@
                     obj.id = (i + 1) + '' + j;
                     obj.name = bigStr + '豆豆' + j;
                     bookobj.orderArr.push(obj)
-                    // console.log(obj,bookobj)
                 }
                 this.addrbookData.push(bookobj)
             }
@@ -93,7 +165,6 @@
                     },
                 ]
             });
-            // console.log(this.addrbookData)
         },
     }
 </script>
@@ -117,6 +188,11 @@
                 font-size: 0.45rem;
                 ul{
                     text-align: center;
+                    li.scroll{
+                        background: rgba(22, 200, 67, 0.5);
+                        color:#fff;
+                        border-radius: 5px;
+                    }
                     li.active{
                         background: green;
                         color:#fff;

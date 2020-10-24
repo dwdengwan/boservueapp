@@ -45,6 +45,13 @@ export default new Router({
             }
         },
         {
+            path: '/found/friend',
+            component: resolve => require(['../../components/found/friend/index.vue'], resolve),
+            meta: {
+                title: '发现'
+            }
+        },
+        {
             path: '/myself',
             component: resolve => require(['../../components/myself/index.vue'], resolve),
             meta: {

@@ -214,6 +214,13 @@
                 clearTimeout(this.timeOutEvent);
                 this.timeOutEvent = 0;
                 // e.preventDefault();
+                // if (num == 1) {
+                //     let params = {
+                //         that:this,
+                //         nowNum:0,
+                //     }
+                //     this.$store.commit('moveLeftRight',params)
+                // }
             },
             handleTouchEnd(item,i,e,num){
                 clearTimeout(this.timeOutEvent);
@@ -230,12 +237,18 @@
                     }
                 } else {
                     //长按事件
-                    if (num == 1){
+                    if (num == 1 && !this.$store.state.isMove){
+                        //点击位置 出现弹框的位置
+                        let sX = document.body.clientWidth;
+                        let sY = document.body.clientHeight;
                         let cY = e.changedTouches[0].screenY;
                         let cX = e.changedTouches[0].screenX;
-                        let cFixed = this.$refs.fixed.style.top;
-                        cFixed = '50%';
-                        console.log(cY,cX,cFixed)
+                        let bX = ((cX/sX).toFixed(2)*100 -20)>60?60:((cX/sX).toFixed(2)*100 -20);
+                        let bY = ((cY/sY).toFixed(2)*100 -20)>70?70:((cY/sY).toFixed(2)*100 -20);
+                        let content = document.getElementsByClassName('login-fixed-content')[0];
+                        content.style.top = bY + '%';
+                        content.style.left = bX + '%';
+                        //
                         this.isHandTouch = true;
                         this.nowColIndex = i;
                         this.nowColData = item;//当前长按行的数据。
@@ -264,6 +277,7 @@
                         this.activeVipIndex = -1;
                     }
                 }
+                // this.$store.state.countNum = 0;
                 return false;
             },
             handFixedClick(i,e){
