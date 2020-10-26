@@ -196,24 +196,6 @@
             //数字键盘的点击 键盘下标i
             inputNum(i){
                 this.showInput = false;
-                let activeInputNum = this.activeInput;
-                if(activeInputNum !== 0 && i == (this.keyNum.length - 1)){
-                    this.activeABC = -1;
-                    this.showKeyNum = false;
-                }else if(activeInputNum == 0){
-                    this.phoneText = '';
-                    this.phoneTextNum += this.keyNum[i];
-                    this.phoneText2 = '请输入密码';
-                    this.phoneText3 = '请输入手机号';
-                }else if(activeInputNum == 1){
-                    this.phoneText = '请输入手机号';
-                    this.phoneText2 = '';
-                    this.phoneText3 = '请再次输入密码';
-                }else if(activeInputNum == 2){
-                    this.phoneText = '请输入手机号';
-                    this.phoneText2 = '请输入手机号';
-                    this.phoneText3 = '';
-                }
                 clearInterval(this.timerShowBorder);
                 this.timerShowBorder = null;
                 let num = 0;
@@ -239,7 +221,57 @@
                     }
                     num ++;
                 },500)
-                this.timerShowBorder = null;
+                let activeInputNum = this.activeInput;
+                if(activeInputNum !== 0 && i == (this.keyNum.length - 1)){
+                    this.activeABC = -1;
+                    this.showKeyNum = false;
+                }else if(activeInputNum == 0){
+                    this.phoneText = '';
+                    //删除最后一位
+                    if (this.keyNum[i] == 'X'){
+                        this.phoneTextNum = this.phoneTextNum.substr(0,this.phoneTextNum.length - 1);
+                        if (!this.phoneTextNum){
+                            this.phoneText = '请输入手机号';
+                            clearInterval(this.timerShowBorder);
+                            this.timerShowBorder = null;
+                            this.timerShowBorder = setInterval(()=>{
+                                if(i==0){
+                                    if (num % 2 == 0){
+                                        this.showInputBorder = true;
+                                    } else{
+                                        this.showInputBorder = false;
+                                    }
+                                }else if(i==1){
+                                    if (num % 2 == 0){
+                                        this.showInputBorder2 = true;
+                                    } else{
+                                        this.showInputBorder2 = false;
+                                    }
+                                }else if(i==2){
+                                    if (num % 2 == 0){
+                                        this.showInputBorder3 = true;
+                                    } else{
+                                        this.showInputBorder3 = false;
+                                    }
+                                }
+                                num ++;
+                            },500)
+                        }
+                        this.activeNum = i;
+                        return
+                    }
+                    this.phoneTextNum += this.keyNum[i];
+                    this.phoneText2 = '请输入密码';
+                    this.phoneText3 = '请输入手机号';
+                }else if(activeInputNum == 1){
+                    this.phoneText = '请输入手机号';
+                    this.phoneText2 = '';
+                    this.phoneText3 = '请再次输入密码';
+                }else if(activeInputNum == 2){
+                    this.phoneText = '请输入手机号';
+                    this.phoneText2 = '请输入手机号';
+                    this.phoneText3 = '';
+                }
                 this.showInputBorder = false;
                 this.showInputBorder2 = false;
                 this.showInputBorder3 = false;
@@ -266,6 +298,9 @@
                 this.showInputBorder = false;
                 this.showInputBorder2 = false;
                 this.showInputBorder3 = false;
+                this.showInputleft = false;
+                this.showInputleft2 = false;
+                this.showInputleft3 = false;
                 clearInterval(this.timerShowBorder);
                 if(i){
                     this.keyNum = [1,2,3,4,5,6,7,8,9,0,'X','abc'];
@@ -275,28 +310,55 @@
                     this.showKeyNum = true;
                 }
                 let num = 0;
-                this.timerShowBorder = setInterval(()=>{
-                    if(i==0){
-                        if (num % 2 == 0){
-                            this.showInputBorder = true;
-                        } else{
-                            this.showInputBorder = false;
+                if (this.phoneTextNum.length){
+                    //div输入框中有内容
+                    this.timerShowBorder = setInterval(()=>{
+                        if(i==0){
+                            if (num % 2 == 0){
+                                this.showInputleft = true;
+                            } else{
+                                this.showInputleft = false;
+                            }
+                        }else if(i==1){
+                            if (num % 2 == 0){
+                                this.showInputleft2 = true;
+                            } else{
+                                this.showInputleft2 = false;
+                            }
+                        }else if(i==2){
+                            if (num % 2 == 0){
+                                this.showInputleft3 = true;
+                            } else{
+                                this.showInputleft3 = false;
+                            }
                         }
-                    }else if(i==1){
-                        if (num % 2 == 0){
-                            this.showInputBorder2 = true;
-                        } else{
-                            this.showInputBorder2 = false;
+                        num ++;
+                    },500)
+                } else {
+                    //div输入框中无内容
+                    this.timerShowBorder = setInterval(()=>{
+                        if(i==0){
+                            if (num % 2 == 0){
+                                this.showInputBorder = true;
+                            } else{
+                                this.showInputBorder = false;
+                            }
+                        }else if(i==1){
+                            if (num % 2 == 0){
+                                this.showInputBorder2 = true;
+                            } else{
+                                this.showInputBorder2 = false;
+                            }
+                        }else if(i==2){
+                            if (num % 2 == 0){
+                                this.showInputBorder3 = true;
+                            } else{
+                                this.showInputBorder3 = false;
+                            }
                         }
-                    }else if(i==2){
-                        if (num % 2 == 0){
-                            this.showInputBorder3 = true;
-                        } else{
-                            this.showInputBorder3 = false;
-                        }
-                    }
-                    num ++;
-                },500)
+                        num ++;
+                    },500)
+                }
             },
             //div输入框内容全部清除 0 phone 1 password 2 aginPassword
             clearPhoneBtn(i){
@@ -304,7 +366,10 @@
                     this.phoneTextNum = '';
                     this.phoneText = '请输入手机号';
                     this.activeNum = -1;
+                    this.showInputleft = false;
+                    this.showInput = true;
                     clearInterval(this.timerShowBorder);
+                    this.timerShowBorder = null;
                     // if(i){
                     //     this.keyNum = [1,2,3,4,5,6,7,8,9,0,'X','abc'];
                     //     this.showKeyNum = false;
@@ -340,6 +405,7 @@
                 }else if(i == 2){
                     this.formData.aginPassword = '';
                 }
+                this.activeInput = i;
             },
         },
         created(){
