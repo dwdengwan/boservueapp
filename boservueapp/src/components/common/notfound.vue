@@ -1,6 +1,9 @@
 <template>
     <div class="login">
-        <div class="login-top" v-show="showTop"></div>
+        <div
+                class="login-top"
+                :class="!showTop ? 'autoheight':''">
+        </div>
         <div
             @touchend="handleClick(0)"
             class="login-middle">
@@ -23,7 +26,7 @@
                     :class="activeInput==0?'active-input':''"
                     @touchend.stop="phoneTouchend(0)">
                     <div class="phone-input-span">
-                        <span class="phone-span-f" v-show="showInput">
+                        <span class="phone-span-f">
                             <span class="phone-span" v-show="showInputBorder"></span>
                         </span>
                         <span
@@ -93,8 +96,10 @@
         </div>
         <div
             class="login-bottom"
-            v-show="!showTop">
-            <div class="key-num" v-show="showKeyNum">
+            :class="showTop ? 'autoheight':''">
+            <div
+                class="key-num"
+                v-show="showKeyNum">
                 <div
                     class="key-num-0"
                     v-for="(item,index) in keyNum"
@@ -183,48 +188,19 @@
                 this.activeInput = -1;
                 this.activeNum = -1;//数字键盘当前点击的下标
                 this.activeABC = -1;//英文键盘当前点击的下标
-                this.showInputBorder = false;
-                this.showInputBorder2 = false;
-                this.showInputBorder3 = false;
-                this.showInputleft = false;
-                this.showInputleft2 = false;
-                this.showInputleft3 = false;
-                clearInterval(this.timerShowBorder);
-                this.timerShowBorder = null;
+                this.restBorder(2);
+                this.clearTimer()
                 this.showTop = true;
             },
             //数字键盘的点击 键盘下标i
             inputNum(i){
-                this.showInput = false;
-                clearInterval(this.timerShowBorder);
-                this.timerShowBorder = null;
-                let num = 0;
-                this.timerShowBorder = setInterval(()=>{
-                    if(this.activeInput == 0){
-                        if (num % 2 == 0){
-                            this.showInputleft = true;
-                        } else{
-                            this.showInputleft = false;
-                        }
-                    }else if(this.activeInput == 1){
-                        if (num % 2 == 0){
-                            this.showInputleft2 = true;
-                        } else{
-                            this.showInputleft2 = false;
-                        }
-                    }else if(this.activeInput == 2){
-                        if (num % 2 == 0){
-                            this.showInputleft3 = true;
-                        } else{
-                            this.showInputleft3 = false;
-                        }
-                    }
-                    num ++;
-                },500)
+                // this.showInput = false;
+                this.flashingLeft(this.activeInput);
                 let activeInputNum = this.activeInput;
                 if(activeInputNum !== 0 && i == (this.keyNum.length - 1)){
                     this.activeABC = -1;
                     this.showKeyNum = false;
+                    this.flashing(this.activeInput);
                 }else if(activeInputNum == 0){
                     this.phoneText = '';
                     //删除最后一位
@@ -232,30 +208,7 @@
                         this.phoneTextNum = this.phoneTextNum.substr(0,this.phoneTextNum.length - 1);
                         if (!this.phoneTextNum){
                             this.phoneText = '请输入手机号';
-                            clearInterval(this.timerShowBorder);
-                            this.timerShowBorder = null;
-                            this.timerShowBorder = setInterval(()=>{
-                                if(i==0){
-                                    if (num % 2 == 0){
-                                        this.showInputBorder = true;
-                                    } else{
-                                        this.showInputBorder = false;
-                                    }
-                                }else if(i==1){
-                                    if (num % 2 == 0){
-                                        this.showInputBorder2 = true;
-                                    } else{
-                                        this.showInputBorder2 = false;
-                                    }
-                                }else if(i==2){
-                                    if (num % 2 == 0){
-                                        this.showInputBorder3 = true;
-                                    } else{
-                                        this.showInputBorder3 = false;
-                                    }
-                                }
-                                num ++;
-                            },500)
+                            this.flashing(this.activeInput);
                         }
                         this.activeNum = i;
                         return
@@ -272,9 +225,7 @@
                     this.phoneText2 = '请输入手机号';
                     this.phoneText3 = '';
                 }
-                this.showInputBorder = false;
-                this.showInputBorder2 = false;
-                this.showInputBorder3 = false;
+                this.restBorder(0);
                 this.clearPhone = true;
                 this.activeNum = i;
             },
@@ -284,80 +235,31 @@
                     this.activeNum = -1;
                     this.showKeyNum = true;
                 }
-                clearInterval(this.timerShowBorder);
-                this.timerShowBorder = null;
-                this.showInputBorder = false;
-                this.showInputBorder2 = false;
-                this.showInputBorder3 = false;
+                this.clearTimer()
+                this.restBorder(0);
                 this.activeABC = i;
             },
             //div输入框的点击 0 手机号码 1 密码 2 再次验证密码
             phoneTouchend(i){
                 this.activeInput = i;
                 this.showTop = false;
-                this.showInputBorder = false;
-                this.showInputBorder2 = false;
-                this.showInputBorder3 = false;
-                this.showInputleft = false;
-                this.showInputleft2 = false;
-                this.showInputleft3 = false;
-                clearInterval(this.timerShowBorder);
+                this.restBorder(2);
+                this.activeABC = -1;
+                this.activeNum = -1;
                 if(i){
                     this.keyNum = [1,2,3,4,5,6,7,8,9,0,'X','abc'];
+                    this.flashing(i);
                     this.showKeyNum = false;
                 }else{
                     this.keyNum = [1,2,3,4,5,6,7,8,9,0,'X'];
+                    if (this.phoneTextNum.length){
+                        //phone div输入框中有内容
+                        this.flashingLeft(i);
+                    } else {
+                        //phone div输入框中无内容
+                        this.flashing(i);
+                    }
                     this.showKeyNum = true;
-                }
-                let num = 0;
-                if (this.phoneTextNum.length){
-                    //div输入框中有内容
-                    this.timerShowBorder = setInterval(()=>{
-                        if(i==0){
-                            if (num % 2 == 0){
-                                this.showInputleft = true;
-                            } else{
-                                this.showInputleft = false;
-                            }
-                        }else if(i==1){
-                            if (num % 2 == 0){
-                                this.showInputleft2 = true;
-                            } else{
-                                this.showInputleft2 = false;
-                            }
-                        }else if(i==2){
-                            if (num % 2 == 0){
-                                this.showInputleft3 = true;
-                            } else{
-                                this.showInputleft3 = false;
-                            }
-                        }
-                        num ++;
-                    },500)
-                } else {
-                    //div输入框中无内容
-                    this.timerShowBorder = setInterval(()=>{
-                        if(i==0){
-                            if (num % 2 == 0){
-                                this.showInputBorder = true;
-                            } else{
-                                this.showInputBorder = false;
-                            }
-                        }else if(i==1){
-                            if (num % 2 == 0){
-                                this.showInputBorder2 = true;
-                            } else{
-                                this.showInputBorder2 = false;
-                            }
-                        }else if(i==2){
-                            if (num % 2 == 0){
-                                this.showInputBorder3 = true;
-                            } else{
-                                this.showInputBorder3 = false;
-                            }
-                        }
-                        num ++;
-                    },500)
                 }
             },
             //div输入框内容全部清除 0 phone 1 password 2 aginPassword
@@ -367,39 +269,8 @@
                     this.phoneText = '请输入手机号';
                     this.activeNum = -1;
                     this.showInputleft = false;
-                    this.showInput = true;
-                    clearInterval(this.timerShowBorder);
-                    this.timerShowBorder = null;
-                    // if(i){
-                    //     this.keyNum = [1,2,3,4,5,6,7,8,9,0,'X','abc'];
-                    //     this.showKeyNum = false;
-                    // }else{
-                    //     this.keyNum = [1,2,3,4,5,6,7,8,9,0,'X'];
-                    //     this.showKeyNum = true;
-                    // }
-                    let num = 0;
-                    this.timerShowBorder = setInterval(()=>{
-                        if(i==0){
-                            if (num % 2 == 0){
-                                this.showInputBorder = true;
-                            } else{
-                                this.showInputBorder = false;
-                            }
-                        }else if(i==1){
-                            if (num % 2 == 0){
-                                this.showInputBorder2 = true;
-                            } else{
-                                this.showInputBorder2 = false;
-                            }
-                        }else if(i==2){
-                            if (num % 2 == 0){
-                                this.showInputBorder3 = true;
-                            } else{
-                                this.showInputBorder3 = false;
-                            }
-                        }
-                        num ++;
-                    },500)
+                    // this.showInput = true;
+                    this.flashing(i)
                 }else if(i == 1){
                     this.formData.password = '';
                 }else if(i == 2){
@@ -407,12 +278,91 @@
                 }
                 this.activeInput = i;
             },
+            //闪烁前 i 0 手机号码 1 密码 2 再次验证密码
+            flashing(i){
+                this.clearTimer()
+                this.restBorder(1);
+                let num = 0;
+                this.timerShowBorder = setInterval(()=>{
+                    if(i==0){
+                        if (num % 2 == 0){
+                            this.showInputBorder = true;
+                        } else{
+                            this.showInputBorder = false;
+                        }
+                    }else if(i==1){
+                        if (num % 2 == 0){
+                            this.showInputBorder2 = true;
+                        } else{
+                            this.showInputBorder2 = false;
+                        }
+                    }else if(i==2){
+                        if (num % 2 == 0){
+                            this.showInputBorder3 = true;
+                        } else{
+                            this.showInputBorder3 = false;
+                        }
+                    }
+                    num ++;
+                },500)
+            },
+            //闪烁左 i 0 手机号码 1 密码 2 再次验证密码
+            flashingLeft(i){
+                this.clearTimer();
+                this.restBorder(0);
+                let num = 0;
+                this.timerShowBorder = setInterval(()=>{
+                    if(i == 0){
+                        if (num % 2 == 0){
+                            this.showInputleft = true;
+                        } else{
+                            this.showInputleft = false;
+                        }
+                    }else if(i == 1){
+                        if (num % 2 == 0){
+                            this.showInputleft2 = true;
+                        } else{
+                            this.showInputleft2 = false;
+                        }
+                    }else if(i == 2){
+                        if (num % 2 == 0){
+                            this.showInputleft3 = true;
+                        } else{
+                            this.showInputleft3 = false;
+                        }
+                    }
+                    num ++;
+                },500)
+            },
+            //清除定时器
+            clearTimer(){
+                clearInterval(this.timerShowBorder);
+                this.timerShowBorder = null;
+            },
+            //重置闪烁边框 0 前 1 左边 2 all
+            restBorder(i){
+               if (i == 0){
+                   this.showInputBorder = false;
+                   this.showInputBorder2 = false;
+                   this.showInputBorder3 = false;
+               } else if (i == 1){
+                   this.showInputleft = false;
+                   this.showInputleft2 = false;
+                   this.showInputleft3 = false;
+               } else if (i == 2){
+                   this.showInputBorder = false;
+                   this.showInputBorder2 = false;
+                   this.showInputBorder3 = false;
+                   this.showInputleft = false;
+                   this.showInputleft2 = false;
+                   this.showInputleft3 = false;
+               }
+            },
         },
         created(){
         },
         destroyed(){
-            clearInterval(this.timerShowBorder);
-            this.timerShowBorder = null;
+            this.clearTimer()
         }
     }
 </script>
@@ -432,6 +382,15 @@
     .login-top{
         border-bottom: 1px dashed rgba(255,255,255,0.3);
         height: calc(50% - 1px);
+        transition: height 1s ease;
+        overflow: hidden;
+    }
+    .login-top.autoheight,
+    .login-bottom.autoheight,
+    .key-num.autoheight,
+    .key-abc.autoheight{
+        height: 0;
+        border: 0;
     }
     .login-middle{
         .log-button,
@@ -442,51 +401,6 @@
             justify-content: center;
             align-items: center;
             margin: 4% 0;
-            input{
-                width: 75%;
-                height: 75%;
-                background-color: rgba(0,0,0,0.3);
-                border: rgba(0,0,0,0.3);
-                padding: 2%;
-                color:#fff;
-                font-size: 0.4rem;
-            }
-            input[type='password']{
-                font-size: 0.4rem;
-            }
-            input::-webkit-input-placeholder {
-                 /* placeholder颜色  */
-                color: #aab2bd;
-                /* placeholder字体大小  */
-                font-size: 12px;
-                 /* placeholder位置  */
-                text-align: left;
-            }
-            .log-button-text{
-                display: flex;
-                justify-content: center;
-                align-items: center;
-            }
-        }
-        .log-button{
-            background-color: #00c800;
-            width: 80%;
-            margin: 0 10%;
-        }
-        .middle-title{
-            margin: 0;
-            span{
-                margin: 0 2%;
-            }
-            .active{
-                color:#00c800;
-            }
-            .title-2{
-                color: rgba(255,255,255,0.3);
-            }
-        }
-        .log-password{
-            position: relative;
             .log-phone,
             .log-see{
                 position: absolute;
@@ -501,7 +415,7 @@
                 width: 75%;
                 height: 75%;
                 background-color: rgba(0,0,0,0.3);
-                border: rgba(0,0,0,0.3);
+                border: 0;
                 padding: 2%;
                 color:rgba(255,255,255,0.4);
                 font-size: 0.3rem;
@@ -540,18 +454,44 @@
             .log-see{
                 background-color: rgba(0,0,0,0.6);
             }
+            .log-button-text{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+        .log-button{
+            background-color: #00c800;
+            width: 80%;
+            margin: 0 10%;
+        }
+        .middle-title{
+            margin: 0;
+            span{
+                margin: 0 2%;
+            }
+            .active{
+                color:#00c800;
+            }
+            .title-2{
+                color: rgba(255,255,255,0.3);
+            }
         }
     }
     .login-bottom{
         width: 100%;
         height: calc(50% - 1px);
         border-top: 1px dashed rgba(255,255,255,0.3);
+        transition: height 1s ease;
+        overflow: hidden;
         .key-num{
             width: 100%;
             height: 100%;
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
+            transition: height 1s ease;
+            overflow: hidden;
             .key-num-0{
                 width: 33%;
                 height: 25%;
@@ -579,6 +519,8 @@
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
+            transition: height 1s ease;
+            overflow: hidden;
             .key-abc-a{
                 width: 16%;
                 height: 20%;
