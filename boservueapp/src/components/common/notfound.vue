@@ -20,7 +20,7 @@
                     Sign Up
                 </span>
             </div>
-            <div class="log-message" v-show="showMessage">
+            <div class="log-message">
                 <span class="log-message-span">{{phoneMessage}}</span>
             </div>
             <div
@@ -54,10 +54,10 @@
                     v-show="clearPhone">
                 </div>
             </div>
-            <!--<div class="log-message">-->
-                <!--<span class="log-message-span">输入的手机号码格式有误！</span>-->
-            <!--</div>-->
-            <div class="log-password message">
+            <div class="log-message">
+                <span class="log-message-span">输入的密码长度超出范围！</span>
+            </div>
+            <div class="log-password">
                 <div
                         class="phone-input"
                         :class="activeInput==1?'active-input':''"
@@ -76,10 +76,10 @@
                     <!--class="log-see">-->
                 <!--</div>-->
             </div>
-            <!--<div class="log-message">-->
-                <!--<span class="log-message-span">输入的手机号码格式有误！</span>-->
-            <!--</div>-->
-            <div class="log-password message" v-show="formData.activeIndex == 1">
+            <div class="log-message" v-show="formData.activeIndex == 1">
+                <span class="log-message-span">再次输入的密码与原密码不一致！</span>
+            </div>
+            <div class="log-password" v-show="formData.activeIndex == 1">
                 <div
                         class="phone-input"
                         :class="activeInput==2?'active-input':''"
@@ -173,7 +173,7 @@
                 phoneText3:'请再次输入密码',
                 showMessage:false,//错误提示
                 phoneTextNum:'',//输入手机号的内容
-                phoneMessage:"输入的手机号码格式有误！",
+                phoneMessage:"",
             }
         },
         methods:{
@@ -221,11 +221,13 @@
                     if (this.keyNum[i] == 'X'){
                         this.phoneTextNum = this.phoneTextNum.substr(0,this.phoneTextNum.length - 1);
                         if (!this.phoneTextNum){
+                            this.phoneMessage = '';
                             this.phoneText = '请输入手机号';
                             this.showMessage = false;
                             this.flashing(this.activeInput);
                         }else if(this.phoneTextNum == '1'|| this.phoneTextNum.length <= 11){
                             this.showMessage = false;
+                            this.phoneMessage = '';
                         }
                         this.activeNum = i;
                         return
@@ -301,6 +303,7 @@
                 if(i == 0){
                     this.phoneTextNum = '';
                     this.phoneText = '请输入手机号';
+                    this.phoneMessage = '';
                     this.showMessage = false;
                     this.activeNum = -1;
                     this.showInputleft = false;
@@ -396,12 +399,16 @@
             //手机号码的验证
             phoneTest(){
                 if(!this.phoneTextNum.length){
+                    this.phoneMessage = '';
                     this.showMessage = false;
                 } else if (this.phoneTextNum.split('')[0] !== '1') {
+                    this.phoneMessage = '输入的手机号码格式有误！';
                     this.showMessage = true;
                 } else if(this.phoneTextNum.length > 1 && !(/^[3456789]$/.test(this.phoneTextNum.split('')[1]))){
+                    this.phoneMessage = '输入的手机号码格式有误！';
                     this.showMessage = true;
                 }else if(this.phoneTextNum.length > 11){
+                    this.phoneMessage = '输入的手机号码格式有误！';
                     this.showMessage = true;
                 }
             },
@@ -511,13 +518,10 @@
                 align-items: center;
             }
         }
-        .message{
-            margin: 5% 0;
-        }
         .log-button{
             background-color: #00c800;
             width: 80%;
-            margin: 3% 10% 0 10%;
+            margin: 5% 10% 0 10%;
         }
         .middle-title{
             margin: 0;
@@ -534,6 +538,7 @@
         .log-message{
             height: auto;
             text-align: center;
+            height: 8%;
             .log-message-span{
                 color:#971126;
                 font-size: 0.3rem;
