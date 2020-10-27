@@ -20,7 +20,12 @@
                     Sign Up
                 </span>
             </div>
-            <div class="log-password">
+            <div class="log-message" v-show="showMessage">
+                <span class="log-message-span">输入的手机号码格式有误！</span>
+            </div>
+            <div
+                class="log-password"
+                :class="showMessage ? '':'message'">
                 <div
                     class="phone-input"
                     :class="activeInput==0?'active-input':''"
@@ -34,7 +39,8 @@
                             {{phoneText}}
                         </span>
                         <span
-                            class="phone-text-num">
+                            class="phone-text-num"
+                            :class="showMessage ? 'error':''">
                             {{phoneTextNum}}
                         </span>
                         <span class="phone-span-f span-left">
@@ -48,7 +54,10 @@
                     v-show="clearPhone">
                 </div>
             </div>
-            <div class="log-password">
+            <!--<div class="log-message">-->
+                <!--<span class="log-message-span">输入的手机号码格式有误！</span>-->
+            <!--</div>-->
+            <div class="log-password message">
                 <div
                         class="phone-input"
                         :class="activeInput==1?'active-input':''"
@@ -67,7 +76,10 @@
                     <!--class="log-see">-->
                 <!--</div>-->
             </div>
-            <div class="log-password" v-show="formData.activeIndex == 1">
+            <!--<div class="log-message">-->
+                <!--<span class="log-message-span">输入的手机号码格式有误！</span>-->
+            <!--</div>-->
+            <div class="log-password message" v-show="formData.activeIndex == 1">
                 <div
                         class="phone-input"
                         :class="activeInput==2?'active-input':''"
@@ -159,6 +171,7 @@
                 phoneText:'请输入手机号',//div 内容
                 phoneText2:'请输入密码',
                 phoneText3:'请再次输入密码',
+                showMessage:false,//错误提示
                 phoneTextNum:'',//输入手机号的内容
             }
         },
@@ -194,10 +207,10 @@
             },
             //数字键盘的点击 键盘下标i
             inputNum(i){
-                // this.showInput = false;
                 this.flashingLeft(this.activeInput);
                 let activeInputNum = this.activeInput;
                 if(activeInputNum !== 0 && i == (this.keyNum.length - 1)){
+                    //数字键盘切换成英文键盘
                     this.activeABC = -1;
                     this.showKeyNum = false;
                     this.flashing(this.activeInput);
@@ -208,12 +221,19 @@
                         this.phoneTextNum = this.phoneTextNum.substr(0,this.phoneTextNum.length - 1);
                         if (!this.phoneTextNum){
                             this.phoneText = '请输入手机号';
+                            this.showMessage = false;
                             this.flashing(this.activeInput);
+                        }else if(this.phoneTextNum == '1'|| this.phoneTextNum.length <= 11){
+                            this.showMessage = false;
                         }
                         this.activeNum = i;
                         return
                     }
-                    this.phoneTextNum += this.keyNum[i];
+                    if(this.showMessage || this.phoneTextNum.length > 10){
+                        this.phoneTextNum += '';
+                    } else {
+                        this.phoneTextNum += this.keyNum[i];
+                    }
                     this.phoneText2 = '请输入密码';
                     this.phoneText3 = '请输入手机号';
                 }else if(activeInputNum == 1){
@@ -228,6 +248,7 @@
                 this.restBorder(0);
                 this.clearPhone = true;
                 this.activeNum = i;
+                this.phoneTest();
             },
             //英文键盘的点击 键盘下标i
             inputStr(i){
@@ -250,13 +271,21 @@
                     this.keyNum = [1,2,3,4,5,6,7,8,9,0,'X','abc'];
                     this.flashing(i);
                     this.showKeyNum = false;
+                    this.clearPhone = false;
+                    if (this.phoneTextNum.length<11){
+                        this.showMessage = true;
+                    }
                 }else{
+                    this.showMessage = false;
+                    this.phoneTest();
                     this.keyNum = [1,2,3,4,5,6,7,8,9,0,'X'];
                     if (this.phoneTextNum.length){
                         //phone div输入框中有内容
+                        this.clearPhone = true;
                         this.flashingLeft(i);
                     } else {
                         //phone div输入框中无内容
+                        this.clearPhone = false;
                         this.flashing(i);
                     }
                     this.showKeyNum = true;
@@ -267,6 +296,7 @@
                 if(i == 0){
                     this.phoneTextNum = '';
                     this.phoneText = '请输入手机号';
+                    this.showMessage = false;
                     this.activeNum = -1;
                     this.showInputleft = false;
                     // this.showInput = true;
@@ -358,6 +388,18 @@
                    this.showInputleft3 = false;
                }
             },
+            //手机号码的验证
+            phoneTest(){
+                if(!this.phoneTextNum.length){
+                    this.showMessage = false;
+                } else if (this.phoneTextNum.split('')[0] !== '1') {
+                    this.showMessage = true;
+                } else if(this.phoneTextNum.length > 1 && !(/^[3456789]$/.test(this.phoneTextNum.split('')[1]))){
+                    this.showMessage = true;
+                }else if(this.phoneTextNum.length > 11){
+                    this.showMessage = true;
+                }
+            },
         },
         created(){
         },
@@ -396,11 +438,12 @@
         .log-button,
         .middle-title,
         .log-password{
-            height: 15%;
+            height: 12%;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 4% 0;
+            margin: 1% 0;
+            position: relative;
             .log-phone,
             .log-see{
                 position: absolute;
@@ -446,6 +489,9 @@
                         color:#fff;
                         font-size: 0.6rem;
                     }
+                    .error{
+                        color: #971126;
+                    }
                 }
             }
             .active-input{
@@ -460,10 +506,13 @@
                 align-items: center;
             }
         }
+        .message{
+            margin: 5% 0;
+        }
         .log-button{
             background-color: #00c800;
             width: 80%;
-            margin: 0 10%;
+            margin: 3% 10% 0 10%;
         }
         .middle-title{
             margin: 0;
@@ -475,6 +524,15 @@
             }
             .title-2{
                 color: rgba(255,255,255,0.3);
+            }
+        }
+        .log-message{
+            height: auto;
+            text-align: center;
+            .log-message-span{
+                color:#971126;
+                font-size: 0.3rem;
+                font-weight: bolder;
             }
         }
     }
