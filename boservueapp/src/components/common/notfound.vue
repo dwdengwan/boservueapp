@@ -21,7 +21,7 @@
                 </span>
             </div>
             <div class="log-message" v-show="showMessage">
-                <span class="log-message-span">输入的手机号码格式有误！</span>
+                <span class="log-message-span">{{phoneMessage}}</span>
             </div>
             <div
                 class="log-password"
@@ -173,6 +173,7 @@
                 phoneText3:'请再次输入密码',
                 showMessage:false,//错误提示
                 phoneTextNum:'',//输入手机号的内容
+                phoneMessage:"输入的手机号码格式有误！",
             }
         },
         methods:{
@@ -274,6 +275,10 @@
                     this.clearPhone = false;
                     if (this.phoneTextNum.length<11){
                         this.showMessage = true;
+                        this.phoneMessage = '输入的手机号码格式有误！'
+                        if (!this.phoneTextNum.length){
+                            this.phoneMessage = '手机号码不能为空！'
+                        }
                     }
                 }else{
                     this.showMessage = false;
