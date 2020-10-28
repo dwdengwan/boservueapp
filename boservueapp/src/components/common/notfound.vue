@@ -55,13 +55,14 @@
                 </div>
             </div>
             <div class="log-message">
-                <span class="log-message-span">输入的密码长度超出范围！</span>
+                <!--输入的密码长度超出范围！-->
+                <span class="log-message-span">{{phoneMessage2}}</span>
             </div>
-            <div class="log-password">
+            <div class="log-password" v-show="showPassWord">
                 <div
-                        class="phone-input"
-                        :class="activeInput==1?'active-input':''"
-                        @touchend.stop="phoneTouchend(1)">
+                    class="phone-input"
+                    :class="activeInput==1?'active-input':''"
+                    @touchend.stop="phoneTouchend(1)">
                     <div class="phone-input-span">
                         <span class="phone-span-f">
                             <span class="phone-span" v-show="showInputBorder2"></span>
@@ -69,7 +70,7 @@
                         <span class="phone-text">{{phoneText2}}</span>
                         <span
                             class="phone-text-num"
-                            :class="showMessage ? 'error':''">
+                            :class="showMessage2 ? 'error':''">
                             {{phoneTextNum2}}
                         </span>
                         <span class="phone-span-f">
@@ -83,7 +84,46 @@
                     v-show="clearPhone2">
                 </div>
                 <div
-                    class="log-see">
+                    class="log-see"
+                    :class="showPassWord ? 'password':''"
+                    @touchend.stop="displayPassword(0)">
+                </div>
+            </div>
+            <div class="log-password" v-show="!showPassWord">
+                <div
+                    class="phone-input"
+                    :class="activeInput==1?'active-input':''"
+                    @touchend.stop="phoneTouchend(1)">
+                    <div class="phone-input-span">
+                        <span class="phone-span-f">
+                            <span class="phone-span" v-show="showInputBorder2"></span>
+                        </span>
+                        <span class="phone-text">{{phoneText2}}</span>
+                        <span
+                                class="phone-text-num"
+                                :class="showMessage2 ? 'error':''">
+                            <!--phoneTextNum.length-->
+                            <span
+                                class="pass-cirle"
+                                v-for="index of number"
+                                :key="index">
+                            </span>
+                            <!--<span class="pass-cirle"></span>-->
+                        </span>
+                        <span class="phone-span-f">
+                            <span class="phone-span" v-show="showInputleft2"></span>
+                        </span>
+                    </div>
+                </div>
+                <div
+                        class="log-clear"
+                        @touchend.stop="clearPhoneBtn(1)"
+                        v-show="clearPhone2">
+                </div>
+                <div
+                        class="log-see"
+                        :class="showPassWord ? 'password':''"
+                        @touchend.stop="displayPassword(0)">
                 </div>
             </div>
             <div class="log-message" v-show="formData.activeIndex == 1">
@@ -189,6 +229,8 @@
                 phoneMessage:"",//手机错误提示内容
                 phoneMessage2:"",//密码错误提示内容
                 phoneMessage3:"",//再次输入密码错误提示
+                showPassWord:true,//是否显示密码
+                number:0,
             }
         },
         methods:{
@@ -257,6 +299,7 @@
                     }
                     if(this.showMessage || this.phoneTextNum.length > 10){
                         this.phoneTextNum += '';
+                        this.clearTimer();
                     } else {
                         this.phoneTextNum += this.keyNum[i];
                     }
@@ -270,13 +313,22 @@
                     if (this.keyNum[i] == 'X'){
                         this.phoneTextNum2 = this.phoneTextNum2.substr(0,this.phoneTextNum2.length - 1);
                         if (!this.phoneTextNum2){
-                            this.phoneText2 = '请输入手机号';
+                            this.phoneText2 = '请输入密码';
                             this.flashing(1);
                         }
+                        this.phoneMessage2 = '';
                         this.activeNum = i;
+                        this.number = this.phoneTextNum2.length;
+                        return
+                    }else if(this.phoneTextNum2.length > 11){
+                        this.phoneTextNum2 += '';
+                        this.clearTimer()
+                        this.activeNum = i;
+                        this.phoneMessage2 = '密码长度超过12位！';
                         return
                     }
                     this.phoneTextNum2 += this.keyNum[i];
+                    this.number = this.phoneTextNum2.length;
                     this.clearPhone2 = true;
                 }else if(activeInputNum == 2){
                     // this.phoneText = '请输入手机号';
@@ -305,14 +357,24 @@
                     if (this.keyABC[i] == 'X'){
                         this.phoneTextNum2 = this.phoneTextNum2.substr(0,this.phoneTextNum2.length - 1);
                         if (!this.phoneTextNum2){
-                            this.phoneText2 = '请输入手机号';
+                            this.phoneText2 = '请输入密码';
                             this.clearPhone2 = false;
                             this.flashing(1);
+                        }else{
+                            this.phoneMessage2 = '';
+                            this.flashingLeft(1)
                         }
                         this.activeNum = i;
+                        this.number = this.phoneTextNum2.length;
+                        return
+                    }
+                    if (this.phoneTextNum2.length>11){
+                        this.phoneTextNum2 += '';
+                        this.phoneMessage2 = '密码长度不能超过12位！';
                         return
                     }
                     this.phoneTextNum2 += this.keyABC[i];
+                    this.number = this.phoneTextNum2.length;
                     this.flashingLeft(1)
                 }
             },
@@ -328,39 +390,42 @@
                     this.showKeyNum = false;
                     this.clearPhone = false;
                     if (i == 1){
+                        this.phoneMessage2 = '';
+                        this.showMessage2 = false;
                         if (this.phoneTextNum2.length > 0){
                             this.clearPhone2 = true;
                             this.flashingLeft(i);
-                        } else {
+                            if(this.phoneTextNum2.length == 12){
+                                 this.clearTimer()
+                            }
+                        }else {
                             this.clearPhone2 = false;
                             this.flashing(i);
                         }
+                    }else if(i == 2){
+                        this.onBlurInput(1);
                     }
-                    if (this.phoneTextNum.length<11){
-                        this.showMessage = true;
-                        this.phoneMessage = '输入的手机号码格式有误！'
-                        if (!this.phoneTextNum.length){
-                            this.phoneMessage = '手机号码不能为空！'
-                        }
-                    }else{
-                        this.showMessage = false;
-                        this.phoneMessage = '';
-                    }
+                    this.onBlurInput(0)
                 }else{
                     this.clearPhone2 = false;
                     this.showMessage = false;
+                    this.showKeyNum = true;
                     this.phoneTest();
                     this.keyNum = [1,2,3,4,5,6,7,8,9,0,'X'];
                     if (this.phoneTextNum.length){
                         //phone div输入框中有内容
                         this.clearPhone = true;
+                        if (this.phoneTextNum.length == 11){
+                            this.clearTimer();
+                            return
+                        }
                         this.flashingLeft(i);
                     } else {
                         //phone div输入框中无内容
                         this.clearPhone = false;
                         this.flashing(i);
                     }
-                    this.showKeyNum = true;
+                    this.onBlurInput(1);
                 }
             },
             //div输入框内容全部清除 0 phone 1 password 2 aginPassword
@@ -377,12 +442,11 @@
                 }else if(i == 1){
                     this.phoneTextNum2 = '';
                     this.phoneText2 = '请输入密码(6~12位)';
-                    this.phoneMessage = '';
-                    this.showMessage = false;
                     this.activeNum = -1;
                     this.activeABC = -1;
                     this.showInputleft2 = false;
                     this.clearPhone2 = false;
+                    this.number = this.phoneTextNum2.length;
                     this.flashing(i)
                 }else if(i == 2){
                     this.formData.aginPassword = '';
@@ -447,6 +511,7 @@
             },
             //清除定时器
             clearTimer(){
+                this.restBorder(2);
                 clearInterval(this.timerShowBorder);
                 this.timerShowBorder = null;
             },
@@ -485,10 +550,40 @@
                     this.showMessage = true;
                 }
             },
-            //删除
-            delKey(){
-
+            //显示密码 i 0 显示密码 1 显示再次输入密码
+            displayPassword(i){
+                console.log(i,this.phoneTextNum2);
+                this.showPassWord = !this.showPassWord;
             },
+            //失去焦点事件 i 0 phone 1 password 2 agin password
+            onBlurInput(i){
+                switch (i){
+                    case 0:
+                        this.phoneTest();
+                        if (this.phoneTextNum.length<11){
+                            this.showMessage = true;
+                            this.phoneMessage = '输入的手机号码格式有误！'
+                            if (!this.phoneTextNum.length){
+                                this.phoneMessage = '手机号码不能为空！'
+                            }
+                        }else{
+                            this.showMessage = false;
+                            this.phoneMessage = '';
+                        }
+                        break;
+                    case 1:
+                        if (this.phoneTextNum2.length > 0 && this.phoneTextNum2.length < 6){
+                            this.phoneMessage2 = '输入密码强度太弱！';
+                            this.showMessage2 = true;
+                        }else if(this.phoneTextNum2.length == 0){
+                            this.phoneMessage2 = '输入密码不能为空！';
+                            this.showMessage2 = true;
+                        }
+                        break;
+                    case 2:
+                        break;
+                }
+            }
         },
         created(){
         },
@@ -537,7 +632,7 @@
             .log-see,
             .log-clear{
                 position: absolute;
-                top: 35%;
+                top: 30%;
                 right: 12%;
                 width: 0.5rem;
                 height: 0.5rem;
@@ -549,6 +644,9 @@
             }
             .log-see{
                 background-color: rgba(44, 128, 39, 0.8);
+            }
+            .log-see.password{
+                background-color: rgba(255, 72, 83, 0.8);
             }
             .phone-input{
                 width: 75%;
@@ -585,6 +683,17 @@
                     .phone-text-num{
                         color:#fff;
                         font-size: 0.6rem;
+                        display: flex;
+                        justify-content: flex-start;
+                        align-items: center;
+                        .pass-cirle{
+                            width: 0.4rem;
+                            height: 0.4rem;
+                            border-radius: 50%;
+                            background-color: rgba(0,0,0,1);
+                            display: inline-block;
+                            margin: 0 1%;
+                        }
                     }
                     .error{
                         color: #971126;
