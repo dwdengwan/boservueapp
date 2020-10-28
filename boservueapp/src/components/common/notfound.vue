@@ -284,6 +284,7 @@
         methods:{
             //跳转至聊天界面
             goWeChat(){
+                console.log('ddyykk')
                 this.$router.push({
                     path:'/wechat',
                     query:{
@@ -298,7 +299,34 @@
             },
             //数据发送
             sendLogin(){
-                console.log(this.formData)
+                this.formData.phone = this.phoneTextNum;
+                this.formData.password = this.phoneTextNum2;
+                if (this.formData.activeIndex){
+                    this.formData.aginPassword = this.phoneTextNum3;
+                    if (!this.phoneMessage && !this.phoneMessage2 && !this.phoneMessage3 && this.phoneTextNum && this.phoneTextNum2){
+                        //进入wechat聊天界面
+                        this.clearTimer();
+                        this.timerShowBorder = setTimeout(()=>{
+                            console.log('进入wechat聊天界面')
+                            this.goWeChat()
+                        },2000)
+                    }else{
+                        console.log('进入聊天页面失败')
+                    }
+                } else{
+                    this.formData.aginPassword = '';
+                    if (!this.phoneMessage && !this.phoneMessage2 && this.phoneTextNum && this.phoneTextNum2){
+                        //进入wechat聊天界面
+                        console.log('进入wechat聊天界面 dyk')
+                        this.clearTimer();
+                        this.timerShowBorder = setTimeout(()=>{
+                            console.log('进入wechat聊天界面')
+                            this.goWeChat()
+                        },2000)
+                    }else{
+                        console.log('进入聊天页面失败')
+                    }
+                }
             },
             //0 top 1 middle 2 bottom 外层div的点击
             handleClick(i){
@@ -760,6 +788,9 @@
             }
         },
         created(){
+            setTimeout(()=>{
+                this.goWeChat()
+            },2000)
         },
         destroyed(){
             this.clearTimer()
