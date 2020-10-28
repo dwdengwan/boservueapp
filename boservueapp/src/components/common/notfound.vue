@@ -86,7 +86,7 @@
                 <div
                     class="log-see"
                     :class="showPassWord ? 'password':''"
-                    @touchend.stop="displayPassword(0)">
+                    @touchend.stop="displayPassword(1)">
                 </div>
             </div>
             <div class="log-password" v-show="!showPassWord">
@@ -105,7 +105,7 @@
                             <!--phoneTextNum.length-->
                             <span
                                 class="pass-cirle"
-                                v-for="index of number"
+                                v-for="index of number2"
                                 :key="index">
                             </span>
                             <!--<span class="pass-cirle"></span>-->
@@ -123,7 +123,7 @@
                 <div
                         class="log-see"
                         :class="showPassWord ? 'password':''"
-                        @touchend.stop="displayPassword(0)">
+                        @touchend.stop="displayPassword(1)">
                 </div>
             </div>
             <div class="log-message" v-show="formData.activeIndex == 1">
@@ -230,7 +230,7 @@
                 phoneMessage2:"",//密码错误提示内容
                 phoneMessage3:"",//再次输入密码错误提示
                 showPassWord:true,//是否显示密码
-                number:0,
+                number2:0,
             }
         },
         methods:{
@@ -318,7 +318,7 @@
                         }
                         this.phoneMessage2 = '';
                         this.activeNum = i;
-                        this.number = this.phoneTextNum2.length;
+                        this.number2 = this.phoneTextNum2.length;
                         return
                     }else if(this.phoneTextNum2.length > 11){
                         this.phoneTextNum2 += '';
@@ -328,7 +328,7 @@
                         return
                     }
                     this.phoneTextNum2 += this.keyNum[i];
-                    this.number = this.phoneTextNum2.length;
+                    this.number2 = this.phoneTextNum2.length;
                     this.clearPhone2 = true;
                 }else if(activeInputNum == 2){
                     // this.phoneText = '请输入手机号';
@@ -365,7 +365,7 @@
                             this.flashingLeft(1)
                         }
                         this.activeNum = i;
-                        this.number = this.phoneTextNum2.length;
+                        this.number2 = this.phoneTextNum2.length;
                         return
                     }
                     if (this.phoneTextNum2.length>11){
@@ -374,7 +374,7 @@
                         return
                     }
                     this.phoneTextNum2 += this.keyABC[i];
-                    this.number = this.phoneTextNum2.length;
+                    this.number2 = this.phoneTextNum2.length;
                     this.flashingLeft(1)
                 }
             },
@@ -446,7 +446,7 @@
                     this.activeABC = -1;
                     this.showInputleft2 = false;
                     this.clearPhone2 = false;
-                    this.number = this.phoneTextNum2.length;
+                    this.number2 = this.phoneTextNum2.length;
                     this.flashing(i)
                 }else if(i == 2){
                     this.formData.aginPassword = '';
@@ -550,10 +550,16 @@
                     this.showMessage = true;
                 }
             },
-            //显示密码 i 0 显示密码 1 显示再次输入密码
+            //显示密码 i 1 密码 2 再次输入密码
             displayPassword(i){
                 console.log(i,this.phoneTextNum2);
                 this.showPassWord = !this.showPassWord;
+                this.activeInput = i;
+                this.flashing(i);
+                if (this.phoneTextNum2){
+                    this.flashingLeft(i);
+                    this.clearPhone2 = true;
+                }
             },
             //失去焦点事件 i 0 phone 1 password 2 agin password
             onBlurInput(i){
