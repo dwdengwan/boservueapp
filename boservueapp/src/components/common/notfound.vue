@@ -5,7 +5,7 @@
             :class="!showTop ? 'autoheight':''">
         </div>
         <div
-            @touchend="handleClick(0)"
+            @touchend="handleClick(1)"
             class="login-middle">
             <div class="middle-title">
                 <span
@@ -55,10 +55,9 @@
                 </div>
             </div>
             <div class="log-message">
-                <!--输入的密码长度超出范围！-->
                 <span class="log-message-span">{{phoneMessage2}}</span>
             </div>
-            <div class="log-password" v-show="showPassWord">
+            <div class="log-password" v-show="showPassWord2">
                 <div
                     class="phone-input"
                     :class="activeInput==1?'active-input':''"
@@ -85,11 +84,11 @@
                 </div>
                 <div
                     class="log-see"
-                    :class="showPassWord ? 'password':''"
+                    :class="showPassWord2 ? 'password':''"
                     @touchend.stop="displayPassword(1)">
                 </div>
             </div>
-            <div class="log-password" v-show="!showPassWord">
+            <div class="log-password" v-show="!showPassWord2">
                 <div
                     class="phone-input"
                     :class="activeInput==1?'active-input':''"
@@ -102,13 +101,11 @@
                         <span
                                 class="phone-text-num"
                                 :class="showMessage2 ? 'error':''">
-                            <!--phoneTextNum.length-->
                             <span
                                 class="pass-cirle"
                                 v-for="index of number2"
                                 :key="index">
                             </span>
-                            <!--<span class="pass-cirle"></span>-->
                         </span>
                         <span class="phone-span-f">
                             <span class="phone-span" v-show="showInputleft2"></span>
@@ -122,14 +119,47 @@
                 </div>
                 <div
                         class="log-see"
-                        :class="showPassWord ? 'password':''"
+                        :class="showPassWord2 ? 'password':''"
                         @touchend.stop="displayPassword(1)">
                 </div>
             </div>
-            <div class="log-message" v-show="formData.activeIndex == 1">
-                <span class="log-message-span">再次输入的密码与原密码不一致！</span>
+            <div
+                class="log-message"
+                v-show="formData.activeIndex == 1">
+                <span class="log-message-span">{{phoneMessage3}}</span>
             </div>
-            <div class="log-password" v-show="formData.activeIndex == 1">
+            <div class="log-password" v-show="showPassWord3 && formData.activeIndex == 1">
+                <div
+                    class="phone-input"
+                    :class="activeInput==2?'active-input':''"
+                    @touchend.stop="phoneTouchend(2)">
+                    <div class="phone-input-span">
+                        <span class="phone-span-f">
+                            <span class="phone-span" v-show="showInputBorder3"></span>
+                        </span>
+                        <span class="phone-text">{{phoneText3}}</span>
+                        <span
+                                class="phone-text-num"
+                                :class="showMessage3 ? 'error':''">
+                            {{phoneTextNum3}}
+                        </span>
+                        <span class="phone-span-f">
+                            <span class="phone-span" v-show="showInputleft3"></span>
+                        </span>
+                    </div>
+                </div>
+                <div
+                        class="log-clear"
+                        @touchend.stop="clearPhoneBtn(2)"
+                        v-show="clearPhone3">
+                </div>
+                <div
+                    class="log-see"
+                    :class="showPassWord3 ? 'password':''"
+                    @touchend.stop="displayPassword(2)">
+                </div>
+            </div>
+            <div class="log-password" v-show="!showPassWord3 && formData.activeIndex == 1">
                 <div
                         class="phone-input"
                         :class="activeInput==2?'active-input':''"
@@ -138,15 +168,31 @@
                         <span class="phone-span-f">
                             <span class="phone-span" v-show="showInputBorder3"></span>
                         </span>
-                        <span class="phone-text">请再次输入密码</span>
-                        <!--<span class="phone-span-f">-->
-                            <!--<span class="phone-span" v-show="!showInputBorder3"></span>-->
-                        <!--</span>-->
+                        <span class="phone-text">{{phoneText3}}</span>
+                        <span
+                                class="phone-text-num"
+                                :class="showMessage3 ? 'error':''">
+                            <span
+                                    class="pass-cirle"
+                                    v-for="index of number3"
+                                    :key="index">
+                            </span>
+                        </span>
+                        <span class="phone-span-f">
+                            <span class="phone-span" v-show="showInputleft3"></span>
+                        </span>
                     </div>
                 </div>
-                <!--<div-->
-                    <!--class="log-see">-->
-                <!--</div>-->
+                <div
+                        class="log-clear"
+                        @touchend.stop="clearPhoneBtn(2)"
+                        v-show="clearPhone3">
+                </div>
+                <div
+                        class="log-see"
+                        :class="showPassWord3 ? 'password':''"
+                        @touchend.stop="displayPassword(2)">
+                </div>
             </div>
             <div class="log-button">
                 <div
@@ -229,8 +275,10 @@
                 phoneMessage:"",//手机错误提示内容
                 phoneMessage2:"",//密码错误提示内容
                 phoneMessage3:"",//再次输入密码错误提示
-                showPassWord:true,//是否显示密码
+                showPassWord2:true,//是否显示密码
+                showPassWord3:true,//是否显示再次输入密码
                 number2:0,
+                number3:0,
             }
         },
         methods:{
@@ -254,8 +302,9 @@
             },
             //0 top 1 middle 2 bottom 外层div的点击
             handleClick(i){
-                // document.getElementById('phone').focus();
-                console.log(i,'dyk')
+                if (i == 1){
+                    this.onBlurInput(this.activeInput)
+                }
                 this.activeInput = -1;
                 this.activeNum = -1;//数字键盘当前点击的下标
                 this.activeABC = -1;//英文键盘当前点击的下标
@@ -325,15 +374,41 @@
                         this.clearTimer()
                         this.activeNum = i;
                         this.phoneMessage2 = '密码长度超过12位！';
+                        this.timerShowBorder = setTimeout(()=>{
+                            this.phoneMessage2 = '';
+                        },2000)
                         return
                     }
                     this.phoneTextNum2 += this.keyNum[i];
                     this.number2 = this.phoneTextNum2.length;
                     this.clearPhone2 = true;
                 }else if(activeInputNum == 2){
-                    // this.phoneText = '请输入手机号';
-                    // this.phoneText2 = '请输入手机号';
+                    //再次输入密码
                     this.phoneText3 = '';
+                    //删除最后一位
+                    if (this.keyNum[i] == 'X'){
+                        this.phoneTextNum3 = this.phoneTextNum3.substr(0,this.phoneTextNum3.length - 1);
+                        if (!this.phoneTextNum3){
+                            this.phoneText3 = '请输入密码';
+                            this.flashing(2);
+                        }
+                        this.phoneMessage3 = '';
+                        this.activeNum = i;
+                        this.number3 = this.phoneTextNum3.length;
+                        return
+                    }else if(this.phoneTextNum3.length > 11){
+                        this.phoneTextNum3 += '';
+                        this.clearTimer()
+                        this.activeNum = i;
+                        this.phoneMessage3 = '密码长度超过12位！';
+                        this.timerShowBorder = setTimeout(()=>{
+                            this.phoneMessage3 = '';
+                        },2000)
+                        return
+                    }
+                    this.phoneTextNum3 += this.keyNum[i];
+                    this.number3 = this.phoneTextNum3.length;
+                    this.clearPhone3 = true;
                 }
                 this.restBorder(0);
                 this.activeNum = i;
@@ -370,12 +445,51 @@
                     }
                     if (this.phoneTextNum2.length>11){
                         this.phoneTextNum2 += '';
-                        this.phoneMessage2 = '密码长度不能超过12位！';
+                        this.phoneMessage2 = '密码长度超过12位！';
+                        this.timerShowBorder = setTimeout(()=>{
+                            this.phoneMessage2 = '';
+                        },2000)
                         return
                     }
                     this.phoneTextNum2 += this.keyABC[i];
                     this.number2 = this.phoneTextNum2.length;
                     this.flashingLeft(1)
+                }else if(this.activeInput == 2){
+                    //英文切换为数字
+                    if (i == (this.keyABC.length - 2)){
+                        this.activeNum = -1;
+                        this.showKeyNum = true;
+                        this.flashingLeft(2)
+                        return
+                    }
+                    this.phoneText3 = '';
+                    //删除最后一位
+                    this.clearPhone3 = true;
+                    if (this.keyABC[i] == 'X'){
+                        this.phoneTextNum3 = this.phoneTextNum3.substr(0,this.phoneTextNum3.length - 1);
+                        if (!this.phoneTextNum3){
+                            this.phoneText3 = '请输入密码';
+                            this.clearPhone3 = false;
+                            this.flashing(2);
+                        }else{
+                            this.phoneMessage3 = '';
+                            this.flashingLeft(2)
+                        }
+                        this.activeNum = i;
+                        this.number3 = this.phoneTextNum3.length;
+                        return
+                    }
+                    if (this.phoneTextNum3.length>11){
+                        this.phoneTextNum3 += '';
+                        this.phoneMessage3 = '密码长度超过12位！';
+                        this.timerShowBorder = setTimeout(()=>{
+                            this.phoneMessage3 = '';
+                        },2000)
+                        return
+                    }
+                    this.phoneTextNum3 += this.keyABC[i];
+                    this.number3 = this.phoneTextNum3.length;
+                    this.flashingLeft(2)
                 }
             },
             //div输入框的点击 0 手机号码 1 密码 2 再次验证密码
@@ -402,12 +516,26 @@
                             this.clearPhone2 = false;
                             this.flashing(i);
                         }
+                        this.onBlurInput(2);
                     }else if(i == 2){
                         this.onBlurInput(1);
+                        this.phoneMessage3 = '';
+                        this.showMessage3 = false;
+                        if (this.phoneTextNum3.length > 0){
+                            this.clearPhone3 = true;
+                            this.flashingLeft(i);
+                            if(this.phoneTextNum3.length == 12){
+                                this.clearTimer()
+                            }
+                        }else {
+                            this.clearPhone3 = false;
+                            this.flashing(i);
+                        }
                     }
                     this.onBlurInput(0)
                 }else{
                     this.clearPhone2 = false;
+                    this.clearPhone3 = false;
                     this.showMessage = false;
                     this.showKeyNum = true;
                     this.phoneTest();
@@ -426,6 +554,7 @@
                         this.flashing(i);
                     }
                     this.onBlurInput(1);
+                    this.onBlurInput(2);
                 }
             },
             //div输入框内容全部清除 0 phone 1 password 2 aginPassword
@@ -449,7 +578,14 @@
                     this.number2 = this.phoneTextNum2.length;
                     this.flashing(i)
                 }else if(i == 2){
-                    this.formData.aginPassword = '';
+                    this.phoneTextNum3 = '';
+                    this.phoneText3 = '请输入密码(6~12位)';
+                    this.activeNum = -1;
+                    this.activeABC = -1;
+                    this.showInputleft3 = false;
+                    this.clearPhone3 = false;
+                    this.number3 = this.phoneTextNum3.length;
+                    this.flashing(i)
                 }
                 this.activeInput = i;
             },
@@ -552,14 +688,30 @@
             },
             //显示密码 i 1 密码 2 再次输入密码
             displayPassword(i){
-                console.log(i,this.phoneTextNum2);
-                this.showPassWord = !this.showPassWord;
                 this.activeInput = i;
                 this.flashing(i);
-                if (this.phoneTextNum2){
-                    this.flashingLeft(i);
-                    this.clearPhone2 = true;
+                if (i == 1){
+                    this.showPassWord2 = !this.showPassWord2;
+                } else if (i == 2){
+                    this.showPassWord3 = !this.showPassWord3;
                 }
+                if (this.phoneTextNum2 && i == 1){
+                    if (this.phoneTextNum2<12){
+                        this.flashingLeft(i);
+                    }else{
+                        this.clearTimer();
+                    }
+                    this.clearPhone2 = true;
+                }else if(this.phoneTextNum3 && i == 2){
+                    if (this.phoneTextNum3<12){
+                        this.flashingLeft(i);
+                    }else{
+                        this.clearTimer();
+                    }
+                    this.clearPhone3 = true;
+                }
+                this.activeABC = -1;
+                this.activeNum = -1;
             },
             //失去焦点事件 i 0 phone 1 password 2 agin password
             onBlurInput(i){
@@ -584,9 +736,25 @@
                         }else if(this.phoneTextNum2.length == 0){
                             this.phoneMessage2 = '输入密码不能为空！';
                             this.showMessage2 = true;
+                        }else if(this.phoneTextNum2.length == 12){
+                            this.phoneMessage2 = '';
+                            this.showMessage2 = false;
                         }
                         break;
                     case 2:
+                        if (this.phoneTextNum3.length > 0 && this.phoneTextNum3.length < 6){
+                            this.phoneMessage3 = '再次输入密码强度太弱！';
+                            this.showMessage3 = true;
+                        }else if(this.phoneTextNum3.length == 0){
+                            this.phoneMessage3 = '再次输入密码不能为空！';
+                            this.showMessage3 = true;
+                        }else if(this.phoneTextNum3.length == 12){
+                            this.phoneMessage3 = '';
+                            this.showMessage3 = false;
+                        }else if (this.phoneTextNum2 !== this.phoneTextNum3){
+                            this.phoneMessage3 = '两次输入密码不一致！';
+                            this.showMessage3 = true;
+                        }
                         break;
                 }
             }
