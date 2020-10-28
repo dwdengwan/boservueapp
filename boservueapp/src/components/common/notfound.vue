@@ -1,8 +1,8 @@
 <template>
     <div class="login">
         <div
-                class="login-top"
-                :class="!showTop ? 'autoheight':''">
+            class="login-top"
+            :class="!showTop ? 'autoheight':''">
         </div>
         <div
             @touchend="handleClick(0)"
@@ -281,6 +281,9 @@
                         if (!this.phoneTextNum.length){
                             this.phoneMessage = '手机号码不能为空！'
                         }
+                    }else{
+                        this.showMessage = false;
+                        this.phoneMessage = '';
                     }
                 }else{
                     this.showMessage = false;
