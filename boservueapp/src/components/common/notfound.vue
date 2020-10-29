@@ -3,6 +3,15 @@
         <div
             class="login-top"
             :class="!showTop ? 'autoheight':''">
+            <div class="login-top-text">
+                <span
+                    class="login-top-span"
+                    :style="{'color':randomColor()}"
+                    v-for="(item,index) of loginTextArr"
+                    :key="index">
+                    {{item}}
+                </span>
+            </div>
         </div>
         <div
             @touchend="handleClick(1)"
@@ -239,6 +248,9 @@
         name: "notfound",
         data(){
             return {
+                loginText:'每个人都有自己的小天地，请不要冒犯他人的小天地。',
+                loginTextArr:[],
+                textTimer:null,
                 showTop:true,//显示上部分
                 loginName:"Log In",//log in sign up 相互切换
                 clearPhone:false,//手机号的清除
@@ -284,13 +296,35 @@
         methods:{
             //跳转至聊天界面
             goWeChat(){
-                console.log('ddyykk')
+                sessionStorage.setItem('login',1)
                 this.$router.push({
                     path:'/wechat',
                     query:{
                         type:'0',
                     }
                 });
+            },
+            //文字滚动
+            textLunBo(){
+                clearInterval(this.textTimer);
+                let num = 0;
+                let arr = [];
+                arr = this.loginText.split('');
+                let length = arr.length;
+                let i = 0;
+                this.textTimer = setInterval(()=>{
+                    this.loginTextArr = arr.slice(num,num+12);
+                    num ++;
+                    if (num > length - 12 && num < length){
+                        arr.push(arr[i])
+                        i ++;
+                    }else if (num == length){
+                        num = 0;
+                        i = 0;
+                        arr = this.loginText.split('');
+                    }
+                    // console.log(arr);
+                },500)
             },
             //log in sign up 相互切换
             login(i){
@@ -305,9 +339,7 @@
                     this.formData.aginPassword = this.phoneTextNum3;
                     if (!this.phoneMessage && !this.phoneMessage2 && !this.phoneMessage3 && this.phoneTextNum && this.phoneTextNum2){
                         //进入wechat聊天界面
-                        this.clearTimer();
-                        this.timerShowBorder = setTimeout(()=>{
-                            console.log('进入wechat聊天界面')
+                        setTimeout(()=>{
                             this.goWeChat()
                         },2000)
                     }else{
@@ -317,10 +349,7 @@
                     this.formData.aginPassword = '';
                     if (!this.phoneMessage && !this.phoneMessage2 && this.phoneTextNum && this.phoneTextNum2){
                         //进入wechat聊天界面
-                        console.log('进入wechat聊天界面 dyk')
-                        this.clearTimer();
-                        this.timerShowBorder = setTimeout(()=>{
-                            console.log('进入wechat聊天界面')
+                        setTimeout(()=>{
                             this.goWeChat()
                         },2000)
                     }else{
@@ -338,6 +367,7 @@
                 this.activeABC = -1;//英文键盘当前点击的下标
                 this.restBorder(2);
                 this.clearTimer()
+                this.textLunBo()
                 this.showTop = true;
             },
             //数字键盘的点击 键盘下标i
@@ -678,6 +708,8 @@
                 this.restBorder(2);
                 clearInterval(this.timerShowBorder);
                 this.timerShowBorder = null;
+                clearInterval(this.textTimer);
+                this.textTimer = null;
             },
             //重置闪烁边框 0 前 1 左边 2 all
             restBorder(i){
@@ -718,20 +750,22 @@
             displayPassword(i){
                 this.activeInput = i;
                 this.flashing(i);
+                this.showTop = false;
+                this.showKeyNum = false;
                 if (i == 1){
                     this.showPassWord2 = !this.showPassWord2;
                 } else if (i == 2){
                     this.showPassWord3 = !this.showPassWord3;
                 }
                 if (this.phoneTextNum2 && i == 1){
-                    if (this.phoneTextNum2<12){
+                    if (this.phoneTextNum2.length<12){
                         this.flashingLeft(i);
                     }else{
                         this.clearTimer();
                     }
                     this.clearPhone2 = true;
                 }else if(this.phoneTextNum3 && i == 2){
-                    if (this.phoneTextNum3<12){
+                    if (this.phoneTextNum3.length<12){
                         this.flashingLeft(i);
                     }else{
                         this.clearTimer();
@@ -785,15 +819,25 @@
                         }
                         break;
                 }
-            }
+            },
+            //随意一种颜色
+            randomColor() {
+                let r,g,b,a;
+                r = parseInt(Math.random()*255);
+                g = parseInt(Math.random()*255);
+                b = parseInt(Math.random()*255);
+                a = (Math.random() + 0.2).toFixed(2);
+                return `rgba(${r},${g},${b},${a})`
+            },
         },
         created(){
-            setTimeout(()=>{
-                this.goWeChat()
-            },2000)
+            this.textLunBo()
         },
         destroyed(){
-            this.clearTimer()
+            this.clearTimer();
+            clearInterval(this.textTimer)
+            this.textTimer = null;
+            sessionStorage.setItem('login',0)
         }
     }
 </script>
@@ -815,6 +859,21 @@
         height: calc(50% - 1px);
         transition: height 1s ease;
         overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .login-top-text{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 10%;
+            width: 100%;
+            .login-top-span{
+                width: 10%;
+                display: inline-block;
+                color:#971126;
+            }
+        }
     }
     .login-top.autoheight,
     .login-bottom.autoheight,
