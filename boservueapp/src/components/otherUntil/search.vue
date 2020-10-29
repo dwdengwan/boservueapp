@@ -59,9 +59,6 @@
     .search-content-area{
         width: 100%;
         height: 10%;
-        .search-content-footer{
-            background-color: #fff;
-        }
     }
     .search-content{
         width: 100%;

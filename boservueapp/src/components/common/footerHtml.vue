@@ -91,7 +91,7 @@
             height: 0.8rem;
             border-radius: 50%;
             /*background: rgb(0,200,0);*/
-            background: #666;
+            background: #fff;
             position: relative;
             .footer-html-flag{
                 width: 0.4rem;
@@ -112,7 +112,6 @@
         }
         .footer-html-title{
             text-align: center;
-            color: #666;
             font-size:0.35rem;
         }
     }

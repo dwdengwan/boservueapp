@@ -104,10 +104,8 @@
 
 <style scoped lang="less">
 .content-footer{
-    width: 96%;
+    width: 100%;
     height: 100%;
-    background: #eee;
-    padding: 0 2%;
     textarea{
         height: 60%;
         width: 60%;

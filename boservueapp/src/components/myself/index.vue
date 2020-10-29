@@ -124,62 +124,104 @@
 </script>
 
 <style scoped lang="less">
-    .myself{
+.myself{
+    width: 100%;
+    position: relative;
+    .myself-content{
         width: 100%;
-        background: #eee;
-        position: relative;
-        .myself-content{
-            background: #eee;
-            width: 100%;
-            .myself-first-child{
-                padding: 4% 2% 4% 4%;
-                width: 94%;
-                background: #fff;
+        .myself-first-child{
+            padding: 4% 2% 4% 4%;
+            width: 94%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .myself-first-left{
+                width: 90%;
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                .myself-first-img{
+                    width: 1.5rem;
+                    height: 1.5rem;
+                    border-radius: 12px;
+                    background: green;
+                }
+                .myself-first-info{
+                    width: calc(100% - 1.5rem);
+                    padding:0 3%;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    .myself-first-name{
+                        margin-bottom: 3%;
+                        font-size: 0.6rem;
+                        font-weight: bold;
+                        color:#333;
+                    }
+                    .myself-first-nicheng{
+                        margin-top: 3%;
+                        color:#cdcdcd;
+                        font-size: 0.35rem;
+                    }
+                }
+            }
+            .myself-first-right{
+                width: 10%;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                .myself-first-left{
-                    width: 90%;
+                .myself-first-erweima{
+                    width: 0.6rem;
+                    height: 0.6rem;
+                    background: aqua;
+                    border-radius: 6px;
+                }
+                .myself-first-back{}
+            }
+        }
+        .myself-kongge{
+            width: 100%;
+            height: 0.4rem;
+            background: #eee;
+        }
+        .myself-child{
+            .myself-child-content{
+                padding: 2%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 96%;
+                border-bottom: 1px solid #eee;
+                .myself-child-left{
+                    width: 50%;
                     display: flex;
                     justify-content: flex-start;
                     align-items: center;
-                    .myself-first-img{
-                        width: 1.5rem;
-                        height: 1.5rem;
-                        border-radius: 12px;
+                    .myself-child-img{
+                        width: 1.2rem;
+                        height: 1.2rem;
+                        border-radius: 10px;
                         background: green;
                     }
-                    .myself-first-info{
-                        width: calc(100% - 1.5rem);
-                        padding:0 3%;
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: space-between;
-                        .myself-first-name{
-                            margin-bottom: 3%;
-                            font-size: 0.6rem;
-                            font-weight: bold;
-                            color:#333;
-                        }
-                        .myself-first-nicheng{
-                            margin-top: 3%;
-                            color:#cdcdcd;
-                            font-size: 0.35rem;
-                        }
+                    .myself-child-name{
+                        margin-left: 5%;
+                        margin-right: 5%;
                     }
                 }
-                .myself-first-right{
-                    width: 10%;
+                .myself-child-right{
+                    font-size: 0.5rem;
+                    width: 50%;
                     display: flex;
-                    justify-content: space-between;
+                    justify-content: flex-end;
                     align-items: center;
-                    .myself-first-erweima{
-                        width: 0.6rem;
-                        height: 0.6rem;
-                        background: aqua;
+                    .myself-child-img{
+                        width: 0.8rem;
+                        height: 0.8rem;
                         border-radius: 6px;
+                        background: green;
+                        margin-left: 5%;
+                        margin-right: 5%;
                     }
-                    .myself-first-back{}
                 }
             }
             .myself-kongge{
@@ -187,72 +229,26 @@
                 height: 0.4rem;
                 background: #eee;
             }
-            .myself-child{
-                background: #fff;
-                .myself-child-content{
-                    padding: 2%;
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    width: 96%;
-                    border-bottom: 1px solid #eee;
-                    .myself-child-left{
-                        width: 50%;
-                        display: flex;
-                        justify-content: flex-start;
-                        align-items: center;
-                        .myself-child-img{
-                            width: 1.2rem;
-                            height: 1.2rem;
-                            border-radius: 10px;
-                            background: green;
-                        }
-                        .myself-child-name{
-                            margin-left: 5%;
-                            margin-right: 5%;
-                        }
-                    }
-                    .myself-child-right{
-                        font-size: 0.5rem;
-                        width: 50%;
-                        display: flex;
-                        justify-content: flex-end;
-                        align-items: center;
-                        .myself-child-img{
-                            width: 0.8rem;
-                            height: 0.8rem;
-                            border-radius: 6px;
-                            background: green;
-                            margin-left: 5%;
-                            margin-right: 5%;
-                        }
-                    }
-                }
-                .myself-kongge{
-                    width: 100%;
-                    height: 0.4rem;
-                    background: #eee;
-                }
-            }
-        }
-        .myself-fixed{
-            position: absolute;
-            top: 6%;
-            left: 0;
-            width: 100%;
-            height: 84%;
-            background: rgba(0,0,0,0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            .myself-fixed-child{
-                width: 40%;
-                height: 40%;
-                background: #fff;
-            }
-        }
-        .myself-fixed.active{
-            display: none;
         }
     }
+    .myself-fixed{
+        position: absolute;
+        top: 6%;
+        left: 0;
+        width: 100%;
+        height: 84%;
+        background: rgba(0,0,0,0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .myself-fixed-child{
+            width: 40%;
+            height: 40%;
+            background: #fff;
+        }
+    }
+    .myself-fixed.active{
+        display: none;
+    }
+}
 </style>

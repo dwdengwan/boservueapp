@@ -143,7 +143,6 @@
 <style scoped lang="less">
     .found{
         width: 100%;
-        background: #eee;
         .found-content{
             .found-child{
                 .found-child-content{

@@ -1,6 +1,7 @@
 <template>
     <div class="login">
         <div
+            @touchend="handleClick(0)"
             class="login-top"
             :class="!showTop ? 'autoheight':''">
             <div class="login-top-text">
@@ -240,9 +241,6 @@
                 </div>
             </div>
         </div>
-        <div class="login-fixed">
-            <div class="fixed-round"></div>
-        </div>
     </div>
 </template>
 
@@ -339,6 +337,7 @@
             sendLogin(){
                 this.formData.phone = this.phoneTextNum;
                 this.formData.password = this.phoneTextNum2;
+                this.onBlurInput(this.activeInput)
                 if (this.formData.activeIndex){
                     this.formData.aginPassword = this.phoneTextNum3;
                     if (!this.phoneMessage && !this.phoneMessage2 && !this.phoneMessage3 && this.phoneTextNum && this.phoneTextNum2){
@@ -363,7 +362,9 @@
             },
             //0 top 1 middle 2 bottom 外层div的点击
             handleClick(i){
-                if (i == 1){
+                if(!i){
+                    this.$router.back(-1);
+                } else if (i == 1){
                     this.onBlurInput(this.activeInput)
                 }
                 this.activeInput = -1;
@@ -848,21 +849,6 @@
     div{
         width: 100%;
         height: 50%;
-    }
-    .login-fixed{
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: -1;
-        background-color: transparent;
-        .fixed-round{
-            width: 50%;
-            height: 50%;
-            background-color: #971126;
-            border-radius: 50%;
-        }
     }
     .login-top{
         border-bottom: 1px dashed rgba(255,255,255,0.3);

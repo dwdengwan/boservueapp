@@ -20,6 +20,5 @@
 <style scoped lang="less">
     .shake{
         width: 100%;
-        background: #eee;
     }
 </style>

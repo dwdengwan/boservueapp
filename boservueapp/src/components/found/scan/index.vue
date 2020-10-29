@@ -60,6 +60,5 @@
 <style scoped lang="less">
 .scan{
     width: 100%;
-    background: #eee;
 }
 </style>

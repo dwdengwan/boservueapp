@@ -91,16 +91,15 @@
     /*background: $myColor,*/
  .wechat{
      width: 96%;
-     height: 100%;
+     height: 96%;
+     padding: 2%;
      .wechat-header{
          width: 100%;
          height: 6%;
-         background: #eee;
          display: flex;
          justify-content: space-between;
          align-items: center;
          font-size: 0.6rem;
-         padding: 0 2%;
          .wechat-header-back{
              display: flex;
              justify-content: flex-start;
@@ -124,8 +123,6 @@
      .wechat-content{
          width: 100%;
          height: 84%;
-         padding: 0 2%;
-         background: #efefef;
          overflow-y: auto;
          .wechat-child{
              font-size: 0.4rem;
@@ -164,7 +161,7 @@
                  display: flex;
                  justify-content: flex-start;
                  align-items: center;
-                 padding: 2% 0;
+                 padding: 2%;
                  .wechat-child-img{
                      background: #fff;
                  }
@@ -177,7 +174,7 @@
                  display: flex;
                  justify-content: flex-end;
                  align-items: center;
-                 padding: 2% 0;
+                 padding: 2%;
                  .wechat-child-content{
                      background: green;
                      color:#fff;
@@ -198,8 +195,6 @@
      .wechat-footer{
          width: 100%;
          height: 10%;
-         background: #eee;
-         padding: 0 2%;
          input{
              height: 60%;
              width: 60%;

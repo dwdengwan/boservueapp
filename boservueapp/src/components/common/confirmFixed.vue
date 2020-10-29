@@ -80,7 +80,6 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0,0,0,0.2);
         display: flex;
         justify-content: center;
         align-items: center;
@@ -92,7 +91,7 @@
                     color:#00c800;
                 }
                 .content-top-right{
-                    color:#971126;
+                    color:#940619;
                 }
             }
             .content-button{

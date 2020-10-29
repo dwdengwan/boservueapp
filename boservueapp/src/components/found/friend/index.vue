@@ -67,9 +67,8 @@
                                     <span>{{citem.content}}</span>
                                     <div
                                             class="friend-item-delete"
-                                            v-if="citem.name == 'dw' && index == contentPostion.i && bindex == contentPostion.j && cindex == contentPostion.k"
-                                            @touchend="handleTouchendDelete(index,bindex,cindex,$event)">
-                                        <span>删除该评论</span>
+                                            v-if="citem.name == 'dw' && index == contentPostion.i && bindex == contentPostion.j && cindex == contentPostion.k">
+                                        <span @touchend="handleTouchendDelete(index,bindex,cindex,$event)">删除该评论</span>
                                     </div>
                                 </div>
                                 <div
@@ -83,9 +82,8 @@
                                     <span>{{citem.content}}</span>
                                     <div
                                             class="friend-item-delete"
-                                            v-if="citem.name == 'dw' && index == contentPostion.i && bindex == contentPostion.j && cindex == contentPostion.k"
-                                            @touchend="handleTouchendDelete(index,bindex,cindex,$event)">
-                                        <span>删除该回复</span>
+                                            v-if="citem.name == 'dw' && index == contentPostion.i && bindex == contentPostion.j && cindex == contentPostion.k">
+                                        <span @touchend="handleTouchendDelete(index,bindex,cindex,$event)">删除该回复</span>
                                     </div>
                                 </div>
                             </div>
@@ -441,7 +439,6 @@
 <style scoped lang="less">
     .friend{
         width: 100%;
-        background: #eee;
         .friend-content{
             width: 100%;
             height: 94%;

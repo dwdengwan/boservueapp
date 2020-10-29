@@ -66,7 +66,6 @@
         align-items: center;
         padding: 0 2%;
         font-size: 0.4rem;
-        color:#666;
         .header-html-left{
             width: 50%;
             display: flex;

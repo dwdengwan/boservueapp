@@ -126,7 +126,6 @@
 <style scoped lang="less">
     .test{
         width: 100%;
-        background: #eee;
         position: relative;
         .box {
             width: 100%;

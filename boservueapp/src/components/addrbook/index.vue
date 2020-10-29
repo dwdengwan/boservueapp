@@ -205,7 +205,6 @@
     .addrbook{
         width: 100%;
         height: 100%;
-        background: #eee;
         .addrbook-content{
             width: 100%;
             height: 84%;
