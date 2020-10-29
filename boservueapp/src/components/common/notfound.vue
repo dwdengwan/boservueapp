@@ -6,7 +6,7 @@
             <div class="login-top-text">
                 <span
                     class="login-top-span"
-                    :style="{'color':randomColor()}"
+                    :style="{'color':$common.randomColor()}"
                     v-for="(item,index) of loginTextArr"
                     :key="index">
                     {{item}}
@@ -240,6 +240,9 @@
                 </div>
             </div>
         </div>
+        <div class="login-fixed">
+            <div class="fixed-round"></div>
+        </div>
     </div>
 </template>
 
@@ -248,7 +251,8 @@
         name: "notfound",
         data(){
             return {
-                loginText:'每个人都有自己的小天地，请不要冒犯他人的小天地。',
+                // 每个人都有自己的小天地，请不要冒犯他人的小天地。
+                loginText:'每个人都是自己的小天使，都希望有自己的小翅膀，飞向远方。',
                 loginTextArr:[],
                 textTimer:null,
                 showTop:true,//显示上部分
@@ -820,15 +824,6 @@
                         break;
                 }
             },
-            //随意一种颜色
-            randomColor() {
-                let r,g,b,a;
-                r = parseInt(Math.random()*255);
-                g = parseInt(Math.random()*255);
-                b = parseInt(Math.random()*255);
-                a = (Math.random() + 0.2).toFixed(2);
-                return `rgba(${r},${g},${b},${a})`
-            },
         },
         created(){
             this.textLunBo()
@@ -854,6 +849,21 @@
         width: 100%;
         height: 50%;
     }
+    .login-fixed{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        background-color: transparent;
+        .fixed-round{
+            width: 50%;
+            height: 50%;
+            background-color: #971126;
+            border-radius: 50%;
+        }
+    }
     .login-top{
         border-bottom: 1px dashed rgba(255,255,255,0.3);
         height: calc(50% - 1px);
@@ -866,8 +876,15 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 0 10%;
-            width: 100%;
+            margin: 0 6%;
+            padding: 0 2%;
+            width: 84%;
+            /*linear-gradient(to right,rgba(251, 251, 251, 0.09),rgba(251, 251, 251, 0.59),#FFF)*/
+            border-top: 5px solid #971126;
+            border-left: 5px solid #00c800;
+            border-bottom: 5px solid #00ffff;
+            border-right: 5px solid #12dd99;
+            border-radius: 20px;
             .login-top-span{
                 width: 10%;
                 display: inline-block;
