@@ -1,3 +1,6 @@
+<!--
+    游戏 底部
+-->
 <template>
     <div class="game-footer">
         <div class="game-footer-content">

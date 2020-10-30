@@ -26,7 +26,7 @@ export default {
 }
 :root{
     /*正常字体颜色*/
-    --font-color:yellow;
+    --font-color:green;
     /*点击的背景颜色*/
     --active-bgcolor:#d12;
     /*正常的背景颜色*/

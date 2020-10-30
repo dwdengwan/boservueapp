@@ -248,6 +248,8 @@
                     display: flex;
                     justify-content: flex-start;
                     align-items: center;
+                    border-top: 1px solid #eee;
+                    border-bottom: 1px solid #eee;
                     .addrbook-child-img{
                         width: 1.2rem;
                         height: 1.2rem;

@@ -24,22 +24,7 @@
                 </div>
             </div>
             <div class="myself-kongge"></div>
-            <div class="myself-child"
-                 v-for="myself in myselfData"
-                 :key="myself.id">
-                <div class="myself-child-content">
-                    <div class="myself-child-left">
-                        <div class="myself-child-img" :style="{'background':$common.randomColor()}"></div>
-                        <div class="myself-child-name">
-                            {{myself.name}}
-                        </div>
-                    </div>
-                    <div class="myself-child-right">
-                        <div class="myself-child-back"></div>
-                    </div>
-                </div>
-                <div class="myself-kongge" v-if="myself.iskongge == '1'"></div>
-            </div>
+            <goToNext :myselfData="myselfData"></goToNext>
         </div>
         <div class="myself-fixed" :class="!active?'active':''" @touchend="handleClickFixed">
             <div class="myself-fixed-child"></div>
@@ -53,10 +38,12 @@
 <script>
     import footerHtml from '../common/footerHtml';
     import headerHtml from '../common/headerHtml';
+    import goToNext from '../common/goToNext';
+
     export default {
         name: "myself",
         components:{
-            footerHtml,headerHtml
+            footerHtml,headerHtml,goToNext
         },
         data(){
             return {
@@ -65,31 +52,37 @@
                         name:"支付",
                         id:'10002',
                         iskongge:'1',
+                        url:"/myself",
                     },
                     {
                         name:"收藏",
                         id:'10003',
                         iskongge:'0',
+                        url:"/myself",
                     },
                     {
                         name:"相册",
                         id:'10004',
                         iskongge:'0',
+                        url:"/myself",
                     },
                     {
                         name:"卡包",
                         id:'10005',
                         iskongge:'0',
+                        url:"/myself",
                     },
                     {
                         name:"表情",
                         id:'10006',
                         iskongge:'1',
+                        url:"/myself",
                     },
                     {
                         name:"设置",
                         id:'10007',
                         iskongge:'1',
+                        url:"/myself/setting",
                     }
                 ],
                 active:false,
@@ -115,7 +108,7 @@
             },
             handleClickFixed(){
                 this.active = false;
-            }
+            },
         },
         mounted(){
 
@@ -190,60 +183,6 @@
             width: 100%;
             height: 0.4rem;
             background: #eee;
-        }
-        .myself-child{
-            .myself-child-content{
-                padding: 2%;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                width: 96%;
-                border-bottom: 1px solid #eee;
-                .myself-child-left{
-                    width: 50%;
-                    display: flex;
-                    justify-content: flex-start;
-                    align-items: center;
-                    .myself-child-img{
-                        width: 1.2rem;
-                        height: 1.2rem;
-                        border-radius: 10px;
-                        background: green;
-                    }
-                    .myself-child-name{
-                        margin-left: 5%;
-                        margin-right: 5%;
-                    }
-                }
-                .myself-child-right{
-                    font-size: 0.5rem;
-                    width: 50%;
-                    display: flex;
-                    justify-content: flex-end;
-                    align-items: center;
-                    .myself-child-img{
-                        width: 0.8rem;
-                        height: 0.8rem;
-                        border-radius: 6px;
-                        background: green;
-                        margin-left: 5%;
-                        margin-right: 5%;
-                    }
-                    .myself-child-back{
-                        width: 0.25rem;
-                        height: 0.25rem;
-                        border-top: 2px solid var(--font-color);
-                        border-right: 2px solid var(--font-color);
-                        transform: rotate(45deg);
-                        display: inline-block;
-                    }
-                }
-            }
-            .myself-kongge{
-                width: 100%;
-                height: 0.4rem;
-                background: #eee;
-            }
         }
     }
     .myself-fixed{
