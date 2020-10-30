@@ -472,7 +472,7 @@
                         background: #ddd;
                     }
                     .friend-child-middle{
-                        color:#666;
+                        /*color:#666;*/
                     }
                     .friend-child-bottom{
                         width: 100%;
@@ -530,6 +530,7 @@
                         padding: 2%;
                         margin-top: 1%;
                         margin-bottom: 1%;
+                        color:var(--font-color);
                         .friend-child-item{
                             font-size: 0.35rem;
                             .friend-item-name{

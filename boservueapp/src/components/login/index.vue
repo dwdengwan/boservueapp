@@ -430,11 +430,11 @@
                     align-items: center;
                     .login-child-name{
                         font-size: 0.4rem;
-                        color:#666;
+                        /*color:#666;*/
                     }
                     .login-child-time{
                         font-size: 0.35rem;
-                        color:#999;
+                        /*color:#999;*/
                     }
                 }
                 .login-child-bottom{
@@ -446,7 +446,7 @@
                         width: 100%;
                         display: inline-block;
                         font-size: 0.35rem;
-                        color:#999;
+                        /*color:#999;*/
                         overflow:hidden;
                         white-space: nowrap;
                         text-overflow: ellipsis;
@@ -455,7 +455,7 @@
             }
         }
         .login-child.vip{
-            background: #f0f0f0;
+            background: var(--active-bgcolor);
         }
         .login-child.vipactive{
             background: #e0e0e0;

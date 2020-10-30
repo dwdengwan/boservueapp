@@ -21,8 +21,16 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   /*text-align: center;*/
   user-select:none;
-  background-color: #940619;
-  color: green;
+  background-color: var(--normar-bgcolor);
+  color: var(--font-color);
+}
+:root{
+    /*正常字体颜色*/
+    --font-color:yellow;
+    /*点击的背景颜色*/
+    --active-bgcolor:#d12;
+    /*正常的背景颜色*/
+    --normar-bgcolor:#940619;
 }
 *{
     margin:0;

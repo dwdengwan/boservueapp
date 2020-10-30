@@ -20,7 +20,7 @@
                 </div>
                 <div class="myself-first-right">
                     <div class="myself-first-erweima" @touchend="handleClick($event)"></div>
-                    <div class="myself-first-back">&gt;</div>
+                    <div class="myself-first-back"></div>
                 </div>
             </div>
             <div class="myself-kongge"></div>
@@ -35,7 +35,7 @@
                         </div>
                     </div>
                     <div class="myself-child-right">
-                        <div class="myself-child-back">&gt;</div>
+                        <div class="myself-child-back"></div>
                     </div>
                 </div>
                 <div class="myself-kongge" v-if="myself.iskongge == '1'"></div>
@@ -176,7 +176,14 @@
                     background: aqua;
                     border-radius: 6px;
                 }
-                .myself-first-back{}
+                .myself-first-back{
+                    width: 0.25rem;
+                    height: 0.25rem;
+                    border-top: 2px solid var(--font-color);
+                    border-right: 2px solid var(--font-color);
+                    transform: rotate(45deg);
+                    display: inline-block;
+                }
             }
         }
         .myself-kongge{
@@ -221,6 +228,14 @@
                         background: green;
                         margin-left: 5%;
                         margin-right: 5%;
+                    }
+                    .myself-child-back{
+                        width: 0.25rem;
+                        height: 0.25rem;
+                        border-top: 2px solid var(--font-color);
+                        border-right: 2px solid var(--font-color);
+                        transform: rotate(45deg);
+                        display: inline-block;
                     }
                 }
             }

@@ -185,8 +185,8 @@
                         .found-child-back{
                             width: 0.25rem;
                             height: 0.25rem;
-                            border-top: 2px solid #666;
-                            border-right: 2px solid #666;
+                            border-top: 2px solid var(--font-color);
+                            border-right: 2px solid var(--font-color);
                             transform: rotate(45deg);
                             display: inline-block;
                         }

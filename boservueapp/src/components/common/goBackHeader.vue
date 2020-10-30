@@ -43,8 +43,8 @@
     .friend-goback{
         width: 0.25rem;
         height: 0.25rem;
-        border-bottom: 2px solid #666;
-        border-left: 2px solid #666;
+        border-bottom: 2px solid var(--font-color);
+        border-left: 2px solid var(--font-color);
         transform: rotate(45deg);
         display: inline-block;
     }
