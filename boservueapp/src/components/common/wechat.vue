@@ -9,7 +9,7 @@
                 <span>...</span>
             </div>
         </div>
-        <div class="wechat-content"
+        <div class="wechat-content content"
              @touchend="handleContentClick"
              :class="isactive?'active':''">
             <div class="wechat-child" v-for="item in wechatData" :key="item.id" ref="wechatchild">
@@ -108,14 +108,13 @@
              .wechat-header-goback{
                  width: 0.25rem;
                  height: 0.25rem;
-                 border-bottom: 2px solid #666;
-                 border-left: 2px solid #666;
+                 border-bottom: 2px solid var(--font-color);
+                 border-left: 2px solid var(--font-color);
                  transform: rotate(45deg);
                  display: inline-block;
              }
              .wechat-header-name{
                  font-size: 0.4rem;
-                 color:#666;
                  margin:0 2%;
              }
          }

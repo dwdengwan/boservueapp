@@ -43,8 +43,8 @@
                     {
                         id:3,
                         name:'护眼模式',
-                        color:'#fff',
-                        bgColor:'#000',
+                        color:'#deffdd',
+                        bgColor:'#a19aff',
                     },
                     {
                         id:4,
