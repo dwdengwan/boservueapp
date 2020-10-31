@@ -1,16 +1,16 @@
 <template>
     <div class="wechat">
         <div class="wechat-header">
-            <div class="wechat-header-back" @click="handleClick">
-                <span>&lt;</span>
-                <span class="wechat-header-name">豆豆</span>
+            <div class="wechat-header-back" @touchend="handleClick">
+                <span class="wechat-header-goback"></span>
+                <span class="wechat-header-name">{{name}}</span>
             </div>
             <div class="wechat-header-dd">
                 <span>...</span>
             </div>
         </div>
-        <div class="wechat-content"
-             @click="handleContentClick"
+        <div class="wechat-content content"
+             @touchend="handleContentClick"
              :class="isactive?'active':''">
             <div class="wechat-child" v-for="item in wechatData" :key="item.id" ref="wechatchild">
                 <div class="wechat-child-time">
@@ -48,12 +48,14 @@
                 timer:null,
                 contentFooterObj:{
                     num:1,
-                }
+                },
+                name:'豆豆',
             }
         },
         methods:{
             handleClick(){
-                let type = this.$route.query.type;
+                // let type = this.$route.query.type;
+                let type = sessionStorage.getItem('isWeChat');
                 console.log(type)
                 if (type == '0'){
                     this.$router.push({path:'/',query:{}})
@@ -73,7 +75,12 @@
             }
         },
         created(){
-
+            // let name = this.$route.query.name;
+            let name = sessionStorage.getItem('userName');
+            this.name = name;
+        },
+        destroyed(){
+            sessionStorage.setItem('login','0')
         }
     }
 </script>
@@ -84,33 +91,37 @@
     /*background: $myColor,*/
  .wechat{
      width: 96%;
-     height: 100%;
+     height: 96%;
+     padding: 2%;
      .wechat-header{
          width: 100%;
          height: 6%;
-         background: #eee;
          display: flex;
          justify-content: space-between;
          align-items: center;
          font-size: 0.6rem;
-         padding: 0 2%;
          .wechat-header-back{
              display: flex;
-             justify-content: space-between;
+             justify-content: flex-start;
              align-items: center;
-             width: 15%;
+             width: 70%;
+             .wechat-header-goback{
+                 width: 0.25rem;
+                 height: 0.25rem;
+                 border-bottom: 2px solid var(--font-color);
+                 border-left: 2px solid var(--font-color);
+                 transform: rotate(45deg);
+                 display: inline-block;
+             }
              .wechat-header-name{
                  font-size: 0.4rem;
-                 color:#666;
-                 /*margin-right:2%;*/
+                 margin:0 2%;
              }
          }
      }
      .wechat-content{
          width: 100%;
          height: 84%;
-         padding: 0 2%;
-         background: #efefef;
          overflow-y: auto;
          .wechat-child{
              font-size: 0.4rem;
@@ -149,7 +160,7 @@
                  display: flex;
                  justify-content: flex-start;
                  align-items: center;
-                 padding: 2% 0;
+                 padding: 2%;
                  .wechat-child-img{
                      background: #fff;
                  }
@@ -162,7 +173,7 @@
                  display: flex;
                  justify-content: flex-end;
                  align-items: center;
-                 padding: 2% 0;
+                 padding: 2%;
                  .wechat-child-content{
                      background: green;
                      color:#fff;
@@ -175,15 +186,14 @@
          }
      }
      .wechat-content.active{
-         background: green;
+         /*background: green;*/
+         background: #fff;
          opacity: 1;
          transition: opacity 2s;
      }
      .wechat-footer{
          width: 100%;
          height: 10%;
-         background: #eee;
-         padding: 0 2%;
          input{
              height: 60%;
              width: 60%;

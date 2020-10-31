@@ -4,15 +4,15 @@
             <go-back-header></go-back-header>
         </div>
         <div
-            class="content friend-content"
-            :class="showContent?'showContent':''"
-            ref="friendContent"
-            @scroll="handleScroll">
+                class="content friend-content"
+                :class="showContent?'showContent':''"
+                ref="friendContent"
+                @scroll="handleScroll">
             <div
-                class="friend-child"
-                v-for="(friend,index) in friendData"
-                :key="friend.id"
-                ref="friendChild">
+                    class="friend-child"
+                    v-for="(friend,index) in friendData"
+                    :key="friend.id"
+                    ref="friendChild">
                 <div class="friend-child-left">
                     <div class="friend-child-img" :style="{'background':$common.randomColor()}"></div>
                 </div>
@@ -49,43 +49,41 @@
                         <span class="friend-supper-name">{{friend.supper}}</span>
                     </div>
                     <div class="friend-child-comments" v-if="friend.list.length !== 0">
-                        <div 
-                            class="friend-child-list"
-                            v-for="(bitem,bindex) in friend.list"
-                            :key="bindex" >
+                        <div
+                                class="friend-child-list"
+                                v-for="(bitem,bindex) in friend.list"
+                                :key="bindex" >
                             <div
-                                class="friend-child-zmj"
-                                v-for="(citem,cindex) in bitem"
-                                :key="cindex"
-                                @touchend="handleTouchendItem(index,bindex,cindex,$event)">
+                                    class="friend-child-zmj"
+                                    v-for="(citem,cindex) in bitem"
+                                    :key="cindex"
+                                    @touchend="handleTouchendItem(index,bindex,cindex,$event)">
                                 <div
-                                    class="friend-child-item"
-                                    v-if="citem.other == ''"
-                                    :class="(index==contentPostion.i&&bindex==contentPostion.j&&cindex==contentPostion.k)?'active':''">
+                                        class="friend-child-item"
+                                        v-if="citem.other == ''"
+                                        :class="(index==contentPostion.i&&bindex==contentPostion.j&&cindex==contentPostion.k)?'active':''">
                                     <span class="friend-item-name">{{citem.name}}</span>
                                     <span>:</span>
                                     <span>{{citem.content}}</span>
                                     <div
-                                        class="friend-item-delete"
-                                        v-if="citem.name == 'dw' && index == contentPostion.i && bindex == contentPostion.j && cindex == contentPostion.k"
-                                        @touchend="handleTouchendDelete(index,bindex,cindex,$event)">
-                                        <span>删除该评论</span>
+                                            class="friend-item-delete"
+                                            v-if="citem.name == 'dw' && index == contentPostion.i && bindex == contentPostion.j && cindex == contentPostion.k">
+                                        <span @touchend="handleTouchendDelete(index,bindex,cindex,$event)">删除该评论</span>
                                     </div>
                                 </div>
                                 <div
-                                    class="friend-child-item"
-                                    v-else-if="citem.other !== ''"
-                                    :class="(index == contentPostion.i && bindex == contentPostion.j && cindex == contentPostion.k)?'active':''">
+                                        class="friend-child-item"
+                                        v-else-if="citem.other !== ''"
+                                        :class="(index == contentPostion.i && bindex == contentPostion.j && cindex == contentPostion.k)?'active':''">
                                     <span class="friend-item-name">{{citem.name}}</span>
                                     <span>回复</span>
                                     <span class="friend-item-name">{{citem.other}}</span>
                                     <span>:</span>
                                     <span>{{citem.content}}</span>
                                     <div
-                                        class="friend-item-delete"
-                                        v-if="citem.name == 'dw' && index == contentPostion.i && bindex == contentPostion.j && cindex == contentPostion.k"
-                                        @touchend="handleTouchendDelete(index,bindex,cindex,$event)">
-                                        <span>删除该回复</span>
+                                            class="friend-item-delete"
+                                            v-if="citem.name == 'dw' && index == contentPostion.i && bindex == contentPostion.j && cindex == contentPostion.k">
+                                        <span @touchend="handleTouchendDelete(index,bindex,cindex,$event)">删除该回复</span>
                                     </div>
                                 </div>
                             </div>
@@ -394,27 +392,27 @@
                 e.stopPropagation()
             },
             updata(val){
-              if (this.contentPostion.k == -1){
-                  this.friendData[this.activeIndex].list.push([val])
-              } else {
-                  this.friendData[this.contentPostion.i].list[this.contentPostion.j].push(val)
-              }
-              this.$set(this,'friendData',this.friendData);
-              this.updataStatus()
+                if (this.contentPostion.k == -1){
+                    this.friendData[this.activeIndex].list.push([val])
+                } else {
+                    this.friendData[this.contentPostion.i].list[this.contentPostion.j].push(val)
+                }
+                this.$set(this,'friendData',this.friendData);
+                this.updataStatus()
             },
             handleTouchendItem(i,j,k,e){
-              e.stopPropagation()
-              let name = this.friendData[i].list[j][k].name;
-              this.contentPostion.i = i;
-              this.contentPostion.j = j;
-              this.contentPostion.k = k;
-              if (name == 'dw'){
-                  return
-              }
-              this.childFixedFn(this.activeIndex,0);
-              this.activeIndex = -1;
-              this.contentFooterObj.contentPostion = this.contentPostion;
-              this.showContent = true;
+                e.stopPropagation()
+                let name = this.friendData[i].list[j][k].name;
+                this.contentPostion.i = i;
+                this.contentPostion.j = j;
+                this.contentPostion.k = k;
+                if (name == 'dw'){
+                    return
+                }
+                this.childFixedFn(this.activeIndex,0);
+                this.activeIndex = -1;
+                this.contentFooterObj.contentPostion = this.contentPostion;
+                this.showContent = true;
             },
             handleTouchendDelete(i,j,k,e){
                 e.stopPropagation()
@@ -441,7 +439,6 @@
 <style scoped lang="less">
     .friend{
         width: 100%;
-        background: #eee;
         .friend-content{
             width: 100%;
             height: 94%;
@@ -475,7 +472,7 @@
                         background: #ddd;
                     }
                     .friend-child-middle{
-                        color:#666;
+                        /*color:#666;*/
                     }
                     .friend-child-bottom{
                         width: 100%;
@@ -533,6 +530,7 @@
                         padding: 2%;
                         margin-top: 1%;
                         margin-bottom: 1%;
+                        color:var(--font-color);
                         .friend-child-item{
                             font-size: 0.35rem;
                             .friend-item-name{

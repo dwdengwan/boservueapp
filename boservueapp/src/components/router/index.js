@@ -1,9 +1,11 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import Found from  './found.js';
+import Myself from  './myself.js';
 
 Vue.use(Router)
 
-export default new Router({
+ let homeRouter = new Router({
     mode:'history',
     routes:[
         {
@@ -27,7 +29,15 @@ export default new Router({
             path: '/wechat',
             component: resolve => require(['../../components/common/wechat.vue'], resolve),
             meta: {
-                title: '聊天主界面'
+                title: '聊天主界面',
+                isWeChat:true,
+            }
+        },
+        {
+            path: '/notfound',
+            component: resolve => require(['../../components/common/notfound.vue'], resolve),
+            meta: {
+                title: '未登录',
             }
         },
         {
@@ -37,25 +47,13 @@ export default new Router({
                 title: '通讯录'
             }
         },
+        ...Found,
+        ...Myself,
         {
-            path: '/found',
-            component: resolve => require(['../../components/found/index.vue'], resolve),
+            path: '/search',
+            component: resolve => require(['../../components/otherUntil/search.vue'], resolve),
             meta: {
-                title: '发现'
-            }
-        },
-        {
-            path: '/found/friend',
-            component: resolve => require(['../../components/found/friend/index.vue'], resolve),
-            meta: {
-                title: '发现'
-            }
-        },
-        {
-            path: '/myself',
-            component: resolve => require(['../../components/myself/index.vue'], resolve),
-            meta: {
-                title: '自己'
+                title: '搜索'
             }
         },
     ],
@@ -65,3 +63,24 @@ const originalPush = Router.prototype.push
 Router.prototype.push = function push(location) {
     return originalPush.call(this, location).catch(err => err)
 }
+
+//路由守卫 进入聊天页面前判断是否登录
+homeRouter.beforeEach((to, from, next) => {
+    let {
+        // title,
+        isWeChat
+    } = to.meta;
+    let flag = parseInt(sessionStorage.getItem('login'));
+    let type = sessionStorage.getItem('isWeChat');
+    if (isWeChat && !flag) {
+        next({
+            path: '/notfound',
+            query:{
+                type,
+            }
+        })
+    } else {
+        next();
+    }
+})
+export default homeRouter

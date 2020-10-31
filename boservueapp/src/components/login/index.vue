@@ -73,8 +73,11 @@
 <script>
     import footerHtml from '../common/footerHtml';
     import headerHtml from '../common/headerHtml';
+    import {toggle} from "../mixins/toggle";
+
     export default {
         name: "index",
+        mixins:[toggle],
         components:{
             footerHtml,headerHtml
         },
@@ -208,7 +211,7 @@
                 this.timeOutEvent = setTimeout(()=>{
                     //此处为长按事件-----在此显示遮罩层及删除按钮
                     this.longClick=1;//假如长按，则设置为1
-                },500);
+                },300);
             },
             handleTouchMove(){
                 clearTimeout(this.timeOutEvent);
@@ -228,7 +231,9 @@
                     //此处为点击事件----在此处添加跳转详情页
                     if (num == 1){
                         //原始页面
-                        this.$router.push({path:'/wechat',query:{type:'0'}})
+                        let name = item.name;
+                        sessionStorage.setItem('userName',name);
+                        this.$router.push({path:'/wechat',query:{type:'0',name}})
                     } else {
                         //弹出层页面
                         this.isHandTouch = false;
@@ -366,122 +371,124 @@
             this.calcNum()
         },
         created(){
-
+            localStorage.setItem('isactive',0);
+            sessionStorage.setItem('isWeChat',0);
         }
     }
 </script>
 
 <style scoped lang="less">
-    .login{
+.login{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    .login-content{
         width: 100%;
-        height: 100%;
-        background: #eee;
-        position: relative;
-        .login-content{
-            width: 100%;
-            .login-child{
-                width: 96%;
+        .login-child{
+            width: 96%;
+            display: flex;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+            padding: 2%;
+            .login-child-left{
+                width: 2rem;
                 display: flex;
-                border-top: 1px solid #eee;
-                border-bottom: 1px solid #eee;
-                padding: 2%;
-                .login-child-left{
-                    width: 2rem;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    .login-child-img{
-                        width: 1.2rem;
-                        height: 1.2rem;
-                        border-radius: 10px;
-                        background: green;
-                        position: relative;
-                        .login-child-flag{
-                            width: 0.5rem;
-                            height: 0.5rem;
-                            border-radius: 50%;
-                            background: red;
-                            position: absolute;
-                            top: -10%;
-                            right: -10%;
-                            color:#fff;
-                            font-size: 0.2rem;
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
-                        }
+                justify-content: center;
+                align-items: center;
+                .login-child-img{
+                    width: 1.2rem;
+                    height: 1.2rem;
+                    border-radius: 10px;
+                    background: green;
+                    position: relative;
+                    .login-child-flag{
+                        width: 0.5rem;
+                        height: 0.5rem;
+                        line-height: 0.5rem;
+                        text-align: center;
+                        border-radius: 50%;
+                        background: red;
+                        position: absolute;
+                        top: -10%;
+                        right: -10%;
+                        color:#fff;
+                        font-size: 0.3rem;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
                     }
                 }
-                .login-child-right{
-                    width: calc(100% - 2rem);
+            }
+            .login-child-right{
+                width: calc(100% - 2rem);
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                .login-child-top{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    .login-child-name{
+                        font-size: 0.4rem;
+                        /*color:#666;*/
+                    }
+                    .login-child-time{
+                        font-size: 0.35rem;
+                        /*color:#999;*/
+                    }
+                }
+                .login-child-bottom{
+                    width: 100%;
                     display: flex;
                     flex-direction: column;
-                    justify-content: space-between;
-                    .login-child-top{
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-                        .login-child-name{
-                            font-size: 0.4rem;
-                            color:#666;
-                        }
-                        .login-child-time{
-                            font-size: 0.35rem;
-                            color:#999;
-                        }
-                    }
-                    .login-child-bottom{
+                    justify-content: flex-end;
+                    .login-child-content{
                         width: 100%;
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: flex-end;
-                        .login-child-content{
-                            width: 100%;
-                            display: inline-block;
-                            font-size: 0.35rem;
-                            color:#999;
-                            overflow:hidden;
-                            white-space: nowrap;
-                            text-overflow: ellipsis;
-                        }
+                        display: inline-block;
+                        font-size: 0.35rem;
+                        /*color:#999;*/
+                        overflow:hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
                     }
                 }
             }
-            .login-child.vip{
-                background: #f0f0f0;
-            }
-            .login-child.vipactive{
-                background: #e0e0e0;
-            }
         }
-        .login-fixed{
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: rgba(255,255,255,0.01);
-            top: 0;
-            left: 0;
-            z-index: 999;
-            display: none;
-            /*justify-content: center;*/
-            /*align-items: center;*/
-            .login-fixed-content{
-                width: 30%;
-                position: absolute;
-                top: 40%;
-                left: 40%;
-                box-shadow: 1px 1px 2px 1px #eee;
-                .login-fixed-child{
-                    width: 100%;
-                    padding: 5% 10%;
-                    font-size: 0.4rem;
-                    color:#333;
-                    background: #fefefe;
-                }
-            }
+        .login-child.vip{
+            background: var(--active-bgcolor);
         }
-        .login-fixed.active{
-            display: flex;
+        .login-child.vipactive{
+            background: #e0e0e0;
         }
     }
+    .login-fixed{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: rgba(255,255,255,0.01);
+        top: 0;
+        left: 0;
+        z-index: 999;
+        display: none;
+        /*justify-content: center;*/
+        /*align-items: center;*/
+        .login-fixed-content{
+            width: 30%;
+            position: absolute;
+            top: 40%;
+            left: 40%;
+            box-shadow: 1px 1px 2px 1px #eee;
+            .login-fixed-child{
+                width: 100%;
+                padding: 5% 10%;
+                font-size: 0.4rem;
+                color:#333;
+                background: #fefefe;
+            }
+        }
+    }
+    .login-fixed.active{
+        display: flex;
+    }
+}
 </style>

@@ -20,8 +20,17 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   /*text-align: center;*/
-  color: #2c3e50;
   user-select:none;
+  background-color: var(--normar-bgcolor);
+  color: var(--font-color);
+}
+:root{
+    /*正常字体颜色*/
+    --font-color:green;
+    /*点击的背景颜色*/
+    --active-bgcolor:#d12;
+    /*正常的背景颜色*/
+    --normar-bgcolor:#940619;
 }
 *{
     margin:0;

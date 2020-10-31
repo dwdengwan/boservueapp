@@ -1,7 +1,7 @@
 <template>
     <!--带有评论的页面-->
     <div class="content-footer display">
-        <input type="text" v-model="sendValue">
+        <textarea type="textear" v-model="sendValue" rows='1' max-rows="3" v-focus></textarea>
         <button @touchend="handleSend(sendValue)">send</button>
     </div>
 </template>
@@ -16,6 +16,7 @@
                 onClickNum:0,
                 childData:[],
                 typeNum:-1,
+
             }
         },
         methods:{
@@ -32,7 +33,7 @@
                     obj.mySay = text;
                     obj.youSay = this.handleAnswer(text);
                     obj.time = this.$common.getTimeStr();
-                    let heightArr = this.$refs.wechatchild;
+                    let heightArr = this.$parent.$refs.wechatchild;
                     console.log(this.$parent.$refs.wechatchild)
                     let height = 0;
                     if (heightArr !== undefined){
@@ -43,6 +44,19 @@
                     console.log(height)
                     this.childData.push(obj);
                     this.onClickNum ++;
+                    if (this.onClickNum >1){
+                        //聊天时间不超过3分钟 不显示新的聊天时间
+                        let wechatData = this.$parent.wechatData;
+                        let num = this.onClickNum;
+                        let oldTime = (new Date(wechatData[num - 2].time)).getTime();//将字符转换为千毫秒
+                        let newTime = (new Date(wechatData[num - 1].time)).getTime();
+                        let diffTime = (newTime - oldTime)/1000;
+                        if (diffTime > 180){
+                            obj.time = this.$common.getTimeStr();
+                        } else {
+                            obj.time = '';
+                        }
+                    }
                     this.$emit('on-updata',this.childData)
                 } else if (this.typeNum == 2){
                     let obj = {};
@@ -61,6 +75,14 @@
                     }
                     this.$emit('on-updata-friendData',obj);
                     this.$parent.showContent = false;
+                } else if (this.typeNum == 3){
+                    //搜索区域
+                    console.log('search')
+                    let obj = {
+                        showResult:true,
+                        text,
+                    }
+                    this.$emit('on-updata-search',obj)
                 }
                 this.sendValue = '';
                 // console.log(this.$refs['wechatchild'],this.$refs);
@@ -84,9 +106,7 @@
 .content-footer{
     width: 100%;
     height: 100%;
-    background: #eee;
-    padding: 0 2%;
-    input{
+    textarea{
         height: 60%;
         width: 60%;
         border-radius: 0.1rem;

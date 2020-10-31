@@ -4,7 +4,7 @@ export default {
         r = parseInt(Math.random()*255);
         g = parseInt(Math.random()*255);
         b = parseInt(Math.random()*255);
-        a = Math.random();
+        a = (Math.random() + 0.2).toFixed(2);
         return `rgba(${r},${g},${b},${a})`
     },
     getTimeStr:function () {
