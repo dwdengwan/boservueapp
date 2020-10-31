@@ -124,6 +124,7 @@
         width: 100%;
         .myself-first-child{
             padding: 4% 2% 4% 4%;
+            border-top: 1px solid #eee;
             width: 94%;
             display: flex;
             justify-content: space-between;

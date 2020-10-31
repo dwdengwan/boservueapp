@@ -24,6 +24,13 @@ const Found = [
         }
     },
     {
+        path: '/found/video',
+        component: resolve => require(['../../components/found/video/index.vue'], resolve),
+        meta: {
+            title: '视频号'
+        }
+    },
+    {
         path: '/found/shake',
         component: resolve => require(['../../components/found/shake/index.vue'], resolve),
         meta: {

@@ -44,7 +44,8 @@
                         id:3,
                         name:'护眼模式',
                         color:'#deffdd',
-                        bgColor:'#a19aff',
+                        // bgColor:'#a19aff',
+                        bgColor:'linear-gradient(to bottom, #971126 0%,#a19aff 100%)'
                     },
                     {
                         id:4,

@@ -53,7 +53,7 @@
                         name:"视频号",
                         id:'10002',
                         iskongge:'1',
-                        path:'/found',
+                        path:'/found/video',
                     },
                     {
                         name:"扫一扫",
@@ -152,6 +152,7 @@
                     align-items: center;
                     width: 96%;
                     border-bottom: 1px solid #eee;
+                    border-top: 1px solid #eee;
                     .found-child-left{
                         width: 50%;
                         display: flex;
