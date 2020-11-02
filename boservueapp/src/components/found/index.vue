@@ -10,7 +10,8 @@
             <div class="found-child"
                  v-for="(found,index) in foundData"
                  :key="found.id"
-                 @touchend="handleClickBack(found)">
+                 @touchstart="handleTouchStart(found,index,$event)"
+                 @touchend.stop="handleClickBack(found)">
                 <div class="found-child-content">
                     <div class="found-child-left">
                         <div class="found-child-img" :style="{'background':$common.randomColor()}"></div>
@@ -71,7 +72,7 @@
                         name:"看一看",
                         id:'10005',
                         iskongge:'0',
-                        path:'/found',
+                        path:'/found/watch',
                     },
                     {
                         name:"搜一搜",
@@ -110,11 +111,17 @@
                         path:'/found/test',
                     },
                 ],
+                longClick:0,
+                timeOutEvent:0,
             }
         },
         methods:{
             handleTouchStart(){
-
+                this.longClick=0;//设置初始为0
+                this.timeOutEvent = setTimeout(()=>{
+                    //此处为长按事件-----在此显示遮罩层及删除按钮
+                    this.longClick=1;//假如长按，则设置为1
+                },300);
             },
             handleTouchMove(){
                 let params = {
@@ -127,11 +134,14 @@
                 this.$store.state.countNum = 0;
             },
             handleClickBack(item){
-                let path = item.path;
-                let query = {
-                    name : item.name
+                clearTimeout(this.timeOutEvent);
+                if(this.timeOutEvent!=0 && this.longClick==0){//点击事件
+                    let path = item.path;
+                    let query = {
+                        name : item.name
+                    }
+                    this.$router.push({path,query})
                 }
-                this.$router.push({path,query})
             }
         },
         mounted(){

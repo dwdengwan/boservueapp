@@ -3,6 +3,12 @@ import App from './App.vue'
 import router from '../src/components/router'
 import store from '../src/components/store/index.js'
 
+//引入弹幕组件
+// import { vueBaberrage } from 'vue-baberrage'
+import { vueBaberrage, MESSAGE_TYPE } from 'vue-baberrage';
+Vue.use(vueBaberrage);
+console.log(MESSAGE_TYPE);
+
 import Vuex from 'vuex'
 
 Vue.use(Vuex)

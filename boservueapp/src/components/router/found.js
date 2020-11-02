@@ -38,6 +38,13 @@ const Found = [
         }
     },
     {
+        path: '/found/watch',
+        component: resolve => require(['../../components/found/watch/index.vue'], resolve),
+        meta: {
+            title: '看一看'
+        }
+    },
+    {
         path: '/found/game',
         component: resolve => require(['../../components/found/game/index.vue'], resolve),
         meta: {

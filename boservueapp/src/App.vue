@@ -36,4 +36,25 @@ export default {
     margin:0;
     padding: 0;
 }
+/*发现 看一看 弹幕*/
+.barrages-drop .yellow .normal{
+    /*background: #dfc795;*/
+    background: rgba(223,199,149,0.5);
+    color: rgba(255,255,255,0.5);
+}
+.barrages-drop .red .normal{
+    /*background: #e68fba;*/
+    background: rgba(246,143,181,0.5);
+    color: rgba(255,255,255,0.5);
+}
+.barrages-drop .green .normal{
+    /*background: #75ffcd;*/
+    background: rgba(117,255,205,0.5);
+    color: rgba(255,255,255,0.5);
+}
+.barrages-drop .blue .normal{
+    /*background: #e6ff75;*/
+    background: rgba(246,255,117,0.5);
+    color: rgba(255,255,255,0.5);
+}
 </style>

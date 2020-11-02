@@ -4,9 +4,12 @@
 <template>
     <div>
         <div class="myself-child"
-             v-for="myself in myselfData"
+             v-for="(myself,index) in myselfData"
              :key="myself.id">
-            <div class="myself-child-content" @touchend="handleGoBack(myself)">
+            <div
+                class="myself-child-content"
+                @touchstart="handleTouchStart(myself,index,$event)"
+                @touchend.stop="handleGoBack(myself)">
                 <div class="myself-child-left">
                     <div class="myself-child-img" :style="{'background':$common.randomColor()}"></div>
                     <div class="myself-child-name">
@@ -28,16 +31,27 @@
         props:['myselfData'],
         data(){
             return {
-
+                longClick:0,
+                timeOutEvent:0,
             }
         },
         methods:{
+            handleTouchStart(){
+                this.longClick=0;//设置初始为0
+                this.timeOutEvent = setTimeout(()=>{
+                    //此处为长按事件-----在此显示遮罩层及删除按钮
+                    this.longClick=1;//假如长按，则设置为1
+                },300);
+            },
             handleGoBack(item){
-                let path = item.url;
-                let query = {
-                    name : item.name
+                clearTimeout(this.timeOutEvent);
+                if(this.timeOutEvent!=0 && this.longClick==0){//点击事件
+                    let path = item.url;
+                    let query = {
+                        name : item.name
+                    }
+                    this.$router.push({path,query})
                 }
-                this.$router.push({path,query})
             }
         },
         created(){
