@@ -12,8 +12,17 @@
                 <div class="child-content">
                     <div class="child-top">
                         <div class="child-top-left">
-                            <div class="child-left-pic" :style="{'background':$common.randomColor()}"></div>
-                            <div class="child-left-name" :style="{'color':$common.randomColor()}">{{video.name}}</div>
+                            <div
+                                class="child-left-pic"
+                                :style="{'background':$common.randomColor()}"
+                                @touchend.stop="goFriend(0,index)">
+                            </div>
+                            <div
+                                class="child-left-name"
+                                :style="{'color':$common.randomColor()}"
+                                @touchend.stop="goFriend(0,index)">
+                                {{video.name}}
+                            </div>
                         </div>
                         <div class="child-top-right">
                             <div class="child-right-circle"></div>
@@ -53,9 +62,11 @@
                                 </div>
                             </div>
                             <div class="child-b-right">
-                                <div class="child-b-right-1 child-b-div">
-                                    <span class="child-span span3"></span>
-                                    <span>{{video.super}}</span>
+                                <div
+                                    class="child-b-right-1 child-b-div"
+                                    :class="supperActive[index]?'supper-active':''">
+                                    <span class="child-span span3" @touchend.stop="handleSupper(index)"></span>
+                                    <span @touchend.stop="handleSupper(index)">{{video.super}}</span>
                                 </div>
                                 <div class="child-b-right-2 child-b-div">
                                     <span class="child-span span4"></span>
@@ -65,7 +76,8 @@
                         </div>
                         <div class="child-b-bottom">
                             <div class="child-b-span" :style="{'background':$common.randomColor()}"></div>
-                            <div class="child-b-name">{{video.superName}}</div>
+                            <div v-show="supperActive[index]" style="margin-left: 2%;">你和</div>
+                            <div class="child-b-name" @touchend.stop="goFriend(1,index)">{{video.superName}}</div>
                             <!--<div>赞过</div>-->
                             <div>等{{video.superNumber}}个朋友赞过</div>
                         </div>
@@ -126,6 +138,7 @@
                 barrageList: [],
                 longClick:0,
                 timeOutEvent:0,
+                supperActive:[],
             }
         },
         created(){
@@ -136,6 +149,7 @@
                 this.maxWordCount.push(3);
                 this.throttleGap.push(5000);
                 this.barrageList.push([]);
+                this.supperActive.push(false);
             })
         },
         mounted(){
@@ -256,6 +270,27 @@
                     //todo 滑动事件
                     console.log('滑动了。。。。')
                 }
+            },
+            // 点赞
+            handleSupper(i){
+                this.supperActive[i] = !this.supperActive[i];
+                if (this.supperActive[i]){
+                    this.videoData[i].super ++;
+                    this.videoData[i].superNumber ++;
+                } else{
+                    this.videoData[i].super --;
+                    this.videoData[i].superNumber --;
+                }
+            },
+            //跳转至朋友圈
+            goFriend(num,i){
+                let author = '';
+                if (num){
+                    author = this.videoData[i].superName;
+                } else{
+                    author = this.videoData[i].name;
+                }
+                this.$router.push({path:'/found/friend',query:{name:'朋友圈',author}})
             }
         }
     }
@@ -358,6 +393,12 @@
                         }
                         .child-b-right{
                             justify-content: flex-end;
+                            .supper-active{
+                                color:pink;
+                                .child-span{
+                                    background-color: pink;
+                                }
+                            }
                         }
                         .child-b-div{
                             display: flex;

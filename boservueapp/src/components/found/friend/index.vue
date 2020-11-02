@@ -4,15 +4,15 @@
             <go-back-header></go-back-header>
         </div>
         <div
-                class="content friend-content"
-                :class="showContent?'showContent':''"
-                ref="friendContent"
-                @scroll="handleScroll">
+            class="content friend-content"
+            :class="showContent?'showContent':''"
+            ref="friendContent"
+            @scroll="handleScroll">
             <div
-                    class="friend-child"
-                    v-for="(friend,index) in friendData"
-                    :key="friend.id"
-                    ref="friendChild">
+                class="friend-child"
+                v-for="(friend,index) in friendData"
+                :key="friend.id"
+                ref="friendChild">
                 <div class="friend-child-left">
                     <div class="friend-child-img" :style="{'background':$common.randomColor()}"></div>
                 </div>
@@ -50,39 +50,39 @@
                     </div>
                     <div class="friend-child-comments" v-if="friend.list.length !== 0">
                         <div
-                                class="friend-child-list"
-                                v-for="(bitem,bindex) in friend.list"
-                                :key="bindex" >
+                            class="friend-child-list"
+                            v-for="(bitem,bindex) in friend.list"
+                            :key="bindex" >
                             <div
-                                    class="friend-child-zmj"
-                                    v-for="(citem,cindex) in bitem"
-                                    :key="cindex"
-                                    @touchend="handleTouchendItem(index,bindex,cindex,$event)">
+                                class="friend-child-zmj"
+                                v-for="(citem,cindex) in bitem"
+                                :key="cindex"
+                                @touchend="handleTouchendItem(index,bindex,cindex,$event)">
                                 <div
-                                        class="friend-child-item"
-                                        v-if="citem.other == ''"
-                                        :class="(index==contentPostion.i&&bindex==contentPostion.j&&cindex==contentPostion.k)?'active':''">
-                                    <span class="friend-item-name">{{citem.name}}</span>
+                                    class="friend-child-item"
+                                    v-if="citem.other == ''"
+                                    :class="(index==contentPostion.i&&bindex==contentPostion.j&&cindex==contentPostion.k)?'active':''">
+                                    <span class="friend-item-name" @touchend.stop="restFriend(citem.name,index)">{{citem.name}}</span>
                                     <span>:</span>
                                     <span>{{citem.content}}</span>
                                     <div
-                                            class="friend-item-delete"
-                                            v-if="citem.name == 'dw' && index == contentPostion.i && bindex == contentPostion.j && cindex == contentPostion.k">
+                                        class="friend-item-delete"
+                                        v-if="citem.name == 'dw' && index == contentPostion.i && bindex == contentPostion.j && cindex == contentPostion.k">
                                         <span @touchend="handleTouchendDelete(index,bindex,cindex,$event)">删除该评论</span>
                                     </div>
                                 </div>
                                 <div
-                                        class="friend-child-item"
-                                        v-else-if="citem.other !== ''"
-                                        :class="(index == contentPostion.i && bindex == contentPostion.j && cindex == contentPostion.k)?'active':''">
-                                    <span class="friend-item-name">{{citem.name}}</span>
+                                    class="friend-child-item"
+                                    v-else-if="citem.other !== ''"
+                                    :class="(index == contentPostion.i && bindex == contentPostion.j && cindex == contentPostion.k)?'active':''">
+                                    <span class="friend-item-name" @touchend.stop="restFriend(citem.name,index)">{{citem.name}}</span>
                                     <span>回复</span>
-                                    <span class="friend-item-name">{{citem.other}}</span>
+                                    <span class="friend-item-name" @touchend.stop="restFriend(citem.other,index)">{{citem.other}}</span>
                                     <span>:</span>
                                     <span>{{citem.content}}</span>
                                     <div
-                                            class="friend-item-delete"
-                                            v-if="citem.name == 'dw' && index == contentPostion.i && bindex == contentPostion.j && cindex == contentPostion.k">
+                                        class="friend-item-delete"
+                                        v-if="citem.name == 'dw' && index == contentPostion.i && bindex == contentPostion.j && cindex == contentPostion.k">
                                         <span @touchend="handleTouchendDelete(index,bindex,cindex,$event)">删除该回复</span>
                                     </div>
                                 </div>
@@ -426,12 +426,48 @@
                 };
                 this.activeIndex = -1;
             },
+            //刷新朋友圈
+            restFriend(name,i){
+                let that = this;
+                this.friendData.forEach((item)=>{
+                    item.name = name;
+                })
+                //回到顶部
+                // console.log(this.scrollHeight);
+                // this.$refs.friendContent.scrollTop = 0;
+                clearInterval(that.timer);
+                let child = that.$refs.friendChild;
+                let height = 0;
+                if (i!==0){
+                    for (let z=0;z< i;z++){
+                        height += child[z].clientHeight;
+                    }
+                }
+                that.timer = setInterval(()=>{
+                    if (this.scrollHeight < height){
+                        this.scrollHeight --;
+                    } 
+                    that.$refs.friendContent.scrollTop = this.scrollHeight;
+                    if (this.scrollHeight == 0){
+                        clearInterval(that.timer);
+                    }
+                },5)
+            }
         },
         mounted(){
 
         },
         created(){
-
+            let author = this.$route.query.author;
+            if (author){
+                this.friendData.forEach((item)=>{
+                    item.name = author;
+                })
+            }
+        },
+        destroyed(){
+            clearInterval(this.timer);
+            this.timer = null;
         }
     }
 </script>
