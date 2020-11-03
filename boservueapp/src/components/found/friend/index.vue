@@ -46,7 +46,16 @@
                     </div>
                     <div class="friend-child-supper" v-if="friend.supper !== ''">
                         <span class="friend-supper-flag"></span>
-                        <span class="friend-supper-name">{{friend.supper}}</span>
+                        <!--<span class="friend-supper-name">{{friend.supper}}</span>-->
+                        <span class="friend-supper-name">
+                            <span
+                                v-for="(supperseg,sindex) in supperSegData[index]"
+                                :key="sindex"
+                                @touchend.stop="restFriend(supperseg,index)">
+                                {{supperseg}}
+                                <span v-if="sindex !== supperSegData[index].length - 1">、</span>
+                            </span>
+                        </span>
                     </div>
                     <div class="friend-child-comments" v-if="friend.list.length !== 0">
                         <div
@@ -157,7 +166,7 @@
                         name:'豆豆',
                         content:"今天天气真好，适合郊外放风筝。",
                         time:'15分钟前',
-                        supper:'',
+                        supper:'晶晶',
                         supperFlag:0,//0未点赞 1点赞
                         list:[],
                     },
@@ -308,6 +317,7 @@
                 },
                 timer:null,
                 scrollHeight: 0,
+                supperSegData:[],
             }
         },
         methods:{
@@ -338,6 +348,7 @@
                 }
                 this.$set(this,'friendData',this.friendData);
                 this.childFixedFn(i,0);
+                this.supperSegmentation()
             },
             handleTouchendContent(i,e){//评论
                 let that = this;
@@ -452,6 +463,17 @@
                         clearInterval(that.timer);
                     }
                 },5)
+            },
+            //点赞的分割
+            supperSegmentation(){
+                let supperSegArr = [];
+                this.friendData.forEach((item)=>{
+                    supperSegArr.push(item.supper);
+                })
+                this.supperSegData = [];
+                supperSegArr.forEach((item)=>{
+                    this.supperSegData.push(item.split('、'));
+                })
             }
         },
         mounted(){
@@ -464,6 +486,7 @@
                     item.name = author;
                 })
             }
+            this.supperSegmentation()
         },
         destroyed(){
             clearInterval(this.timer);
