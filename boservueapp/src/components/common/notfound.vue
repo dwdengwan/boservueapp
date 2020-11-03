@@ -249,8 +249,7 @@
         name: "notfound",
         data(){
             return {
-                // 每个人都有自己的小天地，请不要冒犯他人的小天地。
-                loginText:'每个人都是自己的小天使，都希望有自己的小翅膀，飞向远方。',
+                loginText:'我是你可有可无的人，你是我患得患失的梦。',
                 loginTextArr:[],
                 textTimer:null,
                 showTop:true,//显示上部分

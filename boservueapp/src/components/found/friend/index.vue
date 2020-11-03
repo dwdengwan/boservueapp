@@ -5,7 +5,7 @@
         </div>
         <div
             class="content friend-content"
-            :class="showContent?'showContent':''"
+            :class="showContent ? 'autoheight':''"
             ref="friendContent"
             @scroll="handleScroll">
             <div
@@ -101,7 +101,10 @@
                 </div>
             </div>
         </div>
-        <div class="friend-footer" v-show="showContent" @touchend="handelFooterTouchend($event)">
+        <div
+            class="friend-footer"
+            @touchend="handelFooterTouchend($event)"
+            :class="showContent ? 'autoheight':''">
             <content-footer :contentFooterObj="contentFooterObj" @on-updata-friendData="updata"></content-footer>
         </div>
     </div>
@@ -502,6 +505,7 @@
             width: 100%;
             height: 94%;
             overflow-y: auto;
+            transition: height 1s ease;
             .friend-child{
                 padding: 0 2%;
                 width: 96%;
@@ -642,13 +646,18 @@
                 }
             }
         }
-        .friend-content.showContent{
+        .friend-content.autoheight{
             height: 84%;
         }
-        .friend-footer{
+        .friend-footer.autoheight{
             width: 100%;
             background: #eee;
             height: 10%;
+        }
+        .friend-footer{
+            height: 0;
+            transition: height 1s ease;
+            overflow: hidden;
         }
     }
 </style>

@@ -31,6 +31,8 @@ export default {
     --active-bgcolor:#d12;
     /*正常的背景颜色*/
     --normar-bgcolor:#940619;
+    /*可点击的跳转至朋友圈的人物名字*/
+    --backfriend-name:#576999;
 }
 *{
     margin:0;
