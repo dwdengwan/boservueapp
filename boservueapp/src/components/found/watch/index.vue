@@ -3,130 +3,33 @@
         <div class="header found-header">
             <go-back-header></go-back-header>
         </div>
-        <div class="content barrages-drop watch-content" ref="content">
-            <vue-baberrage
-                :isShow="barrageIsShow"
-                :barrageList="barrageList"
-                :maxWordCount="maxWordCount"
-                :throttleGap="throttleGap"
-                :loop="barrageLoop"
-                :boxHeight="boxHeight"
-                :messageHeight="messageHeight">
-            </vue-baberrage>
+        <div class="content watch-content" ref="content">
+            <div class="watch-child" :style="{'background':$common.randomColor()}">
+                <span class="watch-child-author" :style="{'background':$common.randomColor()}"></span>
+                <span class="watch-child-text" :style="{'color':$common.randomColor()}">离别是为了下一次更好的重逢。</span>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
     import goBackHeader from '@/components/common/goBackHeader.vue';
-    import { vueBaberrage,MESSAGE_TYPE} from 'vue-baberrage';
 
     export default {
         name: "watch",
         components:{
-            goBackHeader,vueBaberrage
+            goBackHeader
         },
         data() {
             return {
-                msg: 'dw你最帅~，最帅，最帅。。。',
-                barrageIsShow: true,
-                messageHeight: 3,
-                boxHeight: 0,
-                barrageLoop: true,
-                maxWordCount: 3,
-                throttleGap: 5000,
-                barrageList: []
+
             };
         },
         mounted() {
-            this.boxHeight = this.$refs.content.clientHeight;
-            this.addToList();
+
         },
         methods: {
-            addToList() {
-                let list = [
-                    {
-                        id: 1,
-                        avatar: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3064584167,3502823640&fm=26&gp=0.jpg',
-                        msg: this.msg,
-                        time: 3,
-                        barrageStyle: 'red'
-                    },
-                    {
-                        id: 2,
-                        avatar: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3064584167,3502823640&fm=26&gp=0.jpg',
-                        msg: this.msg,
-                        time: 8,
-                        barrageStyle: 'green'
-                    },
-                    {
-                        id: 3,
-                        avatar: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3064584167,3502823640&fm=26&gp=0.jpg',
-                        msg: this.msg,
-                        time: 10,
-                        barrageStyle: 'normal'
-                    },
-                    {
-                        id: 4,
-                        avatar: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3064584167,3502823640&fm=26&gp=0.jpg',
-                        msg: this.msg,
-                        time: 5,
-                        barrageStyle: 'blue'
-                    },
-                    {
-                        id: 5,
-                        avatar: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3064584167,3502823640&fm=26&gp=0.jpg',
-                        msg: this.msg,
-                        time: 6,
-                        barrageStyle: 'red'
-                    },
-                    {
-                        id: 6,
-                        avatar: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3064584167,3502823640&fm=26&gp=0.jpg',
-                        msg: this.msg,
-                        time: 12,
-                        barrageStyle: 'normal'
-                    },
-                    {
-                        id: 7,
-                        avatar: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3064584167,3502823640&fm=26&gp=0.jpg',
-                        msg: this.msg,
-                        time: 20,
-                        barrageStyle: 'red'
-                    },
-                    {
-                        id: 8,
-                        avatar: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3064584167,3502823640&fm=26&gp=0.jpg',
-                        msg: this.msg,
-                        time: 1,
-                        barrageStyle: 'normal'
-                    },
-                    {
-                        id: 9,
-                        avatar: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3064584167,3502823640&fm=26&gp=0.jpg',
-                        msg: this.msg,
-                        time: 8,
-                        barrageStyle: 'red'
-                    },
-                    {
-                        id: 10,
-                        avatar: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3064584167,3502823640&fm=26&gp=0.jpg',
-                        msg: this.msg,
-                        time: 10,
-                        barrageStyle: 'yellow'
-                    }
-                ];
-                list.forEach((v) => {
-                    this.barrageList.push({
-                        id: v.id,
-                        avatar: v.avatar,
-                        msg: v.msg,
-                        time: v.time,
-                        type: MESSAGE_TYPE.NORMAL,
-                        barrageStyle: v.barrageStyle
-                    });
-                });
-            }
+
         }
     };
 </script>
@@ -137,14 +40,25 @@
         .watch-content{
             height: 94%;
             position: relative;
-        }
-        .barrages-drop {
-            .baberrage-stage {
+            .watch-child{
                 position: absolute;
-                width: 100% !important;
-                height: 100% !important;
-                overflow: hidden;
                 top: 0;
+                right: 90%;
+                display: inline-block;
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                padding: 2%;
+                border-radius: 10px;
+                .watch-child-author{
+                    width: 0.5rem;
+                    height: 0.5rem;
+                    border-radius: 50%;
+                    display: inline-block;
+                }
+                .watch-child-text{
+                    margin-left: 10px;
+                }
             }
         }
     }

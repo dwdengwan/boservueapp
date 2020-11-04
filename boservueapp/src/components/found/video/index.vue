@@ -465,7 +465,7 @@
                     };
                     obj.id = i;
                     obj.msg = item.content;
-                    obj.time = parseInt(Math.random()*10 + 1);
+                    obj.time = parseInt(i);
                     obj.barrageStyle = barrageStyle[Math.floor(Math.random() * barrageStyle.length)];
                     list.push(obj);
                 })
@@ -562,8 +562,8 @@
                 this.commentsStr = '';
             },
             handleScroll(){//滚动条事件
-                let content = document.getElementsByClassName('no-comments-top')[0];
-                this.scrollHeight = content.scrollTop;
+                let content = document.getElementsByClassName('no-comments-top')[0].scrollTop;
+                this.scrollHeight = content;
             },
             //输入框获取焦点
             handleFocus(){
@@ -605,7 +605,6 @@
                 this.handleRebScroll(scrollHeight,height)
             },
             handleRebScroll(scrollHeight,height){
-                console.log('111dyk kyd');
                 let that = this;
                 let timer = null;
                 clearInterval(that.timerFixed);
