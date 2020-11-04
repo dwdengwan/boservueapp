@@ -37,7 +37,7 @@
                             class="child-middle-fixed barrages-drop"
                             :ref="'content'+index"
                             @touchstart="handleTouchStart"
-                            @touchend.stop="handleClickBack(index)">
+                            @touchend.stop="handleClickBack(index,0)">
                             <vue-baberrage
                                 :isShow="barrageIsShow[index]"
                                 :barrageList="barrageList[index]"
@@ -98,7 +98,7 @@
                  @touchstart="handleTouchStart"
                  @scroll="handleScroll"
                  ref="commentstop"
-                 @touchend.stop="handleClickBack('1126')">
+                 @touchend.stop="handleClickBack('1126',1)">
                 <div
                     class="comments-child"
                     ref="commentschild"
@@ -160,12 +160,13 @@
                 class="commentstop-fixed content"
                 @touchstart="handleTouchStart"
                 ref="fixed"
-                @touchend.stop="handleClickBack('1126')">
+                @touchend.stop="handleClickBack('1126',2)">
                  <div
                      ref="fixedchild"
                      @scroll="handleFixedScroll"
                      class="fixed-child"
                      v-for="(comments,index) in commentsData"
+                     :style="{'background':$common.randomColor()}"
                      :key="index">
                      <span class="fixed-child-left">
                          <span class="fixed-author" :style="{'background':$common.randomColor()}"></span>
@@ -497,7 +498,7 @@
                     this.longClick=1;//假如长按，则设置为1
                 },300);
             },
-            handleClickBack(i){
+            handleClickBack(i,num){
                 clearTimeout(this.timeOutEvent);
                 if(this.timeOutEvent!=0 && this.longClick==0){//点击事件
                     if(i!=='1126'){
@@ -507,8 +508,11 @@
                     }
                 }else{
                     //todo 滑动事件
-                    clearInterval(this.timer);
-                    clearInterval(this.timerFixed);
+                    if (num == 1){
+                        clearInterval(this.timer);
+                    } else if (num == 2){
+                        clearInterval(this.timerFixed);
+                    }
                     console.log('滑动了。。。。')
                 }
             },
@@ -589,22 +593,45 @@
                 let scrollHeight = content.scrollTop;
                 let that = this;
                 //回到底部
-                clearInterval(that.timerFixed);
                 let child = that.$refs.fixedchild;
                 let height = 0;
                 let i = child.length;
                 if (i!==0){
                     for (let z=0;z< i;z++){
-                        height += child[z].clientHeight;
+                        height += (child[z].clientHeight + 10);
                     }
                 }
+                height += 20;
+                this.handleRebScroll(scrollHeight,height)
+            },
+            handleRebScroll(scrollHeight,height){
+                console.log('111dyk kyd');
+                let that = this;
+                let timer = null;
+                clearInterval(that.timerFixed);
+                clearTimeout(timer);
                 that.timerFixed = setInterval(()=>{
                     if (scrollHeight < height){
                         scrollHeight ++;
                     }
                     that.$refs.fixed.scrollTop = scrollHeight;
                     if (scrollHeight == height){
-                        scrollHeight = 0;
+                        // scrollHeight = 0;
+                        clearInterval(that.timerFixed);
+                        timer = setTimeout(()=>{
+                            this.timerFixed = setInterval(()=>{
+                                if (scrollHeight > 0){
+                                    scrollHeight --;
+                                }else if(scrollHeight == 0){
+                                    clearInterval(this.timerFixed)
+                                    clearTimeout(timer);
+                                    timer = setTimeout(()=>{
+                                        that.handleRebScroll(scrollHeight,height)
+                                    },3000)
+                                }
+                                that.$refs.fixed.scrollTop = scrollHeight;
+                            },50)
+                        },3000)
                     }
                 },50)
             }
@@ -878,13 +905,12 @@
             .fixed-child{
                 padding: 2%;
                 width: 90%;
-                margin: 2% 0;
+                margin: 10px 0;
                 display: flex;
                 justify-content: flex-start;
                 align-items: center;
                 border-radius: 10px;
                 margin-left: 3%;
-                background-color: #fff;
                 .fixed-child-left{
                     width: 10%;
                     display: flex;
