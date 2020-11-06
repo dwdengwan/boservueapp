@@ -19,6 +19,7 @@
 <script>
     export default {
         name: "confirmFixed",
+        props:['result'],
         data(){
             return {
                 showGameFixed:false,
@@ -27,6 +28,10 @@
         },
         methods:{
             goBack(){
+                if (this.result == 'goshopping'){
+                    this.$router.push({path:'/found'})
+                    return
+                }
                 let nameStr = window.location.href.split('?')[0];
                 let inGame = window.location.href.split('?')[0].includes('game');
                 let flag = 0;

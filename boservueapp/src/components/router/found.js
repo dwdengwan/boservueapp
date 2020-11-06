@@ -1,6 +1,7 @@
 /**
  * 发现模块的路由
  * **/
+import goshopping from  './goshopping.js';
 const Found = [
     {
         path: '/found',
@@ -44,6 +45,13 @@ const Found = [
             title: '看一看'
         }
     },
+    // {
+    //     path: '/found/goshopping',
+    //     component: resolve => require(['../../components/found/goshopping/index.vue'], resolve),
+    //     meta: {
+    //         title: '购物'
+    //     }
+    // },
     {
         path: '/found/game',
         component: resolve => require(['../../components/found/game/index.vue'], resolve),
@@ -93,6 +101,8 @@ const Found = [
             title: '华容道'
         }
     },
+    //购物车路由
+    ...goshopping
 ];
 
 export default Found;

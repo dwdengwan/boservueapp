@@ -90,7 +90,7 @@
                         name:"购物",
                         id:'10008',
                         iskongge:'0',
-                        path:'/found',
+                        path:'/found/goshopping',
                     },
                     {
                         name:"游戏",

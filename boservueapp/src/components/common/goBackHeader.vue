@@ -5,7 +5,7 @@
             <span class="friend-goback"></span>
             <span class="friend-name">{{name}}</span>
         </span>
-        <confirm-fixed ref="confirmFixed"></confirm-fixed>
+        <confirm-fixed ref="confirmFixed" :result="result"></confirm-fixed>
     </div>
 </template>
 
@@ -13,6 +13,7 @@
     import confirmFixed from './confirmFixed'
     export default {
         name: "goBackHeader",
+        props:['result'],
         components:{
             confirmFixed
         },
