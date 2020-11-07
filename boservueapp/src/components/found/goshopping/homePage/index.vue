@@ -12,13 +12,82 @@
             <go-back-header result="goshopping"></go-back-header>
         </div>
         <div class="header goshopping-search">
-            <input type="text" v-focus>
-            <div>search</div>
+            <!--<input type="text" v-focus>-->
+            <div class="goshopping-search-input"></div>
+            <div class="goshopping-search-btn">search</div>
         </div>
         <div
             :class="notop ? 'notop' : ''"
             class="goshopping-content">
-            111111111111111111111
+            <div class="goshopping-content-header">
+                <div class="content-right">
+                    精选
+                </div>
+                <div class="content content-middle">
+                    <div class="content-child" v-for="(title,index) in headerTitle" :key="index">
+                        精选精品
+                    </div>
+                </div>
+                <div class="content-left">
+                    双11
+                </div>
+            </div>
+            <div class="goshopping-content-middle content">
+                <div class="middle-top">
+                    <div class="middle-top-t">
+                        <div class="middle-lunbo">
+                            <div
+                                 v-show="lunboIndex == index"
+                                :style="{'background':$common.randomColor()}"
+                                class="middle-lunbo-pic"
+                                v-for="(lunbo,index) in lunboData"
+                                :key="index">
+                                轮播图{{index}}
+                            </div>
+                        </div>
+                        <div class="middle-indicator">
+                             <div
+                                 class="middle-indicator-child"
+                                 v-for="(lunbo,index) in lunboData"
+                                 :key="index">
+                             </div>
+                        </div>
+                    </div>
+                    <div class="middle-top-m">
+                        <div
+                            class="middle-top-m1 content"
+                            @scroll.stop="handleScrollLunbo2"
+                            ref="lunbo2">
+                            <div
+                                class="middle-top-m1-child"
+                                v-for="(lunbo2,index) in lunboData2"
+                                :key="index"
+                                ref="lunbo2child">
+                                <div class="middle-top-m1-cc">
+                                    <div class="middle-top-cc-pic"></div>
+                                    <div class="middle-top-cc-title">aa{{index}}</div>
+                                </div>
+                                <div class="middle-top-m1-cc">
+                                    <div class="middle-top-cc-pic"></div>
+                                    <div class="middle-top-cc-title">bb{{index}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="middle-top-m2">
+                            <div class="middle-top-m2-child">
+                                <div class="middle-top-m2-cfixed" :style="{'left':cfixedWidth+'%'}"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="middle-top-b">
+                        <div class="middle-top-bf">
+                            <div class="middle-top-bcc">qqqq</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="middle-m"></div>
+                <div class="middle-bottom"></div>
+            </div>
         </div>
     </div>
 </template>
@@ -36,6 +105,14 @@
                 // notop:false,
                 longClick:0,
                 timeOutEvent:null,
+                headerTitle:[
+                    {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},
+                    {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},
+                ],
+                lunboData:[{},{},{},{}],
+                lunboData2:[{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}],
+                lunboIndex:0,
+                cfixedWidth:0,
             }
         },
         methods:{
@@ -57,6 +134,10 @@
             handleScroll(){
                 this.$refs.homepage.scrollTop;
                 console.log('dyk kyd');
+            },
+            handleScrollLunbo2(){
+                let parcent = parseInt((this.$refs.lunbo2.scrollLeft/(this.$refs.lunbo2child[0].clientWidth*this.lunboData2.length - this.$refs.lunbo2.clientWidth))*100) - 50;
+                this.cfixedWidth = parcent > 0?parcent:0;
             }
         }
     }
@@ -71,19 +152,20 @@
             transition: height 1s ease;
         }
         .goshopping-header.notop{
-            height: 0;
+            /*height: 0;*/
         }
         .goshopping-search{
             height: 8%;
             display: flex;
             justify-content: space-around;
             align-items: center;
-            input{
+            .goshopping-search-input{
                 width: 60%;
                 height: 70%;
                 border-radius: 20px;
+                background-color: #eee;
             }
-            div{
+            .goshopping-search-btn{
                 width: 20%;
                 height: 70%;
                 border-radius: 10px;
@@ -95,13 +177,189 @@
         }
         .goshopping-content{
             width: 100%;
-            height: 100%;
+            height: 84%;
             overflow-y: auto;
-            background-color: #418045;
             transition: height 1s ease;
+            .goshopping-content-header{
+                width: 100%;
+                height: 6%;
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                .content-right,.content-left{
+                    width: 10%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+                .content-right{
+
+                }
+                .content-middle{
+                    width: 80%;
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: center;
+                    /*flex-wrap: nowrap;*/
+                    .content-child{
+                        flex-shrink: 0;
+                        width: 25%;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
+                }
+                .content-left{
+
+                }
+
+            }
+            .goshopping-content-middle{
+                width: 100%;
+                height: 94%;
+                overflow-y: auto;
+                .middle-top{
+                    width: 96%;
+                    height: 70%;
+                    background-color: #eee;
+                    padding: 2%;
+                    border-bottom-right-radius: 10px;
+                    border-bottom-left-radius: 10px;
+                    .middle-top-t{
+                        width: 100%;
+                        height: 30%;
+                        position: relative;
+                        .middle-lunbo{
+                            width: 100%;
+                            height: 100%;
+                            .middle-lunbo-pic{
+                                width: 100%;
+                                height: 100%;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                            }
+                        }
+                        .middle-indicator{
+                            position: absolute;
+                            bottom: 0;
+                            width: 100%;
+                            height: 20%;
+                            background-color: #418045;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            .middle-indicator-child{
+                                width: 0.3rem;
+                                height: 0.3rem;
+                                border-radius: 50%;
+                                background-color: #00c800;
+                                margin: 0 5px;
+                            }
+                        }
+                    }
+                    .middle-top-m{
+                        width: 100%;
+                        height: 45%;
+                        .middle-top-m1{
+                            flex-shrink: 0;
+                            width: 100%;
+                            height: 90%;
+                            display: flex;
+                            justify-content: flex-start;
+                            align-items: center;
+                            overflow-x: auto;
+                            .middle-top-m1-child{
+                                flex-shrink: 0;
+                                width: 20%;
+                                height: 100%;
+                                display: flex;
+                                flex-direction: column;
+                                justify-content: flex-start;
+                                align-items: center;
+                                .middle-top-m1-cc{
+                                    flex-shrink: 0;
+                                    display: flex;
+                                    flex-direction: column;
+                                    justify-content: space-around;
+                                    align-items: center;
+                                    width: 100%;
+                                    height: 50%;
+                                    .middle-top-cc-pic{
+                                        flex-shrink: 0;
+                                        width: 1rem;
+                                        height: 1rem;
+                                        background-color: #940619;
+                                        border-radius: 50%;
+                                    }
+                                    .middle-top-cc-title{
+                                        color:var(--backfriend-name);
+                                    }
+                                }
+                            }
+                        }
+                        .middle-top-m2{
+                            width: 100%;
+                            height: 10%;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            .middle-top-m2-child{
+                                width: 20%;
+                                height: 0.2rem;
+                                border-radius: 10px;
+                                background-color: #940619;
+                                position: relative;
+                                .middle-top-m2-cfixed{
+                                    position: absolute;
+                                    top: 0;
+                                    left: 0;
+                                    width: 50%;
+                                    height: 100%;
+                                    border-radius: 10px;
+                                    background-color: #00c800;
+                                }
+                            }
+                        }
+                    }
+                    .middle-top-b{
+                        width: 100%;
+                        height: 25%;
+                        position: relative;
+                        .middle-top-bf{
+                            position: absolute;
+                            top: 30%;
+                            left: 35%;
+                            width: 30%;
+                            height: 0.8rem;
+                            border-radius: 10px;
+                            background-color: #940619;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            .middle-top-bcc{
+
+                            }
+                        }
+                    }
+                }
+                .middle-m{
+                    width: 100%;
+                    height: 40%;
+                    margin-top: 2%;
+                    background-color: #eee;
+                    border-radius: 10px;
+                }
+                .middle-bottom{
+                    width: 100%;
+                    height: 100%;
+                    margin-top: 2%;
+                    background-color: #eee;
+                }
+            }
         }
         .goshopping-content.notop{
-            height: 92%;
+            /*height: 92%;*/
         }
     }
 </style>
