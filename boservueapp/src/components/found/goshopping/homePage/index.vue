@@ -85,8 +85,33 @@
                         </div>
                     </div>
                 </div>
-                <div class="middle-m"></div>
-                <div class="middle-bottom"></div>
+                <div class="middle-m">
+                    <div class="middle-m-top">
+                        <span class="middle-m-top-right">今日必拼</span>
+                        <span class="middle-m-top-left">
+                            <span>更多</span>
+                            <span></span>
+                        </span>
+                    </div>
+                    <div class="midlle-m-middle content">
+                        <div class="midlle-m-middlec" v-for='(lunbo3,index) in lunboData3' :key="index">
+                            <div class="midlle-m-middlec-pic" :style="{'background':$common.randomColor()}"></div>
+                            <div class="midlle-m-middlec-text">
+                                <div>￥6.6</div>
+                                <div>268人已抢</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="midlle-m-bottom">
+                        <div class="middle-m-bottomf">
+                            <div class="middle-m-bottomc"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="middle-bottom">
+                    <div class="middle-bottom-t"></div>
+                    <div class="middle-bottom-b"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -111,6 +136,7 @@
                 ],
                 lunboData:[{},{},{},{}],
                 lunboData2:[{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}],
+                lunboData3:[{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}],
                 lunboIndex:0,
                 cfixedWidth:0,
             }
@@ -349,6 +375,63 @@
                     margin-top: 2%;
                     background-color: #eee;
                     border-radius: 10px;
+                    .middle-m-top{
+                        width: 96%;
+                        height: 15%;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        padding: 0 2%;
+                    }
+                    .midlle-m-middle{
+                        width: 100%;
+                        height: 75%;
+                        display: flex;
+                        justify-content: flex-start;
+                        align-items: center;
+                        .midlle-m-middlec{
+                            width: 25%;
+                            height: 96%;
+                            padding: 2%;
+                            display: flex;
+                            justify-content: space-around;
+                            align-items: center;
+                            flex-direction: column;
+                            .midlle-m-middlec-pic{
+                                width: 2rem;
+                                height: 2rem;
+                                border-radius: 10px;
+                            }
+                            .midlle-m-middlec-text{
+                                div{
+                                    text-align: center;
+                                }
+                            }
+                        }
+                    }
+                    .midlle-m-bottom{
+                        width: 100%;
+                        height: 10%;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        .middle-m-bottomf{
+                            position: relative;
+                            width: 20%;
+                            height: 50%;
+                            background-color: #940619;
+                            border-radius: 10px;
+                            .middle-m-bottomc{
+                                position: absolute;
+                                width: 50%;
+                                height: 100%;
+                                top: 0;
+                                left: 0;
+                                background-color: #00c800;
+                                border-radius: 10px;
+                            }
+                        }
+                    }
                 }
                 .middle-bottom{
                     width: 100%;
