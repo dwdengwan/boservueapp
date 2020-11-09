@@ -78,7 +78,7 @@
                         name:"搜一搜",
                         id:'10006',
                         iskongge:'1',
-                        path:'/found',
+                        path:'/found/search',
                     },
                     {
                         name:"附近的人",

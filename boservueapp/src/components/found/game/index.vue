@@ -6,8 +6,8 @@
         <div class="content game-content">
             <div class="game-content-child"
                  v-for="(item,index) in gameData"
-                 :key="item.id"
-                 @touchend="handleGoBack(item,index,$event)">
+                 :key="index"
+                 @touchend.stop="handleGoBack(item)">
                 <span class="game-child-img" :style="{background:$common.randomColor()}"></span>
                 <span class="game-name">{{item.name}}</span>
             </div>
@@ -26,6 +26,16 @@
             return {
                 gameData:[
                     {
+                        name:"井子棋",
+                        id:"10006",
+                        path:"/found/game/well"
+                    },
+                    {
+                        name:"华容道",
+                        id:"10003",
+                        path:"/found/game/huarongdao"
+                    },
+                    {
                         name:"俄罗斯方块",
                         id:"10001",
                         path:"/found/game/tetris"
@@ -34,11 +44,6 @@
                         name:"贪吃蛇",
                         id:"10002",
                         path:"/found/game/snake"
-                    },
-                    {
-                        name:"华容道",
-                        id:"10003",
-                        path:"/found/game/huarongdao"
                     },
                     {
                         name:"积木",
@@ -54,8 +59,7 @@
             }
         },
         methods:{
-            handleGoBack(item,i,e){
-                console.log(i,e);
+            handleGoBack(item){
                 let query = {
                     name : item.name
                 }

@@ -45,6 +45,13 @@ const Found = [
             title: '看一看'
         }
     },
+    {
+        path: '/found/search',
+        component: resolve => require(['../../components/found/search/index.vue'], resolve),
+        meta: {
+            title: '搜索'
+        }
+    },
     // {
     //     path: '/found/goshopping',
     //     component: resolve => require(['../../components/found/goshopping/index.vue'], resolve),
@@ -64,6 +71,13 @@ const Found = [
         component: resolve => require(['../../components/found/game/tetris/index.vue'], resolve),
         meta: {
             title: '俄罗斯方块'
+        }
+    },
+    {
+        path: '/found/game/well',
+        component: resolve => require(['../../components/found/game/well/index.vue'], resolve),
+        meta: {
+            title: '井字棋'
         }
     },
     {

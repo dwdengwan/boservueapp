@@ -4,7 +4,7 @@
 <template>
     <div class="game-footer">
         <div class="game-footer-content">
-            您已经下了 <span>{{clickNum}}</span> 步
+            您已经下了 <span>{{gameFooterData.clickNum}}</span> 步
         </div>
         <div class="game-footer-rest" @touchend="rander">
             <span>重</span>
@@ -16,15 +16,21 @@
 <script>
     export default {
         name: "gameFooter",
+        props:['gameFooterData'],
         data(){
             return {
-                clickNum:0,
+
             }
         },
         methods:{
             rander(){
-
+                this.$emit('reset')
             }
+        },
+        beforeRouteEnter(to,from,next){
+            next((vm) => {
+                console.log(vm.gameFooterData)
+            });
         },
     }
 </script>

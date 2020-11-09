@@ -40,6 +40,9 @@
                     let gameName = nameStr.split('game')[1];
                     let nameChina = '';
                     switch (gameName){
+                        case '/well':
+                            nameChina = '井子棋'
+                            break;
                         case '/tetris':
                             nameChina = '俄罗斯方块'
                             break;
@@ -88,6 +91,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        z-index: 1126;
         .confirm-content{
             font-size: 0.5rem;
             font-weight: bolder;
@@ -109,7 +113,7 @@
                     width: 20%;
                     border-radius: 10px;
                     text-align: center;
-                    padding: 2% 0;
+                    padding: 2%;
                 }
                 .content-button-left{
                     background-color: #971126;

@@ -17,14 +17,17 @@
                 </transition-group>
             </div>
         </div>
+        <!--<div class="footer test-footer">-->
+            <!--<div class="test-footer-content">-->
+                <!--您已经下了 <span>{{clickNum}}</span> 步-->
+            <!--</div>-->
+            <!--<div class="test-footer-rest" @touchend="rander">-->
+                <!--<span>重</span>-->
+                <!--<span>置</span>-->
+            <!--</div>-->
+        <!--</div>-->
         <div class="footer test-footer">
-            <div class="test-footer-content">
-                您已经下了 <span>{{clickNum}}</span> 步
-            </div>
-            <div class="test-footer-rest" @touchend="rander">
-                <span>重</span>
-                <span>置</span>
-            </div>
+            <game-footer :gameFooterData="gameFooterData" @reset="rander"></game-footer>
         </div>
         <div class="test-fixed" v-show="showFixed">
             <div class="fixed-info">您赢了，游戏已结束。</div>
@@ -40,10 +43,11 @@
 
 <script>
     import goBackHeader from '@/components/common/goBackHeader.vue';
+    import gameFooter from '@/components/common/gameFooter.vue';
     export default {
         name: "test",
         components:{
-            goBackHeader,
+            goBackHeader,gameFooter
         },
         data(){
             return {
@@ -51,6 +55,10 @@
                 clickNum:0,
                 showFixed:false,
                 isPass:false,
+                gameFooterData:{
+                    clickNum:0,
+                    gameName:'huarongdao',
+                }
             }
         },
         methods:{
@@ -66,6 +74,7 @@
                 this.puzzles.push('')
                 // this.puzzles = [1,2,3,4,5,6,7,'',8];
                 this.clickNum = 0;
+                this.gameFooterData.clickNum = 0;
                 this.showFixed = false;
                 this.isPass = false;
             },
@@ -95,6 +104,7 @@
                     this.$set(this.puzzles, index, '');
                     this.clickNum ++;
                 }
+                this.$set(this.gameFooterData,'clickNum',this.clickNum);
                 this.pass();
             },
             pass() {
