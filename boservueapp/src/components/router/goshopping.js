@@ -46,7 +46,6 @@ const goshopping = [
             },
         ]
     },
-
 ];
 
 export default goshopping;

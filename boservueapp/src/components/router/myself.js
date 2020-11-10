@@ -1,6 +1,7 @@
 /**
  * 我模块的路由
  * **/
+import component from './component'
 const Myslef = [
     {
         path: '/myself',
@@ -23,6 +24,7 @@ const Myslef = [
             title: '更换主题'
         }
     },
+    ...component
 ];
 
 export default Myslef;

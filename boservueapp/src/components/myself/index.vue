@@ -58,7 +58,7 @@
                         name:"收藏",
                         id:'10003',
                         iskongge:'0',
-                        url:"/myself",
+                        url:"/myself/collection",
                     },
                     {
                         name:"相册",
