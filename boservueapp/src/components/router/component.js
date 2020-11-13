@@ -16,6 +16,13 @@ const Component = [
             title: 'button'
         },
     },
+    {
+        path: '/myself/collection/loading',
+        component: resolve => require(['../../components/myself/collection/basis/loading.vue'], resolve),
+        meta: {
+            title: 'loading'
+        },
+    },
 ]
 
 export default Component;

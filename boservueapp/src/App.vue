@@ -23,6 +23,7 @@ export default {
   user-select:none;
   background-color: var(--normar-bgcolor);
   color: var(--font-color);
+  background-image: var(--bg-img-color);
 }
 :root{
     /*正常字体颜色*/
@@ -33,6 +34,8 @@ export default {
     --normar-bgcolor:#940619;
     /*可点击的跳转至朋友圈的人物名字*/
     --backfriend-name:#576999;
+    /*背景图片颜色*/
+    --bg-img-color:linear-gradient(0deg, #D9AFD9 0%, #97D9E1 100%);
 }
 *{
     margin:0;

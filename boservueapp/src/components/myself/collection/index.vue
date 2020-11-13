@@ -43,7 +43,7 @@
                             },
                             {
                                 name:'Loading',
-                                path:'/myself/collection',
+                                path:'/myself/collection/loading',
                             },
                             {
                                 name:'Tip',
