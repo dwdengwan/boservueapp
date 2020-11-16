@@ -52,6 +52,13 @@ const Found = [
             title: '搜索'
         }
     },
+    {
+        path: '/found/nearpeople',
+        component: resolve => require(['../../components/found/nearpeople/index.vue'], resolve),
+        meta: {
+            title: '搜索'
+        }
+    },
     // {
     //     path: '/found/goshopping',
     //     component: resolve => require(['../../components/found/goshopping/index.vue'], resolve),

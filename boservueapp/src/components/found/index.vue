@@ -84,7 +84,7 @@
                         name:"附近的人",
                         id:'10007',
                         iskongge:'1',
-                        path:'/found',
+                        path:'/found/nearpeople',
                     },
                     {
                         name:"购物",
