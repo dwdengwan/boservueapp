@@ -58,6 +58,12 @@
                         case '/kline':
                             nameChina = 'k折线图'
                             break;
+                        case '/music':
+                            nameChina = '音乐达人'
+                            break;
+                        case '/chess':
+                            nameChina = 'dw象棋'
+                            break;
                     }
                     this.gameName = nameChina;
                 }

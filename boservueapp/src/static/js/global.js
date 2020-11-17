@@ -18,5 +18,12 @@ export default {
         // var now1 = today.getFullYear() + '/' + month + '/' + day;
         let now1 = today.getFullYear() + '/' + month + '/' + day + " " + hours + ":" + mins + ":" + secs ;
         return now1
+    },
+    //计算数组中 元素出现的个数
+    statisticalFieldNumber:function(arr) {
+        return arr.reduce(function (prev, next) {
+            prev[next] = (prev[next] + 1) || 1;
+            return prev;
+        }, {});
     }
 }

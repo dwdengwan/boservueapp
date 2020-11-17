@@ -116,6 +116,20 @@ const Found = [
         }
     },
     {
+        path: '/found/game/music',
+        component: resolve => require(['../../components/found/game/music/index.vue'], resolve),
+        meta: {
+            title: '音乐达人'
+        }
+    },
+    {
+        path: '/found/game/chess',
+        component: resolve => require(['../../components/found/game/chess/index.vue'], resolve),
+        meta: {
+            title: 'dw象棋'
+        }
+    },
+    {
         path: '/found/test',
         component: resolve => require(['../../components/found/test/index.vue'], resolve),
         meta: {

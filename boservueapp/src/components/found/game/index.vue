@@ -55,6 +55,16 @@
                         id:"10005",
                         path:"/found/game/kline"
                     },
+                    {
+                        name:"音乐达人",
+                        id:"10007",
+                        path:"/found/game/music"
+                    },
+                    {
+                        name:"dw象棋",
+                        id:"10008",
+                        path:"/found/game/chess"
+                    },
                 ]
             }
         },

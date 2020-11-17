@@ -18,6 +18,7 @@
                     <div class="fixed-top">
                         <span v-if="whoWin == 0">我方已获胜</span>
                         <span v-else-if="whoWin == 1">电脑方已获胜</span>
+                        <span v-else-if="whoWin == 2">双方和局</span>
                         <span>是否重新开始？</span>
                     </div>
                     <div class="fixed-bottom">
@@ -51,7 +52,7 @@
                     gameName:'well',
                 },
                 wellData:[0,1,2,3,4,5,6,7,8],
-                whoWin:-1,//0 我方赢 1 电脑方赢
+                whoWin:-1,//0 我方赢 1 电脑方赢 2 和棋
                 showFixed:false,
                 showAction:false,
                 timer:null,
@@ -115,6 +116,8 @@
             //判断输赢 我方赢还是电脑方赢
             isWin(){
                 let arr = this.wellData;
+                //draw true和局
+                let draw = (this.$common.statisticalFieldNumber(this.wellData)['9']+this.$common.statisticalFieldNumber(this.wellData)['-1']) == 9;
                 let bool = function (num) {
                     let boolFlag =
                         (arr[0] == num && arr[1] == num && arr[2] == num) ||
@@ -135,10 +138,14 @@
                     this.whoWin = 1;
                     this.showFixed = true;
                     return true;
-                }else{
+                }else if(draw){
+                    this.whoWin = 2;
+                    this.showFixed = true;
+                    return true;
+                }else {
                     return false;
                 }
-            }
+            },
         },
         mounted(){
 
