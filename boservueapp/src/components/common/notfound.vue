@@ -4,14 +4,20 @@
             @touchend="handleClick(0)"
             class="login-top"
             :class="!showTop ? 'autoheight':''">
-            <div class="login-top-text">
-                <span
-                    class="login-top-span"
-                    :style="{'color':$common.randomColor()}"
-                    v-for="(item,index) of loginTextArr"
-                    :key="index">
-                    {{item}}
-                </span>
+            <div class="login-top-text outer">
+                <div class="inner">
+                    <span
+                            class="login-top-span"
+                            :style="{'color':$common.randomColor()}"
+                            v-for="(item,index) of loginTextArr"
+                            :key="index">
+                        {{item}}
+                    </span>
+                </div>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
         </div>
         <div
@@ -858,23 +864,61 @@
         justify-content: center;
         align-items: center;
         .login-top-text{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0 6%;
-            padding: 0 2%;
-            width: 84%;
-            /*linear-gradient(to right,rgba(251, 251, 251, 0.09),rgba(251, 251, 251, 0.59),#FFF)*/
-            border-top: 5px solid #971126;
-            border-left: 5px solid #00c800;
-            border-bottom: 5px solid #00ffff;
-            border-right: 5px solid #12dd99;
-            border-radius: 20px;
             .login-top-span{
                 width: 10%;
                 display: inline-block;
                 color:#971126;
             }
+        }
+        .outer {
+            position: relative;
+            /*height: 8rem;*/
+            width: 90%;
+            background: linear-gradient(#14ffe0,#ffeb3b,#ff00e0);
+            border-radius: 0.1rem;
+            animation: rotate 1.5s linear infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .inner {
+                padding: 0 2%;
+                position: absolute;
+                /*height: 7.2rem;*/
+                width: 90%;
+                background: black;
+                border-radius: 0.1rem;
+                z-index: 9;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            @keyframes rotate {
+                0%{
+                    filter: hue-rotate(0deg);
+                }
+                100%{
+                    filter: hue-rotate(360deg);
+                }
+            }
+        }
+        .outer>span {
+            position: absolute;
+            /*height: 8rem;*/
+            /*width: 8rem;*/
+            background: linear-gradient(#14ffe0,#ffeb3b,#ff00e0);
+            border-radius: 50%;
+        }
+        .outer>span:nth-child(1) {
+            filter: blur(0.2rem);
+        }
+        .outer>span:nth-child(2) {
+            filter: blur(0.4rem);
+        }
+        .outer>span:nth-child(3) {
+            filter: blur(1.8rem);
+        }
+        .outer>span:nth-child(4) {
+            filter: blur(6rem);
         }
     }
     .login-top.autoheight,

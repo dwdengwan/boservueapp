@@ -47,7 +47,7 @@
                             },
                             {
                                 name:'Tip',
-                                path:'/myself/collection',
+                                path:'/myself/collection/tip',
                             },
                             {
                                 name:'Toolbar',

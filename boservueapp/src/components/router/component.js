@@ -23,6 +23,13 @@ const Component = [
             title: 'loading'
         },
     },
+    {
+        path: '/myself/collection/tip',
+        component: resolve => require(['../../components/myself/collection/basis/tip.vue'], resolve),
+        meta: {
+            title: 'tip'
+        },
+    },
 ]
 
 export default Component;

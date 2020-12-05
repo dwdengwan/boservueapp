@@ -1,6 +1,8 @@
 <template>
   <div id="app" @contextmenu.prevent>
-     <router-view></router-view>
+      <transition :name="transitionName">
+          <router-view />
+      </transition>
   </div>
 </template>
 
@@ -10,11 +12,63 @@ export default {
   name: 'App',
   components: {
 
+  },
+  data(){
+      return {
+          transitionName: 'slide-left',
+      }
+  },
+  watch: {
+
+    $route (to, from) {
+
+        // 通过判断路由自定义的级别来判断是转入还是转出
+
+        if (to.meta.level > from.meta.level) {
+
+            this.transitionName = 'slide-left'
+        } else {
+
+            this.transitionName = 'slide-right'
+        }
+    }
   }
+
 }
 </script>
 
 <style>
+    /*
+    动画样式
+    will-change: transform    优化渲染速度
+*/
+
+.slide-right-enter-active,
+.slide-right-leave-active,
+.slide-left-enter-active,
+.slide-left-leave-active {
+    will-change: transform;
+    transition: all 0.5s;
+    width: 100%;
+    position: absolute;
+}
+.slide-right-enter {
+    opacity: 0;
+    transform: translate3d(-100%, 0, 0);
+}
+.slide-right-leave-active {
+    opacity: 0;
+    transform: translate3d(100%, 0, 0);
+}
+.slide-left-enter {
+    opacity: 0;
+    transform: translate3d(100%, 0, 0);
+}
+.slide-left-leave-active {
+    opacity: 0;
+    transform: translate3d(-100%, 0, 0);
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
