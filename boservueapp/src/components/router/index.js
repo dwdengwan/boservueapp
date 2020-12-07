@@ -6,7 +6,7 @@ import Myself from  './myself.js';
 Vue.use(Router)
 
  let homeRouter = new Router({
-    mode:'history',
+    // mode:'history',
     routes:[
         {
             path:'/',
