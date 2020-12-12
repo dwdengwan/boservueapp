@@ -6,10 +6,11 @@
         <div class="content changeBgColor-content">
             <div
                 class="changeBgColor-content-child"
-                v-for="changeBgColor of changeBgColorData"
+                :class="activeIndex == index ? 'active':''"
+                v-for="(changeBgColor,index) of changeBgColorData"
                 :key="changeBgColor.id"
                 :style="{'color':changeBgColor.color,'background':changeBgColor.bgColor}"
-                @touchend="changeBgColorFn(changeBgColor)">
+                @touchend="changeBgColorFn(changeBgColor,index)">
                 <div>
                     {{changeBgColor.name}}
                 </div>
@@ -69,10 +70,12 @@
                 timerout:null,
                 color:this.$common.randomColor(),
                 bgColor:this.$common.randomColor(),
+                activeIndex:-1,
             }
         },
         methods:{
-            changeBgColorFn(item){
+            changeBgColorFn(item,i){
+                this.activeIndex = i;
                 clearInterval(this.timerout);
                 this.timerout = null;
                 let app = document.getElementById('app');
@@ -127,12 +130,14 @@
         .changeBgColor-content-child{
             width: 45%;
             height: 45%;
-            border: 2px solid #00c800;
             border-radius: 10px;
             display: flex;
             justify-content: center;
             align-items: center;
             margin: 1%;
+        }
+        .changeBgColor-content-child.active{
+            border: 2px solid #00c800;
         }
     }
 }
