@@ -11,6 +11,13 @@ const Myslef = [
         }
     },
     {
+        path: '/myself/pay',
+        component: resolve => require(['../../components/myself/pay/index.vue'], resolve),
+        meta: {
+            title: '支付'
+        }
+    },
+    {
         path: '/myself/setting',
         component: resolve => require(['../../components/myself/setting/index.vue'], resolve),
         meta: {

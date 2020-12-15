@@ -52,7 +52,7 @@
                         name:"支付",
                         id:'10002',
                         iskongge:'1',
-                        url:"/myself",
+                        url:"/myself/pay",
                     },
                     {
                         name:"收藏",
