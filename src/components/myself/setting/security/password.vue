@@ -13,7 +13,7 @@
             <div class="pay-fixed-bottom">
                 <div class="pay-fbottom-child" v-for="(item,index) in bottomData" :key="index">
                     <div class="pay-fbottom-child0">
-                        <div class="pay-fbottom-child1">
+                        <div class="pay-fbottom-child1" :class="activeIndex == index?'active':''">
 
                             <div class="pay-fbottom-child2"
                                  @touchstart='handleTouchStart()'
@@ -42,6 +42,7 @@
                 bottomData:[{},{},{},{},{},{},{},{},{},],
                 timeOutEvent:null,
                 longClick:0,
+                activeIndex:1,
             }
         },
         methods:{
@@ -146,6 +147,12 @@
                                     background-color: #fff;
                                     visibility: visible;
                                 }
+                            }
+                        }
+                        .active{
+                            background-color: yellow;
+                            .pay-fbottom-child2 .pay-fbottom-child3{
+                                background-color: yellow;
                             }
                         }
                     }

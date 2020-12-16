@@ -26,7 +26,7 @@
                         name:"账号与安全",
                         id:'10002',
                         iskongge:'1',
-                        url:"/myself",
+                        url:"/myself/security",
                     },
                     {
                         name:"新消息提醒",

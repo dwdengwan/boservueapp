@@ -25,6 +25,34 @@ const Myslef = [
         }
     },
     {
+        path: '/myself/security',
+        component: resolve => require(['../myself/setting/security/index.vue'], resolve),
+        meta: {
+            title: '账号与安全'
+        }
+    },
+    {
+        path: '/myself/security/password',
+        component: resolve => require(['../myself/setting/security/password.vue'], resolve),
+        meta: {
+            title: '手势密码设置'
+        }
+    },
+    {
+        path: '/myself/security/navbarone',
+        component: resolve => require(['../myself/setting/security/navbarone.vue'], resolve),
+        meta: {
+            title: '导航栏一'
+        }
+    },
+    {
+        path: '/myself/security/navbartwo',
+        component: resolve => require(['../myself/setting/security/navbartwo.vue'], resolve),
+        meta: {
+            title: '导航栏二'
+        }
+    },
+    {
         path: '/myself/setting/changeBgColor',
         component: resolve => require(['../../components/myself/setting/changeBgColor/index.vue'], resolve),
         meta: {
