@@ -82,6 +82,12 @@
                         iskongge:'1',
                         url:"/myself/setting/changeBgColor",
                     },
+                    {
+                        name:"测试",
+                        id:'10012',
+                        iskongge:'1',
+                        url:"/myself/setting/test",
+                    },
                 ],
             }
         },

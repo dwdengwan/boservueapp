@@ -59,6 +59,20 @@ const Myslef = [
             title: '更换主题'
         }
     },
+    {
+        path: '/myself/setting/test',
+        component: resolve => require(['../../components/myself/setting/test/index.vue'], resolve),
+        meta: {
+            title: '测试'
+        }
+    },
+    {
+        path: '/myself/setting/test/H5',
+        component: resolve => require(['../../components/myself/setting/test/H5.vue'], resolve),
+        meta: {
+            title: '测试'
+        }
+    },
     ...component
 ];
 
