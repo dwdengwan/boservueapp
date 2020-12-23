@@ -70,7 +70,21 @@ const Myslef = [
         path: '/myself/setting/test/H5',
         component: resolve => require(['../../components/myself/setting/test/H5.vue'], resolve),
         meta: {
-            title: '测试'
+            title: 'H5'
+        }
+    },
+    {
+        path: '/myself/setting/test/workflow',
+        component: resolve => require(['../../components/myself/setting/test/workflow.vue'], resolve),
+        meta: {
+            title: 'pc工作流'
+        }
+    },
+    {
+        path: '/myself/setting/test/workflowapp',
+        component: resolve => require(['../../components/myself/setting/test/workflowapp.vue'], resolve),
+        meta: {
+            title: '移动工作流'
         }
     },
     ...component

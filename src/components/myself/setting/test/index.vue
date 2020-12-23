@@ -25,7 +25,19 @@
                         id:'10001',
                         iskongge:'1',
                         url:"/myself/setting/test/H5",
-                    }
+                    },
+                    {
+                        name:"pc工作流",
+                        id:'10002',
+                        iskongge:'0',
+                        url:"/myself/setting/test/workflow",
+                    },
+                    {
+                        name:"移动工作流",
+                        id:'10003',
+                        iskongge:'1',
+                        url:"/myself/setting/test/workflowapp",
+                    },
                 ],
             }
         },

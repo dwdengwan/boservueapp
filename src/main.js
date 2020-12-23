@@ -16,12 +16,15 @@ Vue.use(Vuex)
 import '../src/static/css/global.css' /*引入公共样式*/
 import common from '../src/static/js/global.js' /*引入公共方法*/
 import  'amfe-flexible' //引入rem
+import Node from 'workflow-ui/src/components/Generator/node'
 
 import echarts from 'echarts' //引入echarts
 Vue.prototype.$echarts = echarts //引入组件
 
 import echartsGL from 'echarts-gl' // 引入echarts
 Vue.prototype.$echartsGL = echartsGL // 引入组件（将echarts注册为全局）
+
+Vue.component('Node', Node)
 
 
 Vue.prototype.$common = common;

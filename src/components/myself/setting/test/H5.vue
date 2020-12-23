@@ -29,6 +29,13 @@
                 </tr>
             </table>
         </div>
+        <div class="h5-title">H5 新元素 -- canvas</div>
+        <canvas class="h5-canvas" id="canvas"></canvas>
+        <div class="h5-title">H5 新元素 -- audio</div>
+        <audio controls>
+            <source src="horse.ogg" type="audio/ogg">
+            <source src="http://music.163.com/song/media/outer/url?id=447925558.mp3" type="audio/mpeg">
+        </audio>
     </div>
 </template>
 
@@ -57,10 +64,15 @@
             }
         },
         methods:{
-
+            getCanvas(){
+                let canvas = document.getElementById('canvas');
+                let ctx = canvas.getContext('2d');
+                ctx.fillStyle = '#971126';
+                ctx.fillRect(0,0,80,100);
+            }
         },
-        created(){
-
+        mounted(){
+            this.getCanvas()
         }
     }
 </script>
@@ -76,6 +88,7 @@
         .h5-table{
             width: 100%;
             overflow-x: auto;
+            background-color: var(--font-color);
             table{
                 width: 100%;
                 thead{
@@ -84,24 +97,38 @@
                     display: flex;
                     justify-content: flex-start;
                     align-items: center;
-                    background-color: var(--font-color);
+                    position: relative;
+                    /*background-color: var(--font-color);*/
                     td{
                         text-align: center;
-                        min-width: 40%;
+                        min-width: 30%;
                         display: inline-block;
+                    }
+                    td:first-child{
+                        background-color: red;
+                    }
+                    td:last-child{
+                        background-color: gold;
                     }
                 }
                 tr{
                     width: 100%;
-                    background-color: var(--font-color);
+                    /*background-color: var(--font-color);*/
                     color: #fff;
                     display: flex;
                     justify-content: flex-start;
                     align-items: center;
+                    position: relative;
                     td{
                         text-align: center;
-                        min-width: 40%;
+                        min-width: 30%;
                         display: inline-block;
+                    }
+                    td:first-child{
+                        background-color: red;
+                    }
+                    td:last-child{
+                        background-color: gold;
                     }
                 }
             }

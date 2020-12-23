@@ -16,7 +16,8 @@
     "vue": "^2.6.11",
     "vue-baberrage": "^3.2.4",
     "vue-router": "^3.0.1",
-    "vuex": "^3.5.1"
+    "vuex": "^3.5.1",
+    "workflow-ui": "^1.2.3"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
