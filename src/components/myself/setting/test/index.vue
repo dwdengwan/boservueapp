@@ -35,8 +35,14 @@
                     {
                         name:"移动工作流",
                         id:'10003',
-                        iskongge:'1',
+                        iskongge:'0',
                         url:"/myself/setting/test/workflowapp",
+                    },
+                    {
+                        name:"公司组织树",
+                        id:'10004',
+                        iskongge:'1',
+                        url:"/myself/setting/test/companytree",
                     },
                 ],
             }

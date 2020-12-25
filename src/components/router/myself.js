@@ -87,6 +87,13 @@ const Myslef = [
             title: '移动工作流'
         }
     },
+    {
+        path: '/myself/setting/test/companytree',
+        component: resolve => require(['../myself/setting/test/companytree.vue'], resolve),
+        meta: {
+            title: '公司组织树'
+        }
+    },
     ...component
 ];
 

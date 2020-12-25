@@ -51,5 +51,5 @@
 
 module.exports = {
     publicPath: './' ,// 加入这行就可以了
-    entry: 'src/main.js'
+    // entry: 'src/main.js'
 };
